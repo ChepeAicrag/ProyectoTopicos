@@ -18,7 +18,7 @@ import static javax.swing.JFrame.EXIT_ON_CLOSE;
 
 /**
  * 
- * @author García García José Ángel, Chávez Sánchez Kevin Edilbert
+ * @author García García José Ángel, Chávez Sánchez Kevin Edilberto
  */
 public class Vista_Login extends JFrame{
 
