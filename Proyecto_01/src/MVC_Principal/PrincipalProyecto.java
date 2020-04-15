@@ -1,5 +1,6 @@
 package MVC_Principal;
 
+import Controlador.Controlador;
 import Modelo.Conexion;
 import Vista.Vista_Registro;
 
@@ -9,7 +10,9 @@ import Vista.Vista_Registro;
  */
 public class PrincipalProyecto {
     public static void main(String[] args) {
-        //Modelo.Conexion conexion = new Conexion("Mezcalera");
-        new Vista_Registro();
+        Conexion conexion = new Conexion("Mezcalera");
+        Vista_Registro v = new Vista_Registro();
+        Controlador c = new Controlador(conexion, v);
+        v.conectarControlador(c);
     }
 }

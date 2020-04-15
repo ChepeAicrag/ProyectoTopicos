@@ -6,11 +6,14 @@ package Modelo;
  * @author Garcia Garcia Jose Angel
  */
 public class Persona{
+    
+  private String curp;
   private String nombre;
-  private char sexo;
+  private String sexo;
   private int edad;
   
-    public Persona(String nombre, char sexo, int edad){
+    public Persona(String curp, String nombre, String sexo, int edad){
+        this.curp = curp;
         this.nombre = nombre;
         this.sexo = sexo;
         this.edad = edad;
@@ -20,7 +23,7 @@ public class Persona{
         this.nombre = nombre;
     }
     
-    public void setSexo(char sexo){
+    public void setSexo(String sexo){
         this.sexo = sexo;
     }
     
@@ -32,11 +35,15 @@ public class Persona{
         return nombre;
     }
     
-    public char getSexo(){
+    public String getSexo(){
         return sexo;
     }
     
     public int getEdad(){
         return edad;
+    }
+    
+    public String getCurp(){
+        return curp;
     }
 }

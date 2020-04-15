@@ -1,5 +1,6 @@
 package Vista;
 
+import Controlador.Controlador;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.FlowLayout;
@@ -15,22 +16,35 @@ import javax.swing.border.Border;
  */
 public class Vista_Registro extends JFrame {
 
-    private JLabel etqUsuario, etqContraseña, etqCorreo, etqPermiso, etqSexo, etqEdad, etqNombre;
-    public JTextField txtUsuario, txtCorreo, txtEdad, txtNombre;
+    private JLabel etqUsuario, etqContraseña, etqCorreo, etqPermiso, etqSexo, etqEdad, etqNombre, etqCurp;
+    public JTextField txtUsuario, txtCorreo, txtEdad, txtNombre, txtCurp;
     public JPasswordField txtContraseña;
     public JRadioButton productor, empleado, hombre, mujer;
-    private JButton registrar,cancelar,limpiar,siguiente,atras;
+    private JButton registrar, cancelar, limpiar, siguiente, atras;
     public JPanel pPer,pUser,contenedor;
     private SpringLayout sp;
+    private Hilo hilo;
+    private boolean terminar = false;
+    private int cont = 0;
+    class Hilo extends Thread{
+        public void run(){
+            setSize(400,300);
+            setVisible(true);
+            setLocationRelativeTo(null);
+            add(principal());
+            setDefaultCloseOperation(EXIT_ON_CLOSE);
+        }
+    }
     
     public Vista_Registro() {
-        setSize(400,300);
-        setVisible(true);
-        setLocationRelativeTo(null);
-        add(principal());
-        setDefaultCloseOperation(EXIT_ON_CLOSE);
+        hilo = new Hilo();
+        hilo.start();
     }
 
+    public Thread getHilo(){
+        return hilo;
+    }
+    
     public JPanel principal() {
         sp = new SpringLayout();
         contenedor = new JPanel(sp);
@@ -39,7 +53,9 @@ public class Vista_Registro extends JFrame {
         pPer  = PanelDataPer();
         addPanelDataPer(); // Primero mostramos el panel de personas
         siguiente = new JButton("Siguiente");
+        siguiente.setActionCommand("siguiente");
         atras = new JButton("Atras");
+        atras.setActionCommand("atras");
         contenedor.add(atras);
         sp.putConstraint(SpringLayout.NORTH, atras, 5, SpringLayout.SOUTH, pPer);
         sp.putConstraint(SpringLayout.WEST, atras, 200, SpringLayout.WEST, contenedor);
@@ -52,26 +68,6 @@ public class Vista_Registro extends JFrame {
         pPer.setVisible(true);
         pUser.setVisible(false);
         deshabilitarBotones();
-        siguiente.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent ae) {
-                pPer.setVisible(false);
-                pUser.setVisible(true);
-                addPanelDataUser();
-                contenedor.validate();
-                deshabilitarBotones();
-            }
-        });
-        atras.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent ae) {
-                pUser.setVisible(false);
-                pPer.setVisible(true);
-                addPanelDataPer();
-                contenedor.validate();
-                deshabilitarBotones();
-            }
-        });
         return contenedor;
     }
 
@@ -111,27 +107,35 @@ public class Vista_Registro extends JFrame {
         etqSexo = new JLabel("Sexo :");
         etqEdad = new JLabel("Edad : ");
         etqNombre = new JLabel("Nombre : ");
+        etqCurp = new JLabel("Curp : ");
         txtEdad = new JTextField(5);
         txtNombre = new JTextField(20);
+        txtCurp = new JTextField(20);
         mujer = new JRadioButton("Mujer");
         hombre = new JRadioButton("Hombre");
         ImageIcon img = new ImageIcon(getClass().getResource("/Imagenes/user3.png"));
-        ImageIcon icono = new ImageIcon(img.getImage().getScaledInstance(100, 100, Image.SCALE_DEFAULT));
+        ImageIcon icono = new ImageIcon(img.getImage().getScaledInstance(80, 70, Image.SCALE_DEFAULT));
         JLabel imagen = new JLabel(icono);
         panel.add(imagen);
-        s2.putConstraint(SpringLayout.NORTH,imagen,10,SpringLayout.NORTH,panel);
+        s2.putConstraint(SpringLayout.NORTH,imagen,5,SpringLayout.NORTH,panel);
         s2.putConstraint(SpringLayout.WEST,imagen,120,SpringLayout.WEST,panel);
         panel.add(etqNombre);
         s2.putConstraint(SpringLayout.NORTH,etqNombre,12,SpringLayout.SOUTH,imagen);
         s2.putConstraint(SpringLayout.WEST,etqNombre,12,SpringLayout.WEST,panel);
-        panel.add(txtNombre);
+        panel.add(txtNombre); 
         s2.putConstraint(SpringLayout.NORTH,txtNombre,12,SpringLayout.SOUTH,imagen);
         s2.putConstraint(SpringLayout.WEST,txtNombre,12,SpringLayout.EAST,etqNombre);
+        panel.add(etqCurp);
+        s2.putConstraint(SpringLayout.NORTH,etqCurp,12,SpringLayout.SOUTH,etqNombre);
+        s2.putConstraint(SpringLayout.WEST,etqCurp,12,SpringLayout.WEST,panel);
+        panel.add(txtCurp);
+        s2.putConstraint(SpringLayout.NORTH,txtCurp,12,SpringLayout.SOUTH,etqNombre);
+        s2.putConstraint(SpringLayout.WEST,txtCurp,29,SpringLayout.EAST,etqCurp);
         panel.add(etqEdad);
-        s2.putConstraint(SpringLayout.NORTH,etqEdad,12,SpringLayout.SOUTH,etqNombre);
+        s2.putConstraint(SpringLayout.NORTH,etqEdad,12,SpringLayout.SOUTH,etqCurp);
         s2.putConstraint(SpringLayout.WEST,etqEdad,12,SpringLayout.WEST,panel);
         panel.add(txtEdad);
-        s2.putConstraint(SpringLayout.NORTH,txtEdad,12,SpringLayout.SOUTH,etqNombre);
+        s2.putConstraint(SpringLayout.NORTH,txtEdad,12,SpringLayout.SOUTH,etqCurp);
         s2.putConstraint(SpringLayout.WEST,txtEdad,28,SpringLayout.EAST,etqEdad);
         panel.add(etqSexo);
         s2.putConstraint(SpringLayout.NORTH,etqSexo,12,SpringLayout.SOUTH,etqEdad);
@@ -205,10 +209,21 @@ public class Vista_Registro extends JFrame {
         s.putConstraint(SpringLayout.NORTH,registrar,20,SpringLayout.SOUTH,etqPermiso);
         s.putConstraint(SpringLayout.WEST,registrar,12,SpringLayout.EAST,cancelar);
         s.putConstraint(SpringLayout.EAST,registrar,-12,SpringLayout.EAST,panel);
-        
-        
-        
-        
         return panel;
+    }
+    
+    public void conectarControlador(Controlador c){
+        try {
+          Thread.sleep(1000);
+        } catch (Exception e) {
+        }
+            atras.addActionListener(c);
+            siguiente.addActionListener(c);
+            limpiar.addActionListener(c);
+            cancelar.addActionListener(c);
+            registrar.addActionListener(c);
+    }
+    public void terminar(){
+        System.exit(0); // Rompemos el main
     }
 }
