@@ -8,9 +8,12 @@ package Controlador;
 
 import Modelo.Conexion;
 import Modelo.Persona;
+import Vista.Vista_Login;
 import Vista.Vista_Registro;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 
 /**
@@ -19,11 +22,12 @@ import javax.swing.JOptionPane;
  */
 public class Controlador implements ActionListener{
 
+    private Vista_Login vP;
     private Vista_Registro v;
     private Conexion m;
     
-    public Controlador(Conexion m, Vista_Registro v){
-        this.v = v;
+    public Controlador(Conexion m, Vista_Login vistaLogin){
+        this.vP = vistaLogin;
         this.m = m;
     }
     
@@ -32,6 +36,34 @@ public class Controlador implements ActionListener{
         Persona p;
         String accion = ae.getActionCommand();
         switch(accion){
+            case "registrar_Login":
+                v = new Vista_Registro(){
+                    //Con esto cuando llamemos a dispose de nuevaVentana abrimos la principal
+                    @Override
+                    public void dispose() {
+                     
+                            //Hacemos visible la principal
+                            vP.setVisible(true);
+                            //Cerramos nuevaVentana
+                            vP.dispose();
+                       
+                    }
+                };
+                v.conectarControlador(this);
+                //Hacemos visible a nuevaVentana
+                v.setVisible(true);
+                //Cerramos la principal
+                vP.dispose();
+                /*try{
+                    System.out.println(vP.getHilo());
+                    Thread.currentThread().wait();
+                }catch(InterruptedException e){}
+                */
+                break;
+            case "ingresar":
+                JOptionPane.showMessageDialog(vP, "Entrando al sistema");
+                break;
+            
             case "siguiente":
                 v.pPer.setVisible(false);
                 v.pUser.setVisible(true);
@@ -66,7 +98,8 @@ public class Controlador implements ActionListener{
                     m.actulizarDato(SqlUser);
                     int op = JOptionPane.showConfirmDialog(v,"Se ha registrado correctamente\n Se regresará al Loging");
                     if(op == JOptionPane.YES_OPTION)
-                        System.exit(0);
+                        vP.setVisible(true);
+                       // v.notifyAll();
                     }
                     break;
                 case "limpiar":
@@ -82,9 +115,18 @@ public class Controlador implements ActionListener{
                     v.empleado.setSelected(false);
                     break;
                 case "cancelar":
-                    int op = JOptionPane.showConfirmDialog(v, "Se ha cancelado el proceso");
+                    int op = JOptionPane.showConfirmDialog(v, "Se cancelará el proceso");
                     if(op == JOptionPane.YES_OPTION){
-                            v.terminar();
+            try {
+                // Aqui debemos mejorar esto
+                v.dispose();
+                v.setVisible(false);
+                vP = new Vista_Login();
+                Thread.sleep(1000);
+                vP.conectarControlador(this);
+            } catch (InterruptedException ex) {
+                Logger.getLogger(Controlador.class.getName()).log(Level.SEVERE, null, ex);
+            }
                     }
                     break;
                     
