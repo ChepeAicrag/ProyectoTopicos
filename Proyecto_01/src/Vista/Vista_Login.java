@@ -35,8 +35,6 @@ public class Vista_Login extends JFrame {
             setLocationRelativeTo(null);
             add(principal());
             setDefaultCloseOperation(EXIT_ON_CLOSE);
-           
-            
         }
     }
     

@@ -20,7 +20,8 @@ public class Vista_Registro extends JFrame {
     public JTextField txtUsuario, txtCorreo, txtEdad, txtNombre, txtCurp;
     public JPasswordField txtContraseña;
     public JRadioButton productor, empleado, hombre, mujer;
-    private JButton registrar, cancelar, limpiar, siguiente, atras;
+    private JButton registrar, cancelar, siguiente, atras;
+    public JButton limpiar;
     public JPanel pPer,pUser,contenedor;
     private SpringLayout sp;
     private Hilo hilo;
@@ -32,7 +33,7 @@ public class Vista_Registro extends JFrame {
             setVisible(true);
             setLocationRelativeTo(null);
             add(principal());
-            setDefaultCloseOperation(EXIT_ON_CLOSE);
+            setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         }
     }
     
@@ -214,9 +215,8 @@ public class Vista_Registro extends JFrame {
     
     public void conectarControlador(Controlador c){
         try {
-          Thread.sleep(1000);
-        } catch (Exception e) {
-        }
+          Thread.sleep(35);
+        } catch (Exception e) {}
             atras.addActionListener(c);
             siguiente.addActionListener(c);
             limpiar.addActionListener(c);

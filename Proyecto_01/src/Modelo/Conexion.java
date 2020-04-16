@@ -10,6 +10,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.AbstractList;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
@@ -81,8 +82,8 @@ public class Conexion {
             return false;
         }
     }
-    
-    public boolean actulizarDato(String sql){  
+     // Para insertar 
+    public boolean actualizarDato(String sql){  
         PreparedStatement ps;
         try{
             java.sql.Statement st = conexion.createStatement();
@@ -93,6 +94,65 @@ public class Conexion {
             JOptionPane.showMessageDialog(null,"No se completó correctamente el proceso");
             return false;
         }
+    }
+    
+    public Usuario login(String user, String password){
+        PreparedStatement ps;
+        try{
+            java.sql.Statement st = conexion.createStatement();
+            ResultSet rs = st.executeQuery("select * from mezcal.usuario where usuario='" + user +"' AND password='" 
+                    + password +"'");
+            Usuario u = null;
+            while(rs.next()){
+               u = new Usuario(rs.getString(1),rs.getString(2), rs.getString(3), 
+                       rs.getString(4), rs.getString(5), rs.getString(6));
+            };
+            return u;
+        }catch (SQLException e) {
+            System.err.println("Error en la INSERCIÓN " + e );
+            JOptionPane.showMessageDialog(null,"No se completó correctamente el proceso");
+            return null;
+        }
+    }
+    
+    
+    
+    public List<Object[]> conexionConsultaBotellas(String sql){
+    List <Object[]> datos = new ArrayList<Object[]>();
+        try {
+           Statement ps = conexion.createStatement();
+           ResultSet rs = ps.executeQuery(sql);
+            while (rs.next()){
+                String [] dat = new String[5];
+                dat[0] = rs.getString(1);
+                dat[1] = rs.getString(2);
+                dat[2] = rs.getString(3);
+                dat[3] = rs.getString(4);
+                dat[4] = rs.getString(5);
+                datos.add(dat);
+            }
+        }catch(SQLException e){
+            System.err.println("Error al consultar botellas " + e);
+        }
+        return datos;
+    }
+    
+    public List<Object[]> conexionConsultaMezcales(String sql){
+    List <Object[]> datos = new ArrayList<Object[]>();
+        try {
+           Statement ps = conexion.createStatement();
+           ResultSet rs = ps.executeQuery(sql);
+            while (rs.next()){
+                String [] dat = new String[3];
+                dat[0] = rs.getString(1);
+                dat[1] = rs.getString(2);
+                dat[2] = rs.getString(3);
+                datos.add(dat);
+            }
+        }catch(SQLException e){
+            System.err.println("Error al consultar mezcales " + e);
+        }
+        return datos;
     }
     
     public List <Object[]> conexionConsultaClientes(String sql){
@@ -114,6 +174,11 @@ public class Conexion {
         }
         return datos;
     }
+    
+    
+    
+    
+    
     
     public boolean deleteCliente(Persona p){
         PreparedStatement ps;
