@@ -20,12 +20,12 @@ public class Vista_Registro extends JFrame {
     public JTextField txtUsuario, txtCorreo, txtEdad, txtNombre, txtCurp,txtRfc,txtTelefono;
     public JPasswordField txtContraseña;
     public JRadioButton productor, cliente, hombre, mujer;
-    private JButton registrar, cancelar, siguiente, atras;
+    public JButton registrar, cancelar, siguiente, atras;
     public JButton limpiar;
     public JPanel pPer,pUser,contenedor;
     private SpringLayout sp;
+    public boolean validaNombre,validaCurp,validaEdad,validaHombre,validaMujer,validaUsuario,validaEmail,validaContraseña,validaCliente,validaProductor,validaTelefono,validadRfc;
     private Hilo hilo;
-    private boolean terminar = false;
     private int cont = 0;
     class Hilo extends Thread{
         public void run(){
@@ -110,10 +110,15 @@ public class Vista_Registro extends JFrame {
         etqNombre = new JLabel("Nombre : ");
         etqCurp = new JLabel("Curp : ");
         txtEdad = new JTextField(5);
+        txtEdad.setActionCommand("edad");
         txtNombre = new JTextField(20);
+        txtNombre.setActionCommand("nombre");
         txtCurp = new JTextField(20);
+        txtCurp.setActionCommand("curp");
         mujer = new JRadioButton("Mujer");
+        mujer.setActionCommand("mujer");
         hombre = new JRadioButton("Hombre");
+        hombre.setActionCommand("hombre");
         ImageIcon img = new ImageIcon(getClass().getResource("/Imagenes/user3.png"));
         ImageIcon icono = new ImageIcon(img.getImage().getScaledInstance(90, 80, Image.SCALE_DEFAULT));
         JLabel imagen = new JLabel(icono);
@@ -160,6 +165,7 @@ public class Vista_Registro extends JFrame {
         //panel.setBorder(BorderFactory.createTitledBorder(BorderFactory.createLineBorder(Color.BLACK, 3),"Registro Usuario"));
         etqUsuario = new JLabel("Usuario : ");
         txtUsuario = new JTextField(15);
+        txtUsuario.setActionCommand("usuario");
         panel.add(etqUsuario);
         s.putConstraint(SpringLayout.WEST,etqUsuario,12,SpringLayout.WEST,panel);
         s.putConstraint(SpringLayout.NORTH,etqUsuario,8,SpringLayout.NORTH,panel);
@@ -168,6 +174,7 @@ public class Vista_Registro extends JFrame {
         s.putConstraint(SpringLayout.NORTH,txtUsuario,8,SpringLayout.NORTH,panel);
         etqCorreo = new JLabel("Email :");
         txtCorreo = new JTextField(22);
+        txtCorreo.setActionCommand("email");
         panel.add(etqCorreo);
         s.putConstraint(SpringLayout.NORTH,etqCorreo,12,SpringLayout.SOUTH,etqUsuario);
         s.putConstraint(SpringLayout.WEST,etqCorreo,12,SpringLayout.WEST,panel);
@@ -176,12 +183,13 @@ public class Vista_Registro extends JFrame {
         s.putConstraint(SpringLayout.WEST,txtCorreo,28,SpringLayout.EAST,etqCorreo);
         etqContraseña = new JLabel("Contraseña : ");
         txtContraseña = new JPasswordField(20);
+        txtContraseña.setActionCommand("contraseña");
         panel.add(etqContraseña);
         s.putConstraint(SpringLayout.NORTH,etqContraseña,12,SpringLayout.SOUTH,etqCorreo);
         s.putConstraint(SpringLayout.WEST,etqContraseña,12,SpringLayout.WEST,panel);
         panel.add(txtContraseña);
         s.putConstraint(SpringLayout.NORTH,txtContraseña,12,SpringLayout.SOUTH,etqCorreo);
-        s.putConstraint(SpringLayout.WEST,txtContraseña,28,SpringLayout.EAST,etqContraseña);
+        s.putConstraint(SpringLayout.WEST,txtContraseña,12,SpringLayout.EAST,etqContraseña);
         etqPermiso = new JLabel("Rol :");
         productor = new JRadioButton("Productor");
         productor.setActionCommand("op_productor");
@@ -198,6 +206,7 @@ public class Vista_Registro extends JFrame {
         s.putConstraint(SpringLayout.WEST,cliente,28,SpringLayout.EAST,productor);
         etqTelefono = new JLabel("Telefono : ");
         txtTelefono = new JTextField(10);
+        txtTelefono.setActionCommand("telefono");
         panel.add(etqTelefono);
         s.putConstraint(SpringLayout.NORTH,etqTelefono,12,SpringLayout.SOUTH,etqPermiso);
         s.putConstraint(SpringLayout.WEST,etqTelefono,12,SpringLayout.WEST,panel);
@@ -208,12 +217,13 @@ public class Vista_Registro extends JFrame {
         txtTelefono.setVisible(false);
         etqRfc = new JLabel("RFC : ");
         txtRfc = new JTextField(10);
+        txtRfc.setActionCommand("rfc");
         panel.add(etqRfc);
         s.putConstraint(SpringLayout.NORTH,etqRfc,12,SpringLayout.SOUTH,etqTelefono);
         s.putConstraint(SpringLayout.WEST,etqRfc,12,SpringLayout.WEST,panel);
         panel.add(txtRfc);
         s.putConstraint(SpringLayout.NORTH,txtRfc,12,SpringLayout.SOUTH,etqTelefono);
-        s.putConstraint(SpringLayout.WEST,txtRfc,12,SpringLayout.EAST,etqRfc);
+        s.putConstraint(SpringLayout.WEST,txtRfc,38,SpringLayout.EAST,etqRfc);
         txtRfc.setVisible(false);
         etqRfc.setVisible(false);
         limpiar = new JButton("Limpiar");
@@ -239,15 +249,26 @@ public class Vista_Registro extends JFrame {
         try {
           Thread.sleep(35);
         } catch (Exception e) {}
-            cliente.addActionListener(c);
+            txtNombre.addKeyListener(c);
+            txtNombre.addActionListener(c);
+            txtCurp.addKeyListener(c);
+            txtCurp.addActionListener(c);
+            txtEdad.addKeyListener(c);
+            txtEdad.addActionListener(c);
+            mujer.addActionListener(c);
+            hombre.addActionListener(c);
+            txtUsuario.addActionListener(c);
+            txtCorreo.addActionListener(c);
+            txtContraseña.addActionListener(c);
             productor.addActionListener(c);
+            cliente.addActionListener(c);
+            txtTelefono.addActionListener(c);
+            txtTelefono.addKeyListener(c);
+            txtRfc.addActionListener(c);
             atras.addActionListener(c);
             siguiente.addActionListener(c);
             limpiar.addActionListener(c);
             cancelar.addActionListener(c);
             registrar.addActionListener(c);
-    }
-    public void terminar(){
-        System.exit(0); // Rompemos el main
     }
 }
