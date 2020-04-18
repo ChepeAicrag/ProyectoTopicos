@@ -23,7 +23,7 @@ import javax.swing.JOptionPane;
  *
  * @author García García José Ángel
  */
-public class Controlador implements ActionListener {
+public class Controlador implements ActionListener{
 
     private Vista_Login vP;
     private Vista_Registro v;
@@ -65,7 +65,18 @@ public class Controlador implements ActionListener {
                     JOptionPane.showMessageDialog(vP, "Acceso denegado");
                 }
                 break;
-
+            case "op_cliente":
+                    v.txtTelefono.setVisible(true);
+                    v.etqTelefono.setVisible(true);
+                    v.txtRfc.setVisible(true);
+                    v.etqRfc.setVisible(true);
+                break;
+            case "op_productor":
+                    v.txtTelefono.setVisible(true);
+                    v.etqTelefono.setVisible(true);
+                    v.txtRfc.setVisible(false);
+                    v.etqRfc.setVisible(false);
+                break;
             case "siguiente":
                 v.pPer.setVisible(false);
                 v.pUser.setVisible(true);
@@ -81,24 +92,32 @@ public class Controlador implements ActionListener {
                 v.deshabilitarBotones();
                 break;
             case "registrar":
-                if (!v.txtContraseña.getText().isEmpty() || !v.txtCorreo.getText().isEmpty()
-                        || !v.txtCurp.getText().isEmpty() || !v.txtEdad.getText().isEmpty()
-                        || !v.txtNombre.getText().isEmpty() || !v.txtUsuario.getText().isEmpty()) {
+                if (!v.txtContraseña.getText().isEmpty() && !v.txtCorreo.getText().isEmpty()
+                        && !v.txtCurp.getText().isEmpty() && !v.txtEdad.getText().isEmpty()
+                        && !v.txtNombre.getText().isEmpty() && !v.txtUsuario.getText().isEmpty()) {
                     String sexo = "M";
                     if (v.hombre.isSelected()) {
                         sexo = "H";
                     }
                     p = new Persona(v.txtCurp.getText(), v.txtNombre.getText(), sexo, Integer.parseInt(v.txtEdad.getText()));
-                    ///String SqlPersona = "INSERT INTO MEZCAL.PERSONA (curp,sexo,edad,nombre) values(" + p.getCurp() + "),(" 
                     m.insertPersona(p);
                     String per = "P";
-                    if (v.empleado.isSelected()) {
+                    if (v.cliente.isSelected()) {
                         per = "C";
                     }
                     String SqlUser = "insert into mezcal.usuario(usuario,password,correo,permiso,curp) values('"
                             + v.txtUsuario.getText() + "','" + v.txtContraseña.getText() + "','"
                             + v.txtCorreo.getText() + "','" + per + "','" + p.getCurp() + "')";
                     m.actualizarDato(SqlUser);
+                    if(per.equals("C")){
+                        String SqlCliente = "insert into mezcal.cliente (curp,rfc,telefono) values('" + 
+                                p.getCurp() + "','" + v.txtRfc.getText() + "','" + v.txtTelefono.getText() + "')";
+                        m.actualizarDato(SqlCliente);
+                    }else{
+                        String SqlProductor = "insert into mezcal.empleado (curp,telefono) values('" + 
+                                p.getCurp() + "','" + v.txtTelefono.getText() + "')";
+                        m.actualizarDato(SqlProductor);
+                    }
                     JOptionPane.showMessageDialog(v, "Se ha registrado correctamente\n Se regresará al Loging");
                     v.dispose();
                     limpiarLoginYRegistrarse();
@@ -115,7 +134,7 @@ public class Controlador implements ActionListener {
                 v.txtCorreo.setText("");
                 v.txtContraseña.setText("");
                 v.productor.setSelected(false);
-                v.empleado.setSelected(false);
+                v.cliente.setSelected(false);
                 break;
             case "cancelar":
                 int op = JOptionPane.showConfirmDialog(v, "Se cancelará el proceso");
