@@ -36,15 +36,14 @@ public class BarraEleccion extends JPanel{
         setCantidadMagueys(nMagueys);
         agregarElemetos();
     }
+    
     /**
      * Constructor Barra de botones con imagenes y textos dados 
      */
     public BarraEleccion(ImageIcon[] imagenes, String[] textos) {
         if(validarCantidad(imagenes, textos)){
-            setCantidadMagueys(imagenes.length); // Creamos el arreglo de etiquetas
-            agregarElementos(imagenes, textos); // Agregamos lo meentos
-            //this.imagenes = imagenes;
-            //this.porcentajes = porcentajes;
+            setCantidadMagueys(imagenes.length); 
+            agregarElementos(imagenes, textos); 
         }else{
             setCantidadMagueys(imagenes.length);
             agregarElemetos();
@@ -59,6 +58,7 @@ public class BarraEleccion extends JPanel{
      */
     private void agregarElementos(ImageIcon[] imagenes, String[] textos){
         // Ya estamos seguro de que son igual tamaño
+        
         setLayout(new GridLayout(1, 0));
         for (int i = 0; i < nMagueys; i++){ 
             BCE2 e = new BCE2(imagenes[i], textos[i]); 
