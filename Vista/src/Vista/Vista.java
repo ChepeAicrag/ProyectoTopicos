@@ -6,6 +6,8 @@
 package Vista;
 
 import Controlador.Controlador;
+import static java.lang.Math.E;
+import java.util.ArrayList;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JTabbedPane;
@@ -19,7 +21,7 @@ public class Vista extends JFrame{
     private VistaProducir ventana1;
     private VistaProduccion ventana2;
     private VistaTraslado ventana3;
-    
+    public JTabbedPane principal;
     public Vista(){
         setSize(1080,700);
         setVisible(true);
@@ -37,7 +39,7 @@ public class Vista extends JFrame{
                         "Papalote","Cenizo","Estoquillo","Mexicano"};
         ImageIcon[] imagenes = {img,img,img,img,img,img,img,img};
         
-        JTabbedPane principal = new JTabbedPane();
+        principal = new JTabbedPane();
         ventana1 = new VistaProducir(imagenes, txts);
         //ventana1.setBackground(Color.yellow);
         principal.addTab("Seleccion", ventana1);
@@ -50,5 +52,9 @@ public class Vista extends JFrame{
     
     public void conectarControlador(Controlador c){
        ventana1.conectarControlador(c);
+    }
+    
+    public void llenarOpciones(ArrayList<String> porcentajes,ArrayList<String> tipos){
+        ventana1.llenarOpciones(porcentajes, tipos);
     }
 }

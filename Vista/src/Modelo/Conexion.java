@@ -59,6 +59,20 @@ public class Conexion {
             }
         }
     }
+    /**
+     * Consulta la cantidad de piñas de cada tipo de maguey
+     */
+    public int consultarPinas(int id){
+        PreparedStatement ps;
+        try {
+            Statement st = conexion.createStatement();
+            ResultSet rs = st.executeQuery("select cantidadPinas from mezcalera.magueys where id_Maguey=" + id);
+            return rs.getInt(1);
+        } catch (Exception e) {
+            System.out.println("Error al consultar las piñas del maguey " + id);
+        }
+        return 0;
+    }
     
     public boolean actualizarDato(String sql){  
         PreparedStatement ps;
@@ -71,6 +85,20 @@ public class Conexion {
             JOptionPane.showMessageDialog(null,"No se completó correctamente el proceso");
             return false;
         }
+    }
+    
+    public ArrayList<String> conexionConsultarPorcentajeOTipo(String sql){
+        ArrayList<String> datos = new ArrayList<>();
+        try {
+            Statement ps = conexion.createStatement();
+            ResultSet rs = ps.executeQuery(sql);
+            while (rs.next()) {
+               datos.add(rs.getString(2)); // La segunda columna en ambos
+            }
+        } catch (SQLException e) {
+        }
+        
+        return datos;
     }
     
     public List<Object[]> conexionConsultaBotellas(String sql){
@@ -111,6 +139,4 @@ public class Conexion {
         return datos;
     }
     
-
-
 }
