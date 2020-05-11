@@ -28,7 +28,7 @@ public class BarraProceso extends JPanel {
     /* La cantidad de procesos que tiene */
     private int nProcesos;
     
-    private BCE2 cancelar = new BCE2(new ImageIcon(getClass().getResource("/Proceso/cancelar.png")), "Cancelar");
+    private BCE2 cancelar = new BCE2(new ImageIcon(getClass().getResource("/Vista/cancelar.png")), "Cancelar");
     
     /* Si fue creado con imagenes
     private boolean full = false;
@@ -87,7 +87,7 @@ public class BarraProceso extends JPanel {
             etiquetas.add(e);
             add(e);
         }
-        add(estado);
+        //add(estado);
     }
     
     /**

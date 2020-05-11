@@ -7,16 +7,25 @@
 package TestVistas;
 
 import javax.swing.ImageIcon;
-import jdk.nashorn.internal.objects.NativeDebug;
+import javax.swing.JFrame;
 
 /**
  * 
  * @author García García José Ángel
  */
-public class TestVistaProducir {
+public class TestVistaProducir extends JFrame{
     
+    
+    public TestVistaProducir(){
+        setVisible(true);
+        setSize(1080,680);
+        setDefaultCloseOperation(EXIT_ON_CLOSE);
+        run();
+        revalidate();
+        
+    }
     public static void main(String[] args) {
-        new TestVistaProducir().run();
+        new TestVistaProducir();
     }
     
     public void run(){
@@ -25,6 +34,6 @@ public class TestVistaProducir {
         String[] txts = {"Tobalá","Cuishe","Coyote","Tepeztate",
                         "Papalote","Cenizo","Estoquillo","Mexicano"};
         ImageIcon[] imagenes = {img,img,img,img,img,img,img,img};
-        new Vista.VistaProducir(imagenes,txts);
+        add(new Vista.VistaProducir(imagenes,txts));
     }
 }

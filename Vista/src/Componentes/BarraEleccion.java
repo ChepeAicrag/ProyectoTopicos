@@ -9,6 +9,7 @@ package Componentes;
 import java.awt.GridLayout;
 import java.util.ArrayList;
 import javax.swing.ImageIcon;
+import javax.swing.JButton;
 import javax.swing.JPanel;
 
 /**
@@ -161,5 +162,10 @@ public class BarraEleccion extends JPanel{
      */
     public int getCantidadMagueys(){
         return nMagueys;
+    }
+    
+    /***/
+    public ArrayList<BCE2> getBotones(){
+        return magueys;
     }
 }

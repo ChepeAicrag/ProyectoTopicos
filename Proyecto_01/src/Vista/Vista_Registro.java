@@ -247,7 +247,7 @@ public class Vista_Registro extends JFrame {
     
     public void conectarControlador(Controlador c){
         try {
-          Thread.sleep(35);
+          Thread.sleep(305);
         } catch (Exception e) {}
             txtNombre.addKeyListener(c);
             txtNombre.addActionListener(c);
