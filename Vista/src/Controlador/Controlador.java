@@ -5,11 +5,19 @@
 package Controlador;
 
 import Modelo.Conexion;
+import Procesos.Consumidor;
+import Procesos.Corte;
+import Procesos.Monitor;
+import Procesos.Productor;
 import Vista.Vista;
+import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 import javax.swing.JOptionPane;
+import javax.swing.JProgressBar;
 
 /**
  * 
@@ -55,14 +63,103 @@ public class Controlador implements ActionListener{
                     JOptionPane.showMessageDialog(v, sql);
                      //m.actualizarDato(sql);
                     v.principal.setSelectedIndex(1);
+                    
+                    
                }else{
                     JOptionPane.showMessageDialog(v,"No rellenó correctamente");
                 }
+                //int a = Integer.parseInt(JOptionPane.showInputDialog(v, "Introduce el proceso"));
+                //producir((int)Math.random() * 5);
+                IniciarEquipos();
                 break;
                 
-        
         }
     }
+    
+    /**
+     * Prepara todos los equipos 
+     * Deben estar listos desde el inicio
+     */
+    public void IniciarEquipos(){
+        /** Aquí creamos el proceso necesario*/
+        JProgressBar 
+            cb1 = v.ventana2.barra1.getPos(0).getBarra(),
+            cb2 = v.ventana2.barra2.getPos(0).getBarra(),
+            cb3 = v.ventana2.barra3.getPos(0).getBarra(),
+                hb1 = v.ventana2.barra1.getPos(1).getBarra(),
+                hb2 = v.ventana2.barra2.getPos(1).getBarra(),
+                hb3 = v.ventana2.barra3.getPos(1).getBarra(),
+                     mb1 = v.ventana2.barra1.getPos(2).getBarra(),
+                     mb2 = v.ventana2.barra2.getPos(2).getBarra(),
+                     mb3 = v.ventana2.barra3.getPos(2).getBarra(),
+                          fb1 = v.ventana2.barra1.getPos(3).getBarra(),
+                          fb2 = v.ventana2.barra2.getPos(3).getBarra(),
+                          fb3 = v.ventana2.barra3.getPos(3).getBarra(),
+                               db1 = v.ventana2.barra1.getPos(4).getBarra(),
+                               db2 = v.ventana2.barra2.getPos(4).getBarra(),
+                               db3 = v.ventana2.barra3.getPos(4).getBarra(),
+                                    eb1 = v.ventana2.barra1.getPos(5).getBarra(),
+                                    eb2 = v.ventana2.barra2.getPos(5).getBarra(),
+                                    eb3 = v.ventana2.barra3.getPos(5).getBarra();
+        /** Hilos consumidores */
+        Monitor m = new Monitor();
+        Productor corte1 = new Productor(cb1,m); // El cortador 1 administra su barra
+        Productor corte2 = new Productor(cb2,m);
+        Productor corte3 = new Productor(cb3,m);
+        Productor horno1 = new Productor(hb1,m);
+        Productor horno2 = new Productor(hb2,m);
+        Productor horno3 = new Productor(hb3,m);
+        Productor molin1 = new Productor(mb1,m);
+        Productor molin2 = new Productor(mb2,m);
+        Productor molin3 = new Productor(mb3,m);
+        Productor ferme1 = new Productor(fb1,m);
+        Productor ferme2 = new Productor(fb2,m);
+        Productor ferme3 = new Productor(fb3,m);
+        Productor desti1 = new Productor(db1,m);
+        Productor desti2 = new Productor(db2,m);
+        Productor desti3 = new Productor(db3,m);
+        Productor enbot1 = new Productor(eb1,m);
+        Productor enbot2 = new Productor(eb2,m);
+        Productor enbot3 = new Productor(eb3,m);
+        Consumidor c = new Consumidor(3000,m);
+        Consumidor c2 = new Consumidor(3000,m);
+        Consumidor c3 = new Consumidor(3000,m);
+        Consumidor c4 = new Consumidor(3000,m);
+        Consumidor c5 = new Consumidor(3000,m);
+        ExecutorService e = Executors.newCachedThreadPool();
+        e.submit(corte1); e.submit(corte2); e.submit(corte3);
+        e.submit(horno1); e.submit(horno2); e.submit(horno3);
+        e.submit(molin1); e.submit(molin2); e.submit(molin3);
+        e.submit(ferme1); e.submit(ferme2); e.submit(ferme3);
+        e.submit(desti1); e.submit(desti2); e.submit(desti3);
+        e.submit(enbot1); e.submit(enbot2); e.submit(enbot3);
+        e.submit(c);
+        e.submit(c2);
+        e.submit(c3);
+        e.submit(c4);
+        
+
+    }
+    
+    public void producir(int pos){
+        // Siempre son 3 días, por lo que durará 3 * n segundos
+        
+        JProgressBar pb1 = v.ventana2.barra1.getPos(pos).getBarra(),
+                     pb2 = v.ventana2.barra2.getPos(pos).getBarra(),
+                     pb3 = v.ventana2.barra3.getPos(pos).getBarra();
+        Corte c1 = new Corte(1),c2 = new Corte(2), c3 = new Corte(3);
+        c1.setTiempo(3 * 1000);
+        c1.setBarra(pb1);
+        c2.setTiempo(3 * 1000);
+        c2.setBarra(pb2);
+        c3.setTiempo(3 * 1000);
+        c3.setBarra(pb3);
+        c3.start();
+        c2.start();
+        c1.start();
+        
+    }
+    
     
     /** 
      * Solicita la cantidad de piñas y las valida

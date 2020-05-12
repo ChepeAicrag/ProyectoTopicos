@@ -21,7 +21,7 @@ import javax.swing.border.TitledBorder;
  */
 public class VistaProduccion extends JPanel{
     
-    private BarraProceso barra1,barra2,barra3;
+    public BarraProceso barra1,barra2,barra3;
     
     public VistaProduccion(){
         setSize(1020, 680);

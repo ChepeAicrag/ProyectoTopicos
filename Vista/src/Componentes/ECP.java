@@ -86,6 +86,8 @@ public class ECP extends JComponent {
         barra.setValue((val < 100 && val > 0) ? val : 0);
         barra.setString(val + "%");
         barra.setStringPainted(true);
+        barra.repaint();
+        barra.revalidate();
     }
     /**
      * Retorna el valor que tiene la barra de progreso

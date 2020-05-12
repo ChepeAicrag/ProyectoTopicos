@@ -19,7 +19,7 @@ import javax.swing.JTabbedPane;
 public class Vista extends JFrame{
     
     private VistaProducir ventana1;
-    private VistaProduccion ventana2;
+    public VistaProduccion ventana2;
     private VistaTraslado ventana3;
     public JTabbedPane principal;
     public Vista(){
