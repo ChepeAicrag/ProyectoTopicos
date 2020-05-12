@@ -16,10 +16,11 @@ public class Corte extends Thread{
     
     private int id, tiempo;
     private boolean estado;
-    
+    private int procesos;
     public Corte(int id){
         this.id = id;
         estado = true;
+        procesos = 0; // Ningun proceso terminado
     }
     
     public void setTiempo(int tiempo){
@@ -38,6 +39,11 @@ public class Corte extends Thread{
             } catch (Exception e) {
                 System.out.println("Error sleep de corte");
             }
+            if (procesos != 6) {
+                run();
+            }
+            procesos++;
+            
         }
         barra.setString("Terminado");
         try {

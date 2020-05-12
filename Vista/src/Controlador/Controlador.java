@@ -7,12 +7,13 @@ package Controlador;
 import Modelo.Conexion;
 import Procesos.Consumidor;
 import Procesos.Corte;
+import Procesos.DespachadorPalenque;
 import Procesos.Monitor;
 import Procesos.Productor;
 import Vista.Vista;
-import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.lang.annotation.Annotation;
 import java.util.ArrayList;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -27,11 +28,18 @@ public class Controlador implements ActionListener{
  
     private Vista v;
     private Conexion m;
+    private Monitor monitor = new Monitor();
+    private Productor corte1, corte2, corte3, horno1,
+              horno2, horno3, molin1, molin2,
+              molin3, ferme1, ferme2, ferme3,
+              desti1, desti2,desti3, enbot1,
+              enbot2, enbot3;
     
     public Controlador(Vista v, Conexion m){
         this.v = v;
         this.m = m;
         actualizarOpciones();
+        IniciarEquipos();
     }
     
     private void actualizarOpciones(){
@@ -63,23 +71,37 @@ public class Controlador implements ActionListener{
                     JOptionPane.showMessageDialog(v, sql);
                      //m.actualizarDato(sql);
                     v.principal.setSelectedIndex(1);
-                    
-                    
                }else{
                     JOptionPane.showMessageDialog(v,"No rellenó correctamente");
                 }
                 //int a = Integer.parseInt(JOptionPane.showInputDialog(v, "Introduce el proceso"));
                 //producir((int)Math.random() * 5);
-                IniciarEquipos();
+                if(!corte1.getEstado() || !corte2.getEstado() || !corte3.getEstado())
+                    iniciarTanda(3000); // Los 3 primeros deben estar disponible
+                else
+                    JOptionPane.showMessageDialog(v, "No hay espacio para empezar a producir");
                 break;
                 
         }
     }
+    private ArrayList<JProgressBar> Arraybarras;
+    private DespachadorPalenque despa;
+    private int contTandas;
+    
+    public void iniciarTanda(int limite){
+       
+        Consumidor c = new Consumidor(limite,despa);
+        c.start(); // Empieza a pelear por el recurso
+        
+    }
+    
     
     /**
      * Prepara todos los equipos 
      * Deben estar listos desde el inicio
      */
+    
+        
     public void IniciarEquipos(){
         /** Aquí creamos el proceso necesario*/
         JProgressBar 
@@ -101,42 +123,57 @@ public class Controlador implements ActionListener{
                                     eb1 = v.ventana2.barra1.getPos(5).getBarra(),
                                     eb2 = v.ventana2.barra2.getPos(5).getBarra(),
                                     eb3 = v.ventana2.barra3.getPos(5).getBarra();
-        /** Hilos consumidores */
-        Monitor m = new Monitor();
-        Productor corte1 = new Productor(cb1,m); // El cortador 1 administra su barra
-        Productor corte2 = new Productor(cb2,m);
-        Productor corte3 = new Productor(cb3,m);
-        Productor horno1 = new Productor(hb1,m);
-        Productor horno2 = new Productor(hb2,m);
-        Productor horno3 = new Productor(hb3,m);
-        Productor molin1 = new Productor(mb1,m);
-        Productor molin2 = new Productor(mb2,m);
-        Productor molin3 = new Productor(mb3,m);
-        Productor ferme1 = new Productor(fb1,m);
-        Productor ferme2 = new Productor(fb2,m);
-        Productor ferme3 = new Productor(fb3,m);
-        Productor desti1 = new Productor(db1,m);
-        Productor desti2 = new Productor(db2,m);
-        Productor desti3 = new Productor(db3,m);
-        Productor enbot1 = new Productor(eb1,m);
-        Productor enbot2 = new Productor(eb2,m);
-        Productor enbot3 = new Productor(eb3,m);
-        Consumidor c = new Consumidor(3000,m);
-        Consumidor c2 = new Consumidor(3000,m);
-        Consumidor c3 = new Consumidor(3000,m);
-        Consumidor c4 = new Consumidor(3000,m);
-        Consumidor c5 = new Consumidor(3000,m);
+        Arraybarras = new ArrayList<>();
+        Arraybarras.add(cb1);
+        Arraybarras.add(cb2);
+        Arraybarras.add(cb3);
+        
+        despa = new DespachadorPalenque(Arraybarras);
+        
+        
+        
+        
+        
+        
+        /** Hilos productores, siempre estarán activos desde iniciar */
+        corte1 = new Productor(cb1); // El cortador 1 administra su barra
+        corte2 = new Productor(cb2);
+        corte3 = new Productor(cb3);
+        /*
+        horno1 = new Productor(hb1,monitor);
+        horno2 = new Productor(hb2,monitor);
+        horno3 = new Productor(hb3,monitor);
+        molin1 = new Productor(mb1,monitor);
+        molin2 = new Productor(mb2,monitor);
+        molin3 = new Productor(mb3,monitor);
+        ferme1 = new Productor(fb1,monitor);
+        ferme2 = new Productor(fb2,monitor);
+        ferme3 = new Productor(fb3,monitor);
+        desti1 = new Productor(db1,monitor);
+        desti2 = new Productor(db2,monitor);
+        desti3 = new Productor(db3,monitor);
+        enbot1 = new Productor(eb1,monitor);
+        enbot2 = new Productor(eb2,monitor);
+        enbot3 = new Productor(eb3,monitor);
+        */
+        //Consumidor c = new Consumidor(3000,m)
+        //Consumidor c2 = new Consumidor(3000,m);
+        //Consumidor c3 = new Consumidor(3000,m);
+        //Consumidor c4 = new Consumidor(3000,m);
+        //Consumidor c5 = new Consumidor(3000,m);
         ExecutorService e = Executors.newCachedThreadPool();
-        e.submit(corte1); e.submit(corte2); e.submit(corte3);
+        e.submit(corte1);// e.submit(corte2); e.submit(corte3);
+        /*
         e.submit(horno1); e.submit(horno2); e.submit(horno3);
         e.submit(molin1); e.submit(molin2); e.submit(molin3);
         e.submit(ferme1); e.submit(ferme2); e.submit(ferme3);
         e.submit(desti1); e.submit(desti2); e.submit(desti3);
         e.submit(enbot1); e.submit(enbot2); e.submit(enbot3);
-        e.submit(c);
-        e.submit(c2);
-        e.submit(c3);
-        e.submit(c4);
+        */
+        //e.submit(c);
+        //e.submit(c2);
+        //e.submit(c3);
+        //e.submit(c4);
         
 
     }

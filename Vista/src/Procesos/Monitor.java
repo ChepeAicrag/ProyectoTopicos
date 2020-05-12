@@ -1,7 +1,5 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ * Controla entre el productor y consumidor
  */
 
 package Procesos;
@@ -12,10 +10,27 @@ package Procesos;
  */
 public class Monitor {
     
-    private boolean estaListo, estado;
+    private boolean disponible, estado;
+   
+    public Monitor(){
+        disponible = true;
+    }
+    
+    public synchronized void put(){
+        
+    }
+    
+    
+    
+    
+    
+    
+    
+    /*
     
     public synchronized void desocupar(){
-        while (!estaListo) {            
+        // Si está siendo usado entonces espera a que termine
+        while (!disponible) {            
             try {
                 wait();
             } catch (Exception e) {
@@ -23,24 +38,26 @@ public class Monitor {
             }
         }
         // Indica que el equipo está ocupado
-        estado = estaListo = false;
+        estado = disponible = false;
         notifyAll(); // Le notifica a los hilos
     }
     
     public synchronized boolean ocupar(){
-        while (estaListo) {            
+        // si está en uso debe esperar
+        while (disponible) {            
             try {
                 wait();
-            } catch (Exception e) {
+                } catch (Exception e) {
                 System.out.println("Monitor error en ocupar " + e.getMessage());
             }
         }
-        //Establece que está usando el equipo
-        estado = estaListo = true;
+        //Establece que termino de usar el equipo
+        estado = false; 
+        disponible = true;
         notifyAll();
         return estado;
     }
-    
+    */
     public boolean getEstado(){
         return estado;
     }
