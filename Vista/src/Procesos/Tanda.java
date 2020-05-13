@@ -16,7 +16,7 @@ public class Tanda {
     
     // Lista de procesos a ejecutar
     private char tipoMaguey;
-    private ArrayList<Pinia> pinias;
+    private ArrayList<Object> pinias;
     private double porcentajeAlcohol;
     private String tipoMezcal;
     private int cantidadPinias;
@@ -40,7 +40,7 @@ public class Tanda {
         return tipoMaguey;
     }
 
-    public ArrayList<Pinia> getPinias() {
+    public ArrayList<Object> getPinias() {
         return pinias;
     }
 

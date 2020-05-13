@@ -1,11 +1,10 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ * Produce piñas cortadas
  */
 
 package Procesos;
 
+import java.util.ArrayList;
 import javax.swing.JProgressBar;
 
 /**
@@ -16,8 +15,8 @@ public class Corte extends Thread implements Productor{
     
     private int id;
     private boolean isAvailable;
-    private int procesos;
-    private BufferTandas bufferTandas;//no se ocupa
+    //private int procesos;
+    private BufferTandas bufferTandas;
     
     public Corte(int id, BufferTandas bufferTandas){
         this.id = id;
@@ -35,9 +34,9 @@ public class Corte extends Thread implements Productor{
                    producir();
                 }else{
                     sleep(1000);
+                    System.out.println("Aquí entra a wait");
                     return;
                 }
-                
             } catch (InterruptedException ex) {
                 System.err.println(ex.getCause());
             }
@@ -45,10 +44,10 @@ public class Corte extends Thread implements Productor{
     }
     
     private void cortar(Tanda tanda) throws InterruptedException{
-        for (Pinia pinia : tanda.getPinias()) {
+        for (Object pinia : tanda.getPinias()) {
             sleep(2000);
             System.out.println(pinia);
-            pinia.setEstatus('C');
+            ((Pinia)(pinia)).setEstatus('C');
             System.out.println(pinia);
         }
         isAvailable = true;
@@ -80,6 +79,10 @@ public class Corte extends Thread implements Productor{
     
     public int getIdCorte(){
         return id;
+    }
+
+    @Override
+    public void producir(Tanda tanda) throws InterruptedException {
     }
 
     

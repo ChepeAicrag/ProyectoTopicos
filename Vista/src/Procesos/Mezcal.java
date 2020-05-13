@@ -10,19 +10,12 @@ package Procesos;
  * 
  * @author García García José Ángel
  */
-public class Pinia {
-    /** 
-     * Tipos :
-     * N: Normal
-     * C: Cortada
-     * H: Horneada
-     * T: Triturada
-     */
-    private char tipo, estatus = 'N';
+public class Mezcal {
+    private char tipo, estatus = 'D';
     private static int _id = 0;
     private int id;
 
-    public Pinia(char tipo) {
+    public Mezcal(char tipo) {
         this.tipo = tipo;
         _id++;
         id = _id;
@@ -46,6 +39,7 @@ public class Pinia {
 
     @Override
     public String toString() {
-        return "Pinia{" + "id=" + id + ", tipo=" + tipo + ", estatus=" + estatus + '}';
+        return "Mezcal{" + "id=" + id + ", tipo=" + tipo + ", estatus=" + estatus + '}';
     }
+   
 }

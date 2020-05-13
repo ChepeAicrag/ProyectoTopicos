@@ -12,4 +12,6 @@ package Procesos;
 public interface Productor {
     
     public void producir() throws InterruptedException;
+    public void producir(Tanda tanda) throws InterruptedException;
+
 }

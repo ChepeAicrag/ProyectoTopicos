@@ -1,5 +1,5 @@
 /*
- * Controla entre el productor y consumidor
+ * Controla almacena la tanda para trasladarla al corte
  */
 
 package Procesos;

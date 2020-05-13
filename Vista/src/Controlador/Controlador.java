@@ -5,15 +5,10 @@
 package Controlador;
 
 import Modelo.Conexion;
-import Procesos.Consumidor;
-import Procesos.Corte;
-import Procesos.DespachadorPalenque;
 import Procesos.BufferTandas;
-import Procesos.ProductorCorte;
 import Vista.Vista;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.lang.annotation.Annotation;
 import java.util.ArrayList;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -29,12 +24,13 @@ public class Controlador implements ActionListener{
     private Vista v;
     private Conexion m;
     private BufferTandas monitor = new BufferTandas();
+    /*
     private ProductorCorte corte1, corte2, corte3, horno1,
               horno2, horno3, molin1, molin2,
               molin3, ferme1, ferme2, ferme3,
               desti1, desti2,desti3, enbot1,
               enbot2, enbot3;
-    
+    */
     public Controlador(Vista v, Conexion m){
         this.v = v;
         this.m = m;
@@ -76,22 +72,15 @@ public class Controlador implements ActionListener{
                 }
                 //int a = Integer.parseInt(JOptionPane.showInputDialog(v, "Introduce el proceso"));
                 //producir((int)Math.random() * 5);
-                if(!corte1.getEstado() || !corte2.getEstado() || !corte3.getEstado())
-                    iniciarTanda(3000); // Los 3 primeros deben estar disponible
-                else
-                    JOptionPane.showMessageDialog(v, "No hay espacio para empezar a producir");
+                 //   iniciarTanda(3000); // Los 3 primeros deben estar disponible
+                 //   JOptionPane.showMessageDialog(v, "No hay espacio para empezar a producir");
                 break;
                 
         }
     }
-    private ArrayList<JProgressBar> Arraybarras;
-    private DespachadorPalenque despa;
-    private int contTandas;
     
     public void iniciarTanda(int limite){
        
-        Consumidor c = new Consumidor(limite,despa);
-        c.start(); // Empieza a pelear por el recurso
         
     }
     
@@ -123,12 +112,6 @@ public class Controlador implements ActionListener{
                                     eb1 = v.ventana2.barra1.getPos(5).getBarra(),
                                     eb2 = v.ventana2.barra2.getPos(5).getBarra(),
                                     eb3 = v.ventana2.barra3.getPos(5).getBarra();
-        Arraybarras = new ArrayList<>();
-        Arraybarras.add(cb1);
-        Arraybarras.add(cb2);
-        Arraybarras.add(cb3);
-        
-        despa = new DespachadorPalenque(Arraybarras);
         
         
         
@@ -136,9 +119,9 @@ public class Controlador implements ActionListener{
         
         
         /** Hilos productores, siempre estarán activos desde iniciar */
-        corte1 = new ProductorCorte(cb1); // El cortador 1 administra su barra
-        corte2 = new ProductorCorte(cb2);
-        corte3 = new ProductorCorte(cb3);
+        //corte1 = new ProductorCorte(cb1); // El cortador 1 administra su barra
+        //corte2 = new ProductorCorte(cb2);
+        //corte3 = new ProductorCorte(cb3);
         /*
         horno1 = new Productor(hb1,monitor);
         horno2 = new Productor(hb2,monitor);
@@ -162,7 +145,7 @@ public class Controlador implements ActionListener{
         //Consumidor c4 = new Consumidor(3000,m);
         //Consumidor c5 = new Consumidor(3000,m);
         ExecutorService e = Executors.newCachedThreadPool();
-        e.submit(corte1);// e.submit(corte2); e.submit(corte3);
+        //e.submit(corte1);// e.submit(corte2); e.submit(corte3);
         /*
         e.submit(horno1); e.submit(horno2); e.submit(horno3);
         e.submit(molin1); e.submit(molin2); e.submit(molin3);
