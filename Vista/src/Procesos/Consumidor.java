@@ -6,7 +6,6 @@
 
 package Procesos;
 
-import java.util.ArrayList;
 import java.util.Date;
 
 /**
@@ -15,7 +14,7 @@ import java.util.Date;
  */
 public class Consumidor extends Thread{
     
-    private Monitor m;
+    private BufferTandas m;
     private int time, procesos;
     private DespachadorPalenque p;
     

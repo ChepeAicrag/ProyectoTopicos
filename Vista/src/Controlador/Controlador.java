@@ -8,8 +8,8 @@ import Modelo.Conexion;
 import Procesos.Consumidor;
 import Procesos.Corte;
 import Procesos.DespachadorPalenque;
-import Procesos.Monitor;
-import Procesos.Productor;
+import Procesos.BufferTandas;
+import Procesos.ProductorCorte;
 import Vista.Vista;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -28,8 +28,8 @@ public class Controlador implements ActionListener{
  
     private Vista v;
     private Conexion m;
-    private Monitor monitor = new Monitor();
-    private Productor corte1, corte2, corte3, horno1,
+    private BufferTandas monitor = new BufferTandas();
+    private ProductorCorte corte1, corte2, corte3, horno1,
               horno2, horno3, molin1, molin2,
               molin3, ferme1, ferme2, ferme3,
               desti1, desti2,desti3, enbot1,
@@ -136,9 +136,9 @@ public class Controlador implements ActionListener{
         
         
         /** Hilos productores, siempre estarán activos desde iniciar */
-        corte1 = new Productor(cb1); // El cortador 1 administra su barra
-        corte2 = new Productor(cb2);
-        corte3 = new Productor(cb3);
+        corte1 = new ProductorCorte(cb1); // El cortador 1 administra su barra
+        corte2 = new ProductorCorte(cb2);
+        corte3 = new ProductorCorte(cb3);
         /*
         horno1 = new Productor(hb1,monitor);
         horno2 = new Productor(hb2,monitor);
@@ -181,7 +181,7 @@ public class Controlador implements ActionListener{
     public void producir(int pos){
         // Siempre son 3 días, por lo que durará 3 * n segundos
         
-        JProgressBar pb1 = v.ventana2.barra1.getPos(pos).getBarra(),
+        /*JProgressBar pb1 = v.ventana2.barra1.getPos(pos).getBarra(),
                      pb2 = v.ventana2.barra2.getPos(pos).getBarra(),
                      pb3 = v.ventana2.barra3.getPos(pos).getBarra();
         Corte c1 = new Corte(1),c2 = new Corte(2), c3 = new Corte(3);
@@ -194,7 +194,7 @@ public class Controlador implements ActionListener{
         c3.start();
         c2.start();
         c1.start();
-        
+        */
     }
     
     

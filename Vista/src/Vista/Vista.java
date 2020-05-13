@@ -6,7 +6,6 @@
 package Vista;
 
 import Controlador.Controlador;
-import static java.lang.Math.E;
 import java.util.ArrayList;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;

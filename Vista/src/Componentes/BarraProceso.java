@@ -3,13 +3,8 @@
  */
 package Componentes;
 
-import Componentes.ProgressCircular;
-import Componentes.BCE2;
-import Componentes.ECP;
-import Componentes.BotonRedondo;
 import java.awt.GridLayout;
 import java.util.ArrayList;
-import javafx.scene.Camera;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JPanel;

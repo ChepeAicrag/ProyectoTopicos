@@ -15,7 +15,7 @@ import javax.swing.JProgressBar;
 public class DespachadorPalenque {
     
     // Tiene 3 productores
-    private ArrayList<Productor> productores;
+    private ArrayList<ProductorCorte> productores;
     
     // Necesita las barras para sus productores
     public DespachadorPalenque(ArrayList<JProgressBar> barras){
@@ -27,7 +27,7 @@ public class DespachadorPalenque {
     /** Carga las barras para cada proceso*/
     private void cargar(ArrayList<JProgressBar> barras){
         for(JProgressBar b : barras)
-            productores.add(new Productor(b));
+            productores.add(new ProductorCorte(b));
     }
     // Retorna el estado de un proceso dado
     public boolean getEstadoProceso(int pos){
@@ -36,7 +36,7 @@ public class DespachadorPalenque {
     
     public void iniciarProcesos(){
         if (productores != null) {
-            for (Productor p : productores) {
+            for (ProductorCorte p : productores) {
                 p.start();
             }
         }   
@@ -47,9 +47,9 @@ public class DespachadorPalenque {
     }
     
     // Busca quien está libre y lo retorna
-    public Productor elegir(){
-        Productor pro = null;
-        for (Productor p : productores) {
+    public ProductorCorte elegir(){
+        ProductorCorte pro = null;
+        for (ProductorCorte p : productores) {
             if(!p.getEstado()){
                 pro = p; // Lo asignamos
                 pro.setEstado(true);

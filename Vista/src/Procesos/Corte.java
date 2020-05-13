@@ -12,47 +12,59 @@ import javax.swing.JProgressBar;
  * 
  * @author García García José Ángel
  */
-public class Corte extends Thread{
+public class Corte extends Thread implements Productor{
     
-    private int id, tiempo;
-    private boolean estado;
+    private int id;
+    private boolean isAvailable;
     private int procesos;
-    public Corte(int id){
+    private BufferTandas bufferTandas;//no se ocupa
+    
+    public Corte(int id, BufferTandas bufferTandas){
         this.id = id;
-        estado = true;
-        procesos = 0; // Ningun proceso terminado
+        isAvailable = true;
+        this.bufferTandas = bufferTandas;
     }
     
-    public void setTiempo(int tiempo){
-        this.tiempo = tiempo;
-    }
-
+    
+    @Override
     public void run(){
-        int cont = 0;
-        while (cont <= tiempo) {            
+        while(true){
             try {
-                int r = (int) (Math.random() * 10);
-                cont += r * 100; 
-                //barra.setString("Cortando");
-                sleep(cont);
-                actualizarBarra(r);
-            } catch (Exception e) {
-                System.out.println("Error sleep de corte");
+                if(!bufferTandas.isEmpty()){
+                   isAvailable = false;
+                   producir();
+                }else{
+                    sleep(1000);
+                    return;
+                }
+                
+            } catch (InterruptedException ex) {
+                System.err.println(ex.getCause());
             }
-            if (procesos != 6) {
-                run();
-            }
-            procesos++;
-            
         }
-        barra.setString("Terminado");
-        try {
-            wait(); // Espera a que sea usado
-        } catch (Exception e) {
-        }
-        estado = false;
-        //notifyAll(); // Le indica a los demás que ha termiando
     }
+    
+    private void cortar(Tanda tanda) throws InterruptedException{
+        for (Pinia pinia : tanda.getPinias()) {
+            sleep(2000);
+            System.out.println(pinia);
+            pinia.setEstatus('C');
+            System.out.println(pinia);
+        }
+        isAvailable = true;
+    }
+    
+    @Override
+    public void producir() throws InterruptedException {
+      Tanda tanda = bufferTandas.remove();
+      System.out.println(tanda);
+      cortar(tanda);
+    }
+    
+    
+    
+    
+    
     private JProgressBar barra;
     public void setBarra(JProgressBar barra){
         this.barra = barra;
@@ -64,15 +76,13 @@ public class Corte extends Thread{
         barra.setValue(val);
     }
     
-    public void setEstado(boolean estado){
-        this.estado = estado;
-    }
+    
     
     public int getIdCorte(){
         return id;
     }
+
     
-    public boolean getEstado(){
-        return estado;
-    }
+    
+    
 }
