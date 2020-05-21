@@ -34,14 +34,17 @@ public class Destilador extends Thread implements Productor, Consumidor{
         while (true) {            
             try {
                 
-                if (!bufferPiniasFermentadas.isEmpty()) {
+                //if (!bufferPiniasFermentadas.isEmpty()) {
                     isAvailable = false;
                     consumir();
+                    System.out.println("Destilador terminó");
+                /*
                 }else{
                     sleep(1000);
                     System.out.println("En wait");
                     return;
                 }
+                    */
                 } catch (InterruptedException ex) {
                     System.err.println(ex.getCause());
                 }

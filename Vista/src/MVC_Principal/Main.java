@@ -8,6 +8,7 @@ package MVC_Principal;
 
 import Procesos.BufferBarriles;
 import Procesos.BufferMezcalDestilado;
+import Procesos.BufferPiniasCortadas;
 import Procesos.BufferPiniasFermentadas;
 import Procesos.BufferPiniasMolidas;
 import Procesos.BufferPiniasHorneadas;
@@ -32,16 +33,14 @@ public class Main {
         
         bufferTandas.put(tanda);
         
-        Corte corte = new Corte(1, bufferTandas);
+        BufferPiniasCortadas bufferPiniasCortadas = new BufferPiniasCortadas();
+        
+        Corte corte = new Corte(1, bufferTandas,bufferPiniasCortadas);
         
         corte.start();
         corte.join();
         
         System.out.println(tanda.getPinias().toString());
-        
-        BufferPiniasMolidas bufferPiniasCortadas = new BufferPiniasMolidas();
-        
-        bufferPiniasCortadas.put(tanda);
         
         BufferPiniasHorneadas bufferPiniasHorneadas = new BufferPiniasHorneadas();
         

@@ -5,6 +5,8 @@
 package Procesos;
 
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JProgressBar;
 
 /**
@@ -17,46 +19,57 @@ public class Corte extends Thread implements Productor{
     private boolean isAvailable;
     //private int procesos;
     private BufferTandas bufferTandas;
+    private BufferPiniasCortadas bufferPiniasCortadas;
     
-    public Corte(int id, BufferTandas bufferTandas){
+    public Corte(int id, BufferTandas bufferTandas,BufferPiniasCortadas bufferPiniasCortadas){
         this.id = id;
         isAvailable = true;
         this.bufferTandas = bufferTandas;
+        this.bufferPiniasCortadas = bufferPiniasCortadas;
     }
     
     
     @Override
-    public void run(){
+    public synchronized void run(){
         while(true){
             try {
-                if(!bufferTandas.isEmpty()){
-                   isAvailable = false;
-                   producir();
-                }else{
-                    sleep(1000);
-                    System.out.println("Aquí entra a wait");
-                    return;
+                        isAvailable = false;
+                        producir();
+                        System.out.println("Corte terminado");
+                    
+                /*
+                    }else{
+                    //sleep(1000);
+                    System.out.println("Aquí entra a wait --------" + Thread.currentThread().getName());
+                    isAvailable = true;
+                    wait();
+                    //return;
                 }
+                    */
             } catch (InterruptedException ex) {
                 System.err.println(ex.getCause());
+            } catch (Throwable ex) {
+                Logger.getLogger(Corte.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
     }
     
-    private void cortar(Tanda tanda) throws InterruptedException{
+    private synchronized void cortar(Tanda tanda) throws InterruptedException{
         for (Object pinia : tanda.getPinias()) {
             sleep(2000);
             System.out.println(pinia);
             ((Pinia)(pinia)).setEstatus('C');
             System.out.println(pinia);
         }
+        bufferPiniasCortadas.put(tanda);
         isAvailable = true;
     }
     
     @Override
-    public void producir() throws InterruptedException {
+    public synchronized void producir() throws InterruptedException {
       Tanda tanda = bufferTandas.remove();
-      System.out.println(tanda);
+      System.out.println(" Yo hilo: " + Thread.currentThread().getName()
+              + "\nTome la tanda: " + tanda);
       cortar(tanda);
     }
     

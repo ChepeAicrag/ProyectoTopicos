@@ -21,11 +21,17 @@ public class BufferPiniasFermentadas {
         piniasFermentadas = new LinkedList();
     }
     
-    public void put(Tanda tanda ){
+    public synchronized void put(Tanda tanda ){
         piniasFermentadas.add(tanda);
+        notifyAll();
     }
     
-    public Tanda remove(){
+    public synchronized Tanda remove() throws InterruptedException{
+        while (isEmpty()) {    
+            System.out.println("Esperando la tanda fermentada " + Thread.currentThread().getName());
+            wait();
+        }
+        notifyAll();
         return piniasFermentadas.remove();
     }
     

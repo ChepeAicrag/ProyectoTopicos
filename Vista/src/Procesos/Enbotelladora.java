@@ -34,14 +34,16 @@ public class Enbotelladora extends Thread implements Productor, Consumidor{
         while (true) {            
             try {
                 
-                if (!bufferMezcalDestilado.isEmpty()) {
+                //if (!bufferMezcalDestilado.isEmpty()) {
                     isAvailable = false;
                     consumir();
-                }else{
+                /*
+                    }else{
                     sleep(1000);
                     System.out.println("En wait");
                     return;
                 }
+                    */
                 } catch (InterruptedException ex) {
                     System.err.println(ex.getCause());
                 }

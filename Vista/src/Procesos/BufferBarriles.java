@@ -20,11 +20,17 @@ public class BufferBarriles{
         barriles = new LinkedList();
     }
     
-    public void put(Tanda tanda ){
+    public synchronized void put(Tanda tanda ){
         barriles.add(tanda);
+        notifyAll();
     }
     
-    public Tanda remove(){
+    public synchronized Tanda remove() throws InterruptedException{
+        while (isEmpty()) {
+            System.out.println("Espernado la tanda de Barriles " + Thread.currentThread().getName());
+            wait();
+        }
+        notifyAll();
         return barriles.remove();
     }
     

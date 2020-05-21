@@ -6,7 +6,6 @@
 
 package Procesos;
 
-import static java.lang.Thread.sleep;
 import javax.swing.JProgressBar;
 import static java.lang.Thread.sleep;
 
@@ -30,17 +29,20 @@ public class Molino extends Thread implements Productor, Consumidor{
     }
     
     @Override
-    public void run(){
+    public synchronized void run(){
         while (true) {            
             try {
-                if (!bufferPiniasHorneadas.isEmpty()) {
+                //if (!bufferPiniasHorneadas.isEmpty()) {
                     isAvailable = false;
                     consumir();
+                    System.out.println("Molino trabajó");
+                /*
                 }else{
                     sleep(1000);
                     System.out.println("En wait");
                     return;
                 }
+                */
                 } catch (InterruptedException ex) {
                     System.err.println(ex.getCause());
                 }
@@ -49,12 +51,12 @@ public class Molino extends Thread implements Productor, Consumidor{
     }
     
     @Override
-    public void producir(Tanda tanda) throws InterruptedException {
+    public synchronized void producir(Tanda tanda) throws InterruptedException {
        bufferPiniasMolidas.put(tanda); // Las produce
     }
     
     /** Produce la pinia molida*/
-    private void moler(Tanda tanda) throws InterruptedException{
+    private synchronized void moler(Tanda tanda) throws InterruptedException{
         for (Object pinia : tanda.getPinias()) {
             sleep(2000); // Tiempo por estimar
             System.out.println(pinia);
@@ -66,7 +68,7 @@ public class Molino extends Thread implements Productor, Consumidor{
     }
 
     @Override
-    public void consumir() throws InterruptedException {
+    public synchronized void consumir() throws InterruptedException {
         Tanda tanda = bufferPiniasHorneadas.remove(); // Quita de las horneadas
         moler(tanda); // Las consume para hornear
     }

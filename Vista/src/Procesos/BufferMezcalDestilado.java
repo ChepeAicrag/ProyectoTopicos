@@ -21,11 +21,17 @@ public class BufferMezcalDestilado {
         mezcalDestilado = new LinkedList();
     }
     
-    public void put(Tanda tanda){
+    public synchronized void put(Tanda tanda){
         mezcalDestilado.add(tanda);
+        notifyAll();
     }
     
-    public Tanda remove(){
+    public synchronized Tanda remove() throws InterruptedException{
+        while (isEmpty()) {
+            System.out.println("Esperando la tanda destilada: " + Thread.currentThread().getName());
+            wait();
+        }
+        notifyAll();
         return mezcalDestilado.remove();
     }
     

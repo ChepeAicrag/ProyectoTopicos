@@ -19,12 +19,21 @@ public class BufferTandas {
         bufferTandas = new LinkedList();
     }
     
-    public void put(Tanda tanda){
+    public synchronized void put(Tanda tanda){
         bufferTandas.add(tanda);
     }
     
-    public Tanda remove(){
-        return bufferTandas.remove();
+    public synchronized Tanda remove(){
+        while (isEmpty()) {    
+            System.out.println("Espera tanda inicial ::: " + Thread.currentThread().getName());
+            try {
+                wait();
+            } catch (InterruptedException ex) {
+                System.out.println("Error esperando tanda inicial ::: " + ex.getCause());
+            }
+        }
+        notifyAll();
+       return bufferTandas.remove();
     }
     
     public boolean isEmpty(){

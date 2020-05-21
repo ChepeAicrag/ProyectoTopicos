@@ -33,14 +33,17 @@ public class Fermentado extends Thread implements Productor, Consumidor{
         while (true) {            
             try {
                 
-                if (!bufferPiniasMolidas.isEmpty()) {
+                //if (!bufferPiniasMolidas.isEmpty()) {
                     isAvailable = false;
                     consumir();
-                }else{
+                    System.out.println("Fermentador terminado");
+                /*
+                    }else{
                     sleep(1000);
                     System.out.println("En wait");
                     return;
                 }
+                */
                 } catch (InterruptedException ex) {
                     System.err.println(ex.getCause());
                 }

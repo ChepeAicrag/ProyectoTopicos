@@ -20,11 +20,17 @@ public class BufferPiniasHorneadas {
         piniasHorneadas = new LinkedList();
     }
     
-    public void put(Tanda tanda ){
+    public synchronized void put(Tanda tanda ){
         piniasHorneadas.add(tanda);
+        notifyAll();
     }
     
-    public Tanda remove(){
+    public synchronized Tanda remove() throws InterruptedException{
+        while (isEmpty()) {        
+            System.out.println("Esperando la tanda horneada: " + Thread.currentThread().getName());
+            wait();
+        }
+        notifyAll();
         return piniasHorneadas.remove();
     }
     

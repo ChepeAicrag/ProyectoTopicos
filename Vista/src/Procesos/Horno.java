@@ -4,8 +4,6 @@
 
 package Procesos;
 
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JProgressBar;
 
 /**
@@ -18,10 +16,10 @@ public class Horno extends Thread implements Productor, Consumidor{
     private int id;
     private boolean isAvailable;
     private int procesos;
-    private BufferPiniasMolidas bufferPiniasCortadas; // Consume de este
+    private BufferPiniasCortadas bufferPiniasCortadas; // Consume de este
     private BufferPiniasHorneadas bufferPiniasHorneadas; // Produce en este
     
-    public Horno(int id, BufferPiniasMolidas bufferPiniasCortadas, BufferPiniasHorneadas bufferPiniasHorneadas){
+    public Horno(int id, BufferPiniasCortadas bufferPiniasCortadas, BufferPiniasHorneadas bufferPiniasHorneadas){
         this.id = id;
         isAvailable = true;
         this.bufferPiniasCortadas = bufferPiniasCortadas;
@@ -29,32 +27,36 @@ public class Horno extends Thread implements Productor, Consumidor{
     }
     
     @Override
-    public void run(){
+    public synchronized void run(){
         while (true) {            
             try {
                 
-                if (!bufferPiniasCortadas.isEmpty()) {
+                //if (!bufferPiniasCortadas.isEmpty()) {
                     isAvailable = false;
                     consumir();
-                }else{
-                    sleep(1000);
-                    System.out.println("En wait");
-                    return;
+                    System.out.println("Horno consumió");
+               
+                /*
+                    }
+                else{
+                    
+                    System.out.println("En wait horno ");
+                    bufferPiniasHorneadas.wait();
                 }
+                    */
                 } catch (InterruptedException ex) {
                     System.err.println(ex.getCause());
                 }
-            
         }
     }
     
     @Override
-    public void producir(Tanda tanda) throws InterruptedException {
+    public synchronized void producir(Tanda tanda) throws InterruptedException {
         bufferPiniasHorneadas.put(tanda); // Las produce
     }
     
     /** Produce la pinia horneada*/
-    private void hornear(Tanda tanda) throws InterruptedException{
+    private synchronized void hornear(Tanda tanda) throws InterruptedException{
         for (Object pinia : tanda.getPinias()) {
             sleep(2000); // Tiempo por estimar
             System.out.println(pinia);
@@ -66,7 +68,7 @@ public class Horno extends Thread implements Productor, Consumidor{
     }
 
     @Override
-    public void consumir() throws InterruptedException {
+    public synchronized void consumir() throws InterruptedException {
         Tanda tanda = bufferPiniasCortadas.remove(); // Quita de las cortadas
         hornear(tanda); // Las consume para hornear
     }
