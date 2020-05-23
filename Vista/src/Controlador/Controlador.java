@@ -13,7 +13,11 @@ import Procesos.BufferPiniasHorneadas;
 import Procesos.BufferPiniasMolidas;
 import Procesos.BufferTandas;
 import Procesos.Corte;
+import Procesos.Destilador;
+import Procesos.Enbotelladora;
+import Procesos.Fermentado;
 import Procesos.Horno;
+import Procesos.Molino;
 import Procesos.Tanda;
 import Vista.Vista;
 import java.awt.event.ActionEvent;
@@ -41,12 +45,24 @@ public class Controlador implements ActionListener{
     BufferPiniasFermentadas bpf = new BufferPiniasFermentadas();
     BufferMezcalDestilado bmd = new BufferMezcalDestilado();
     BufferBarriles bb = new BufferBarriles();
-    Corte c1 = new Corte(1, bft, bpc);
-    Corte c2 = new Corte(2, bft, bpc);
-    Corte c3 = new Corte(3, bft, bpc);
-    Horno h1 = new Horno(1, bpc, bph);
-    Horno h2 = new Horno(2, bpc, bph);
-    Horno h3 = new Horno(3, bpc, bph);
+    Corte c1         = new Corte(1, bft, bpc);
+    Corte c2         = new Corte(2, bft, bpc);
+    Corte c3         = new Corte(3, bft, bpc);
+    Horno h1         = new Horno(1, bpc, bph);
+    Horno h2         = new Horno(2, bpc, bph);
+    Horno h3         = new Horno(3, bpc, bph);
+    Molino m1        = new Molino(1, bph, bpm);
+    Molino m2        = new Molino(2, bph, bpm);
+    Molino m3        = new Molino(3, bph, bpm);
+    Fermentado f1    = new Fermentado(1, bpm, bpf);
+    Fermentado f2    = new Fermentado(2, bpm, bpf);
+    Fermentado f3    = new Fermentado(3, bpm, bpf);
+    Destilador d1    = new Destilador(1, bpf, bmd);
+    Destilador d2    = new Destilador(2, bpf, bmd);
+    Destilador d3    = new Destilador(3, bpf, bmd);
+    Enbotelladora e1 = new Enbotelladora(1, bmd, bb);
+    Enbotelladora e2 = new Enbotelladora(2, bmd, bb);
+    Enbotelladora e3 = new Enbotelladora(3, bmd, bb);
     
     
     
@@ -153,8 +169,7 @@ public class Controlador implements ActionListener{
      * Deben estar listos desde el inicio
      */
     
-   
-    
+    private ExecutorService ejecutador = Executors.newCachedThreadPool();
     
     public void IniciarEquipos(){
         /** Aquí creamos el proceso necesario*/
@@ -176,37 +191,34 @@ public class Controlador implements ActionListener{
                                db3 = v.ventana2.barra3.getPos(4).getBarra(),
                                     eb1 = v.ventana2.barra1.getPos(5).getBarra(),
                                     eb2 = v.ventana2.barra2.getPos(5).getBarra(),
-                                    eb3 = v.ventana2.barra3.getPos(5).getBarra();
         
-        c1.start();
-        c2.start();
-        c3.start();
-        h1.start();
-        h2.start();
-        h3.start();
+        /** Asignar barras a cada proceso */
+        eb3 = v.ventana2.barra3.getPos(5).getBarra();
+        c1.setBarra(cb1); c2.setBarra(cb2); c3.setBarra(cb3);
+        h1.setBarra(hb1); h2.setBarra(hb2); h3.setBarra(hb3);
+        m1.setBarra(mb1); m2.setBarra(mb2); m3.setBarra(mb3);
+        f1.setBarra(fb1); f2.setBarra(fb2); f3.setBarra(fb3);
+        d1.setBarra(db1); d2.setBarra(db2); d3.setBarra(db3);
+        e1.setBarra(eb1); e2.setBarra(eb2); e3.setBarra(eb3);
+        
+        /** Iniciar hilos    
+        
+        c1.start(); c2.start(); c3.start();
+        h1.start(); h2.start(); h3.start();
+        m1.start(); m2.start(); m3.start();
+        f1.start(); f2.start(); f3.start();
+        d1.start(); d2.start(); d3.start();
+        e1.start(); e2.start(); e3.start();
+        * */
+        ejecutador.submit(c1); ejecutador.submit(c2); ejecutador.submit(c3);
+        ejecutador.submit(h1); ejecutador.submit(h2); ejecutador.submit(h3);
+        ejecutador.submit(m1); ejecutador.submit(m2); ejecutador.submit(m3);
+        ejecutador.submit(f1); ejecutador.submit(f2); ejecutador.submit(f3);
+        ejecutador.submit(d1); ejecutador.submit(d2); ejecutador.submit(d3);
+        ejecutador.submit(e1); ejecutador.submit(e2); ejecutador.submit(e3);
         
     }
-    
-    public void producir(int pos){
-        // Siempre son 3 días, por lo que durará 3 * n segundos
-        
-        /*JProgressBar pb1 = v.ventana2.barra1.getPos(pos).getBarra(),
-                     pb2 = v.ventana2.barra2.getPos(pos).getBarra(),
-                     pb3 = v.ventana2.barra3.getPos(pos).getBarra();
-        Corte c1 = new Corte(1),c2 = new Corte(2), c3 = new Corte(3);
-        c1.setTiempo(3 * 1000);
-        c1.setBarra(pb1);
-        c2.setTiempo(3 * 1000);
-        c2.setBarra(pb2);
-        c3.setTiempo(3 * 1000);
-        c3.setBarra(pb3);
-        c3.start();
-        c2.start();
-        c1.start();
-        */
-    }
-    
-    
+      
     /** 
      * Solicita la cantidad de piñas y las valida
      * @param limite Cantidad maxima de piñas a usar
@@ -218,12 +230,16 @@ public class Controlador implements ActionListener{
         while (!op) {            
             try{
                 String msj = JOptionPane.showInputDialog(v, "Introduce la cantidad de piñas a usar");
+                if(msj != null){
+                
                 if (msj.isEmpty())
                     msj = "0";
                 cantidad = Integer.parseInt(msj);
-            if(cantidad > limite)
-                new Exception("Limite pasado");
-            else 
+                if(cantidad > limite)
+                    new Exception("Limite pasado");
+                else 
+                    op = true;
+                }
                 op = true;
             }catch(NumberFormatException e){
                 System.out.println(e.toString());

@@ -36,6 +36,8 @@ public class Corte extends Thread implements Productor{
                         isAvailable = false;
                         producir();
                         System.out.println("Corte terminado");
+                        barra.setString("Libre...");
+                        barra.setValue(0);
                     
                 /*
                     }else{
@@ -55,13 +57,18 @@ public class Corte extends Thread implements Productor{
     }
     
     private synchronized void cortar(Tanda tanda) throws InterruptedException{
+        int total = tanda.getCantidadPinias(), // Este es el 100
+            cont = 0;
         for (Object pinia : tanda.getPinias()) {
             sleep(2000);
             System.out.println(pinia);
             ((Pinia)(pinia)).setEstatus('C');
             System.out.println(pinia);
+            cont++;
+            actualizarBarra(cont * 100 / total);
         }
         bufferPiniasCortadas.put(tanda);
+        barra.setString("Completado...");
         isAvailable = true;
     }
     
@@ -83,9 +90,10 @@ public class Corte extends Thread implements Productor{
     }
     public void actualizarBarra(int time){
         //int val = ((barra.getValue() + time ) * 100) / tiempo;
-        int val = barra.getValue() + time;
-        System.out.println("Valor time : " + time + "\n Valor de barra " + val);
-        barra.setValue(val);
+        //int val = barra.getValue() + time;
+        //System.out.println("Valor time : " + time + "\n Valor de barra " + val);
+        barra.setValue(time);
+        barra.setString(time + "%");
     }
     
     

@@ -38,6 +38,8 @@ public class Destilador extends Thread implements Productor, Consumidor{
                     isAvailable = false;
                     consumir();
                     System.out.println("Destilador terminó");
+                    barra.setString("Libre...");
+                    barra.setValue(0);
                 /*
                 }else{
                     sleep(1000);
@@ -61,7 +63,8 @@ public class Destilador extends Thread implements Productor, Consumidor{
     private void destilar(Tanda tanda) throws InterruptedException{
         ArrayList<Object> piniasEliminar = new ArrayList();
         ArrayList<Object> mezcales = new ArrayList();
-        
+        int total = tanda.getCantidadPinias(),
+            cont = 0;
         for (Object pinia : tanda.getPinias()) {
             sleep(2000); // Tiempo por estimar
             System.out.println(pinia);
@@ -71,6 +74,8 @@ public class Destilador extends Thread implements Productor, Consumidor{
             mezcales.add(mezcal);
             piniasEliminar.add(pinia);
             System.out.println(mezcal);
+            cont++;
+            actualizarBarra(cont * 100 / total);
         }
         tanda.getPinias().removeAll(piniasEliminar); // Quita las piñas
         tanda.getPinias().addAll(mezcales); // Agrega los mezcales
@@ -90,9 +95,10 @@ public class Destilador extends Thread implements Productor, Consumidor{
     }
     public void actualizarBarra(int time){
         //int val = ((barra.getValue() + time ) * 100) / tiempo;
-        int val = barra.getValue() + time;
-        System.out.println("Valor time : " + time + "\n Valor de barra " + val);
-        barra.setValue(val);
+       //int val = barra.getValue() + time;
+        //System.out.println("Valor time : " + time + "\n Valor de barra " + val);
+        barra.setValue(time);
+        barra.setString(time + "%");
     }
 
     @Override

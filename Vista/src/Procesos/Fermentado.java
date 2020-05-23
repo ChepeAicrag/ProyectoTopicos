@@ -37,6 +37,8 @@ public class Fermentado extends Thread implements Productor, Consumidor{
                     isAvailable = false;
                     consumir();
                     System.out.println("Fermentador terminado");
+                    barra.setString("Libre...");
+                    barra.setValue(0);
                 /*
                     }else{
                     sleep(1000);
@@ -58,11 +60,15 @@ public class Fermentado extends Thread implements Productor, Consumidor{
     
     /** Produce la pinia molida*/
     private void fermentar(Tanda tanda) throws InterruptedException{
+        int total = tanda.getCantidadPinias(),
+            cont = 0;
         for (Object pinia : tanda.getPinias()) {
             sleep(2000); // Tiempo por estimar
             System.out.println(pinia);
             ((Pinia)(pinia)).setEstatus('F'); // Triturada o molida
             System.out.println(pinia);
+            cont++;
+            actualizarBarra(cont * 100 / total);
         }
         producir(tanda);
         isAvailable = true;
@@ -80,9 +86,10 @@ public class Fermentado extends Thread implements Productor, Consumidor{
     }
     public void actualizarBarra(int time){
         //int val = ((barra.getValue() + time ) * 100) / tiempo;
-        int val = barra.getValue() + time;
-        System.out.println("Valor time : " + time + "\n Valor de barra " + val);
-        barra.setValue(val);
+        //int val = barra.getValue() + time;
+        //System.out.println("Valor time : " + time + "\n Valor de barra " + val);
+        barra.setValue(time);
+        barra.setString(time + "%");
     }
 
     @Override
