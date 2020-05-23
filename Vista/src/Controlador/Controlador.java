@@ -5,7 +5,16 @@
 package Controlador;
 
 import Modelo.Conexion;
+import Procesos.BufferBarriles;
+import Procesos.BufferMezcalDestilado;
+import Procesos.BufferPiniasCortadas;
+import Procesos.BufferPiniasFermentadas;
+import Procesos.BufferPiniasHorneadas;
+import Procesos.BufferPiniasMolidas;
 import Procesos.BufferTandas;
+import Procesos.Corte;
+import Procesos.Horno;
+import Procesos.Tanda;
 import Vista.Vista;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -23,18 +32,30 @@ public class Controlador implements ActionListener{
  
     private Vista v;
     private Conexion m;
-    private BufferTandas monitor = new BufferTandas();
-    /*
-    private ProductorCorte corte1, corte2, corte3, horno1,
-              horno2, horno3, molin1, molin2,
-              molin3, ferme1, ferme2, ferme3,
-              desti1, desti2,desti3, enbot1,
-              enbot2, enbot3;
-    */
+    //private BufferTandas monitor = new BufferTandas();
+    
+    BufferTandas bft = new BufferTandas();
+    BufferPiniasCortadas bpc = new BufferPiniasCortadas();
+    BufferPiniasHorneadas bph = new BufferPiniasHorneadas();
+    BufferPiniasMolidas bpm = new BufferPiniasMolidas();
+    BufferPiniasFermentadas bpf = new BufferPiniasFermentadas();
+    BufferMezcalDestilado bmd = new BufferMezcalDestilado();
+    BufferBarriles bb = new BufferBarriles();
+    Corte c1 = new Corte(1, bft, bpc);
+    Corte c2 = new Corte(2, bft, bpc);
+    Corte c3 = new Corte(3, bft, bpc);
+    Horno h1 = new Horno(1, bpc, bph);
+    Horno h2 = new Horno(2, bpc, bph);
+    Horno h3 = new Horno(3, bpc, bph);
+    
+    
+    
+    
+    
     public Controlador(Vista v, Conexion m){
         this.v = v;
         this.m = m;
-        actualizarOpciones();
+        //actualizarOpciones();
         IniciarEquipos();
     }
     
@@ -43,9 +64,28 @@ public class Controlador implements ActionListener{
         ArrayList<String> tipos = m.conexionConsultarPorcentajeOTipo("select * from mezcalera.TipoMezcal");
         v.llenarOpciones(porcentajes, tipos);
     }
+    
     private int cantPinas = 0, // Cantidad de piñas a usar
             id_Maguey = 0, // id maguey seleccionado
             limite = 0;
+    private char tipoMaguey;
+    private String tipoMezcal; // Tipo de alcohol
+    private double porcentajeAlcohol;
+    private String bandera;
+    
+    private void datosTanda(){
+        // Hacer la consulta para el tipo de maguey desde el id
+        // Por el momento estará así
+        if (bandera.equals("1")) {
+            tipoMaguey = 'T'; // T detobala
+        }else if(bandera.equals("2")){
+            tipoMaguey = 'S'; // S spadin
+        }
+        String valorPorcentaje = (String) v.ventana1.alcohol.getSelectedItem();
+        porcentajeAlcohol = Double.parseDouble(valorPorcentaje.substring(1, valorPorcentaje.length()));
+        tipoMezcal = (String) v.ventana1.tipo.getSelectedItem();
+        
+    }   
     
     @Override
     public void actionPerformed(ActionEvent ae) {
@@ -53,20 +93,30 @@ public class Controlador implements ActionListener{
         if(o.equals("1") || o.equals("2") || o.equals("3") || o.equals("4") || 
            o.equals("5") || o.equals("6") || o.equals("7") || o.equals("8")){
             System.out.println("Selecciono el btn " + o);
+            /**
+             * La BD ayudará a obtener la información de Mageuy
+             * Nombre 
+             */
+            bandera = o;
             id_Maguey = Integer.parseInt(o);
             //limite = m.consultarPinas(id_Maguey);
-            //cantPinas = cantidadPinas(limite);
+              cantPinas = cantidadPinas(1000);
         }
         switch(o){
-            
             case "producir": //Instrucción del boton producir
                 System.out.println("Produciendo");
+                
                 if(id_Maguey > 0 && cantPinas > 0){
                     String sql = "update mezcalera.maguey set cantidadPinas=" 
                         + (limite - cantPinas) + " where id_Maguey=" + id_Maguey;
                     JOptionPane.showMessageDialog(v, sql);
                      //m.actualizarDato(sql);
-                    v.principal.setSelectedIndex(1);
+                     datosTanda(); // Actauliza las variables para tanda
+                     Tanda t = new Tanda(tipoMaguey,porcentajeAlcohol, tipoMezcal, cantPinas);
+                     System.out.println(t);
+                     bft.put(t);
+                     v.principal.setSelectedIndex(1);
+                     
                }else{
                     JOptionPane.showMessageDialog(v,"No rellenó correctamente");
                 }
@@ -79,8 +129,21 @@ public class Controlador implements ActionListener{
         }
     }
     
-    public void iniciarTanda(int limite){
-       
+    
+    public void iniciarTanda(){
+        
+       /**
+        * Calculando el tiempo de la tanda.
+        *   %Alcohol 
+        *   - 55 ::: 3 s
+        *   - 45 ::: 6 s
+        *   - 38 ::: 9 s
+        *  Tipo Alcohol
+        *   Blanco – Mezcal sin color, almacenado por menos de dos meses, verificando su almacenado.
+        *   Madurado en vidrio- Almacenado en recipientes de vidrio cuano menos 1 año y bajo condiciones reguladas de temperatura, iluminación y humedad.
+        *   Reposado – Almacenado entre dos meses y un año.
+        *   Añejo – Almacenado por lo menos un año, en barriles de no más de 200 litros.
+        */
         
     }
     
@@ -90,7 +153,9 @@ public class Controlador implements ActionListener{
      * Deben estar listos desde el inicio
      */
     
-        
+   
+    
+    
     public void IniciarEquipos(){
         /** Aquí creamos el proceso necesario*/
         JProgressBar 
@@ -113,52 +178,13 @@ public class Controlador implements ActionListener{
                                     eb2 = v.ventana2.barra2.getPos(5).getBarra(),
                                     eb3 = v.ventana2.barra3.getPos(5).getBarra();
         
+        c1.start();
+        c2.start();
+        c3.start();
+        h1.start();
+        h2.start();
+        h3.start();
         
-        
-        
-        
-        
-        /** Hilos productores, siempre estarán activos desde iniciar */
-        //corte1 = new ProductorCorte(cb1); // El cortador 1 administra su barra
-        //corte2 = new ProductorCorte(cb2);
-        //corte3 = new ProductorCorte(cb3);
-        /*
-        horno1 = new Productor(hb1,monitor);
-        horno2 = new Productor(hb2,monitor);
-        horno3 = new Productor(hb3,monitor);
-        molin1 = new Productor(mb1,monitor);
-        molin2 = new Productor(mb2,monitor);
-        molin3 = new Productor(mb3,monitor);
-        ferme1 = new Productor(fb1,monitor);
-        ferme2 = new Productor(fb2,monitor);
-        ferme3 = new Productor(fb3,monitor);
-        desti1 = new Productor(db1,monitor);
-        desti2 = new Productor(db2,monitor);
-        desti3 = new Productor(db3,monitor);
-        enbot1 = new Productor(eb1,monitor);
-        enbot2 = new Productor(eb2,monitor);
-        enbot3 = new Productor(eb3,monitor);
-        */
-        //Consumidor c = new Consumidor(3000,m)
-        //Consumidor c2 = new Consumidor(3000,m);
-        //Consumidor c3 = new Consumidor(3000,m);
-        //Consumidor c4 = new Consumidor(3000,m);
-        //Consumidor c5 = new Consumidor(3000,m);
-        ExecutorService e = Executors.newCachedThreadPool();
-        //e.submit(corte1);// e.submit(corte2); e.submit(corte3);
-        /*
-        e.submit(horno1); e.submit(horno2); e.submit(horno3);
-        e.submit(molin1); e.submit(molin2); e.submit(molin3);
-        e.submit(ferme1); e.submit(ferme2); e.submit(ferme3);
-        e.submit(desti1); e.submit(desti2); e.submit(desti3);
-        e.submit(enbot1); e.submit(enbot2); e.submit(enbot3);
-        */
-        //e.submit(c);
-        //e.submit(c2);
-        //e.submit(c3);
-        //e.submit(c4);
-        
-
     }
     
     public void producir(int pos){

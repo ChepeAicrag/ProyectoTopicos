@@ -21,6 +21,7 @@ public class BufferTandas {
     
     public synchronized void put(Tanda tanda){
         bufferTandas.add(tanda);
+        notifyAll();
     }
     
     public synchronized Tanda remove(){

@@ -23,7 +23,7 @@ public class VistaProducir extends JPanel{
     
     private BarraEleccion eleccion;
     private JButton producir;
-    private JComboBox<String> alcohol, tipo;
+    public JComboBox<String> alcohol, tipo;
     private JLabel etqAlcohol, etqTipo;
     private ImageIcon[] imagenes;
     private String[] textos;
@@ -59,7 +59,8 @@ public class VistaProducir extends JPanel{
         s.putConstraint(SpringLayout.NORTH,etqAlcohol, 10, SpringLayout.SOUTH,eleccion);
         s.putConstraint(SpringLayout.WEST, etqAlcohol, 405, SpringLayout.WEST,this);
         // Consultar en la base de datos
-        alcohol = new JComboBox<>();
+        String[] datAlcohol = {"%55","%48","%37"};
+        alcohol = new JComboBox<>(datAlcohol);
         add(alcohol);
         s.putConstraint(SpringLayout.NORTH,alcohol, 15, SpringLayout.SOUTH,etqAlcohol);
         s.putConstraint(SpringLayout.WEST, alcohol, 465, SpringLayout.WEST,this);
@@ -68,7 +69,8 @@ public class VistaProducir extends JPanel{
         s.putConstraint(SpringLayout.NORTH,etqTipo, 12, SpringLayout.SOUTH,alcohol);
         s.putConstraint(SpringLayout.WEST, etqTipo, 405, SpringLayout.WEST,this);
         // Tipo de mezcal, guardar en la base de datos (TipoMezcal)
-        tipo = new JComboBox<>();
+        String[] datTipo = {"Añeoja","Blanco","Joven"};
+        tipo = new JComboBox<>(datTipo);
         add(tipo);
         s.putConstraint(SpringLayout.NORTH,tipo, 12, SpringLayout.SOUTH,etqTipo);
         s.putConstraint(SpringLayout.WEST, tipo, 460, SpringLayout.WEST,this);
