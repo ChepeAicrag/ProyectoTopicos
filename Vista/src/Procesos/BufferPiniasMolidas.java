@@ -1,5 +1,5 @@
 /*
- * Buffer que almacena Tanda con la pinias Cortadas
+ * Buffer que almacena Tanda con la pinias molidas
  */
 
 package Procesos;

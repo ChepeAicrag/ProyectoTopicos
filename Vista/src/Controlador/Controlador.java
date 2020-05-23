@@ -36,8 +36,6 @@ public class Controlador implements ActionListener{
  
     private Vista v;
     private Conexion m;
-    //private BufferTandas monitor = new BufferTandas();
-    
     BufferTandas bft = new BufferTandas();
     BufferPiniasCortadas bpc = new BufferPiniasCortadas();
     BufferPiniasHorneadas bph = new BufferPiniasHorneadas();
@@ -63,9 +61,13 @@ public class Controlador implements ActionListener{
     Enbotelladora e1 = new Enbotelladora(1, bmd, bb);
     Enbotelladora e2 = new Enbotelladora(2, bmd, bb);
     Enbotelladora e3 = new Enbotelladora(3, bmd, bb);
-    
-    
-    
+    private int cantPinas = 0, // Cantidad de piñas a usar
+                id_Maguey = 0, // id maguey seleccionado
+                limite = 0;
+    private char tipoMaguey;
+    private String tipoMezcal; // Tipo de alcohol
+    private double porcentajeAlcohol;
+    private String bandera;
     
     
     public Controlador(Vista v, Conexion m){
@@ -80,14 +82,6 @@ public class Controlador implements ActionListener{
         ArrayList<String> tipos = m.conexionConsultarPorcentajeOTipo("select * from mezcalera.TipoMezcal");
         v.llenarOpciones(porcentajes, tipos);
     }
-    
-    private int cantPinas = 0, // Cantidad de piñas a usar
-            id_Maguey = 0, // id maguey seleccionado
-            limite = 0;
-    private char tipoMaguey;
-    private String tipoMezcal; // Tipo de alcohol
-    private double porcentajeAlcohol;
-    private String bandera;
     
     private void datosTanda(){
         // Hacer la consulta para el tipo de maguey desde el id
@@ -136,34 +130,11 @@ public class Controlador implements ActionListener{
                }else{
                     JOptionPane.showMessageDialog(v,"No rellenó correctamente");
                 }
-                //int a = Integer.parseInt(JOptionPane.showInputDialog(v, "Introduce el proceso"));
-                //producir((int)Math.random() * 5);
-                 //   iniciarTanda(3000); // Los 3 primeros deben estar disponible
-                 //   JOptionPane.showMessageDialog(v, "No hay espacio para empezar a producir");
                 break;
                 
         }
     }
-    
-    
-    public void iniciarTanda(){
-        
-       /**
-        * Calculando el tiempo de la tanda.
-        *   %Alcohol 
-        *   - 55 ::: 3 s
-        *   - 45 ::: 6 s
-        *   - 38 ::: 9 s
-        *  Tipo Alcohol
-        *   Blanco – Mezcal sin color, almacenado por menos de dos meses, verificando su almacenado.
-        *   Madurado en vidrio- Almacenado en recipientes de vidrio cuano menos 1 año y bajo condiciones reguladas de temperatura, iluminación y humedad.
-        *   Reposado – Almacenado entre dos meses y un año.
-        *   Añejo – Almacenado por lo menos un año, en barriles de no más de 200 litros.
-        */
-        
-    }
-    
-    
+   
     /**
      * Prepara todos los equipos 
      * Deben estar listos desde el inicio

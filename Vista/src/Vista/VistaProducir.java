@@ -69,7 +69,7 @@ public class VistaProducir extends JPanel{
         s.putConstraint(SpringLayout.NORTH,etqTipo, 12, SpringLayout.SOUTH,alcohol);
         s.putConstraint(SpringLayout.WEST, etqTipo, 405, SpringLayout.WEST,this);
         // Tipo de mezcal, guardar en la base de datos (TipoMezcal)
-        String[] datTipo = {"Añeoja","Blanco","Joven"};
+        String[] datTipo = {"Añejo","Reposado","Madurado","Blanco"};
         tipo = new JComboBox<>(datTipo);
         add(tipo);
         s.putConstraint(SpringLayout.NORTH,tipo, 12, SpringLayout.SOUTH,etqTipo);

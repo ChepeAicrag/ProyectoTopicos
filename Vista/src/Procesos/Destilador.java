@@ -1,9 +1,6 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+/**
+ * Produce mezcal y Consume piñas fermentadas
  */
-
 package Procesos;
 
 import static java.lang.Thread.sleep;
@@ -20,7 +17,8 @@ public class Destilador extends Thread implements Productor, Consumidor{
     private boolean isAvailable;
     private int procesos;
     private BufferPiniasFermentadas bufferPiniasFermentadas; // Consume de este
-    private BufferMezcalDestilado bufferMezcalDestilado;
+    private BufferMezcalDestilado bufferMezcalDestilado; // Produce a este
+    private JProgressBar barra;
     
     public Destilador(int id,BufferPiniasFermentadas bufferPiniasFermentadas, BufferMezcalDestilado bufferMezcalDestilado){
         this.id = id;
@@ -33,24 +31,14 @@ public class Destilador extends Thread implements Productor, Consumidor{
     public void run(){
         while (true) {            
             try {
-                
-                //if (!bufferPiniasFermentadas.isEmpty()) {
                     isAvailable = false;
                     consumir();
                     System.out.println("Destilador terminó");
                     barra.setString("Libre...");
                     barra.setValue(0);
-                /*
-                }else{
-                    sleep(1000);
-                    System.out.println("En wait");
-                    return;
-                }
-                    */
                 } catch (InterruptedException ex) {
                     System.err.println(ex.getCause());
                 }
-            
         }
     }
     
@@ -65,17 +53,24 @@ public class Destilador extends Thread implements Productor, Consumidor{
         ArrayList<Object> mezcales = new ArrayList();
         int total = tanda.getCantidadPinias(),
             cont = 0;
-        for (Object pinia : tanda.getPinias()) {
-            sleep(2000); // Tiempo por estimar
-            System.out.println(pinia);
-            Pinia p = (Pinia) pinia;
-            Mezcal mezcal = new Mezcal(p.getTipo()); // Asignamos el tipo
-            mezcal.setEstatus('D');
-            mezcales.add(mezcal);
-            piniasEliminar.add(pinia);
-            System.out.println(mezcal);
-            cont++;
-            actualizarBarra(cont * 100 / total);
+        for(int  i = 0; i < numDestilados(tanda);i++){
+            for (Object pinia : tanda.getPinias()) {
+                sleep(2000);
+                System.out.println(pinia);
+                if(i == 0){ // Para que solo 1 vez los agregue
+                    Pinia p = (Pinia) pinia;
+                    Mezcal mezcal = new Mezcal(p.getTipo()); // Asignamos el tipo
+                    mezcal.setEstatus('D');
+                    mezcales.add(mezcal);
+                    piniasEliminar.add(pinia);
+                    System.out.println(mezcal);
+                }
+                cont++;
+                actualizarBarra(cont * 100 / total);
+            }
+            cont = 0;
+            barra.setString("Destilado " + (i + 1));
+            sleep(1000);
         }
         tanda.getPinias().removeAll(piniasEliminar); // Quita las piñas
         tanda.getPinias().addAll(mezcales); // Agrega los mezcales
@@ -89,19 +84,25 @@ public class Destilador extends Thread implements Productor, Consumidor{
         destilar(tanda); // Las consume para hornear
     }
 
-    private JProgressBar barra;
+    @Override
+    public void producir() throws InterruptedException {}
+    
     public void setBarra(JProgressBar barra){
         this.barra = barra;
     }
+    
     public void actualizarBarra(int time){
-        //int val = ((barra.getValue() + time ) * 100) / tiempo;
-       //int val = barra.getValue() + time;
-        //System.out.println("Valor time : " + time + "\n Valor de barra " + val);
         barra.setValue(time);
         barra.setString(time + "%");
     }
 
-    @Override
-    public void producir() throws InterruptedException {
-    }
+    private int numDestilados(Tanda t){
+        int numDestilados = 1;
+        if (t.getPorcentajeAlcohol() == 48){
+            numDestilados = 2;
+        }else if (t.getPorcentajeAlcohol() == 37){
+            numDestilados = 3;
+        }
+        return numDestilados;
+    }   
 }

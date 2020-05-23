@@ -1,5 +1,5 @@
 /*
- * Controla almacena la tanda para trasladarla al corte
+ * Almacena las tandas para trasladarla al corte
  */
 
 package Procesos;

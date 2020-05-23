@@ -1,9 +1,6 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+/**
+ * Produce piñas fermentadas y Consume piñas trituradas
  */
-
 package Procesos;
 
 import static java.lang.Thread.sleep;
@@ -20,6 +17,7 @@ public class Fermentado extends Thread implements Productor, Consumidor{
     private int procesos;
     private BufferPiniasMolidas bufferPiniasMolidas; //  Produce
     private BufferPiniasFermentadas bufferPiniasFermentadas; // Consume de este
+    private JProgressBar barra;
     
     public Fermentado(int id, BufferPiniasMolidas bufferPiniasMolidas, BufferPiniasFermentadas bufferPiniasFermentadas){
         this.id = id;
@@ -32,24 +30,14 @@ public class Fermentado extends Thread implements Productor, Consumidor{
     public void run(){
         while (true) {            
             try {
-                
-                //if (!bufferPiniasMolidas.isEmpty()) {
                     isAvailable = false;
                     consumir();
                     System.out.println("Fermentador terminado");
                     barra.setString("Libre...");
                     barra.setValue(0);
-                /*
-                    }else{
-                    sleep(1000);
-                    System.out.println("En wait");
-                    return;
-                }
-                */
                 } catch (InterruptedException ex) {
                     System.err.println(ex.getCause());
                 }
-            
         }
     }
     
@@ -79,20 +67,16 @@ public class Fermentado extends Thread implements Productor, Consumidor{
         Tanda tanda = bufferPiniasMolidas.remove(); // Quita de las molidas
         fermentar(tanda); // Las consume para hornear
     }
+    
+    @Override
+    public void producir() throws InterruptedException {}
 
-    private JProgressBar barra;
     public void setBarra(JProgressBar barra){
         this.barra = barra;
     }
+    
     public void actualizarBarra(int time){
-        //int val = ((barra.getValue() + time ) * 100) / tiempo;
-        //int val = barra.getValue() + time;
-        //System.out.println("Valor time : " + time + "\n Valor de barra " + val);
         barra.setValue(time);
         barra.setString(time + "%");
-    }
-
-    @Override
-    public void producir() throws InterruptedException {
     }
 }

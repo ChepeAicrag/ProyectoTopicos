@@ -18,6 +18,7 @@ public class Horno extends Thread implements Productor, Consumidor{
     private int procesos;
     private BufferPiniasCortadas bufferPiniasCortadas; // Consume de este
     private BufferPiniasHorneadas bufferPiniasHorneadas; // Produce en este
+    private JProgressBar barra;
     
     public Horno(int id, BufferPiniasCortadas bufferPiniasCortadas, BufferPiniasHorneadas bufferPiniasHorneadas){
         this.id = id;
@@ -30,21 +31,11 @@ public class Horno extends Thread implements Productor, Consumidor{
     public synchronized void run(){
         while (true) {            
             try {
-                
-                //if (!bufferPiniasCortadas.isEmpty()) {
                     isAvailable = false;
                     consumir();
                     System.out.println("Horno consumió");
                     barra.setString("Libre...");
                     barra.setValue(0);
-                /*
-                    }
-                else{
-                    
-                    System.out.println("En wait horno ");
-                    bufferPiniasHorneadas.wait();
-                }
-                    */
                 } catch (InterruptedException ex) {
                     System.err.println(ex.getCause());
                 }
@@ -77,22 +68,15 @@ public class Horno extends Thread implements Productor, Consumidor{
         Tanda tanda = bufferPiniasCortadas.remove(); // Quita de las cortadas
         hornear(tanda); // Las consume para hornear
     }
+    
+    @Override
+    public void producir() throws InterruptedException {}
 
-    private JProgressBar barra;
     public void setBarra(JProgressBar barra){
         this.barra = barra;
     }
     public void actualizarBarra(int time){
-        //int val = ((barra.getValue() + time ) * 100) / tiempo;
-        //int val = barra.getValue() + time;
-        //System.out.println("Valor time : " + time + "\n Valor de barra " + val);
         barra.setValue(time);
         barra.setString(time + "%");
     }
-
-    @Override
-    public void producir() throws InterruptedException {
-    }
-    
-    
 }
