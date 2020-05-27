@@ -3,8 +3,10 @@
  */
 package Procesos;
 
+import java.awt.Color;
 import javax.swing.JProgressBar;
 import static java.lang.Thread.sleep;
+import javax.swing.BorderFactory;
 
 /**
  * 
@@ -18,6 +20,7 @@ public class Molino extends Thread implements Productor, Consumidor{
     private BufferPiniasHorneadas bufferPiniasHorneadas; // Consume de este
     private BufferPiniasMolidas bufferPiniasMolidas; //  Produce
     private JProgressBar barra;
+    private Color color;
     
     public Molino(int id,BufferPiniasHorneadas bufferPiniasHorneadas, BufferPiniasMolidas bufferPiniasMolidas){
         this.id = id;
@@ -31,10 +34,11 @@ public class Molino extends Thread implements Productor, Consumidor{
         while (true) {            
             try {
                     isAvailable = false;
+                    color = barra.getBackground();
                     consumir();
                     System.out.println("Molino trabajó");
-                    barra.setString("Libre...");
-                    barra.setValue(0);
+                    actualizarBarra(0);
+                    ajustarBarra(color);
                 } catch (InterruptedException ex) {
                     System.err.println(ex.getCause());
                 }
@@ -51,6 +55,7 @@ public class Molino extends Thread implements Productor, Consumidor{
     private synchronized void moler(Tanda tanda) throws InterruptedException{
         int total = tanda.getCantidadPinias(),
             cont = 0;
+        ajustarBarra(tanda.getColor());
         for (Object pinia : tanda.getPinias()) {
             sleep(2000); // Tiempo por estimar
             System.out.println(pinia);
@@ -76,8 +81,20 @@ public class Molino extends Thread implements Productor, Consumidor{
         this.barra = barra;
     }
     
-    public void actualizarBarra(int time){
-        barra.setValue(time);
-        barra.setString(time + "%");
+   public void actualizarBarra(int val){
+        barra.setValue(val);
+        if(val != 0)
+            barra.setString(val + "%");
+        else
+            barra.setString("Libre...");
+    }    
+    
+    private void ajustarBarra(Color color){
+        barra.setBackground(color); // Color de la barra que se rellena
+        barra.setForeground(Color.black); // Color de la barra que rellena
+        if(this.color != color)
+            barra.setBorder(BorderFactory.createLineBorder(color));
+        else
+            barra.setBorder(BorderFactory.createLineBorder(Color.black));
     }
 }

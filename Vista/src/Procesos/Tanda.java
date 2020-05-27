@@ -4,7 +4,9 @@
 
 package Procesos;
 
+import java.awt.Color;
 import java.util.ArrayList;
+import java.util.Random;
 
 /**
  * 
@@ -17,13 +19,23 @@ public class Tanda {
     private double porcentajeAlcohol;
     private String tipoMezcal;
     private int cantidadPinias;
-
+    private Color color;
     public Tanda(char tipoMaguey, double porcentajeAlcohol, String tipoMezcal, int cantidadPinias) {
         this.tipoMaguey = tipoMaguey;
         this.porcentajeAlcohol = porcentajeAlcohol;
         this.tipoMezcal = tipoMezcal;
         this.cantidadPinias = cantidadPinias;
+        generarColor();
         generarPinias();
+    }
+    
+    private void generarColor(){
+        /** Generamos un color, jamás será el negro*/
+        Random ran = new Random();
+        float r = (float) (ran.nextFloat() / 2f + 0.5);
+        float g = (float) (ran.nextFloat() / 2f + 0.5);
+        float b = (float) (ran.nextFloat() / 2f + 0.5);
+        color = new Color(r, g, b);
     }
     
     private void generarPinias(){
@@ -51,6 +63,10 @@ public class Tanda {
 
     public int getCantidadPinias() {
         return cantidadPinias;
+    }
+    
+    public Color getColor(){
+        return color;
     }
 
     @Override

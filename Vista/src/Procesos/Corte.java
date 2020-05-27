@@ -4,9 +4,10 @@
 
 package Procesos;
 
-import java.util.ArrayList;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import com.sun.java.swing.plaf.motif.MotifProgressBarUI;
+import java.awt.Color;
+import java.awt.Font;
+import javax.swing.BorderFactory;
 import javax.swing.JProgressBar;
 
 /**
@@ -20,6 +21,7 @@ public class Corte extends Thread implements Productor{
     private BufferTandas bufferTandas;
     private BufferPiniasCortadas bufferPiniasCortadas;
     private JProgressBar barra;
+    private Color color = Color.RED;
     
     public Corte(int id, BufferTandas bufferTandas,BufferPiniasCortadas bufferPiniasCortadas){
         this.id = id;
@@ -34,10 +36,12 @@ public class Corte extends Thread implements Productor{
         while(true){
             try {
                         isAvailable = false;
+                        color = barra.getBackground();
                         producir();
                         System.out.println("Corte terminado");
-                        barra.setString("Libre...");
-                        barra.setValue(0);
+                        actualizarBarra(0);
+                        ajustarBarra(color);
+                        
             } catch (InterruptedException ex) {
                 System.err.println(ex.getCause());
             }
@@ -47,6 +51,7 @@ public class Corte extends Thread implements Productor{
     private synchronized void cortar(Tanda tanda) throws InterruptedException{
         int total = tanda.getCantidadPinias(), // Este es el 100
             cont = 0;
+        ajustarBarra(tanda.getColor());
         for (Object pinia : tanda.getPinias()) {
             sleep(2000);
             System.out.println(pinia);
@@ -72,11 +77,23 @@ public class Corte extends Thread implements Productor{
     public void producir(Tanda tanda) throws InterruptedException {}
    
     public void setBarra(JProgressBar barra){
-        this.barra = barra;
+        this.barra = barra; 
     }
     
-    public void actualizarBarra(int time){
-        barra.setValue(time);
-        barra.setString(time + "%");
+    public void actualizarBarra(int val){
+        barra.setValue(val);
+        if(val != 0)
+            barra.setString(val + "%");
+        else
+            barra.setString("Libre...");
     }    
+    
+    private void ajustarBarra(Color color){
+        barra.setBackground(color); // Color de la barra que se rellena
+        barra.setForeground(Color.black); // Color de la barra que rellena
+        if(this.color != color)
+            barra.setBorder(BorderFactory.createLineBorder(color));
+        else
+            barra.setBorder(BorderFactory.createLineBorder(Color.black));
+    }
 }

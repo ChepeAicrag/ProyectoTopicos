@@ -23,13 +23,15 @@ public class VistaTraslado extends JPanel{
     public VistaTraslado(){
         setSize(1020, 680);
         setVisible(true);
-        //setLocationRelativeTo(null);
-        //setDefaultCloseOperation(EXIT_ON_CLOSE);
         colocar();
         revalidate();
         
     }
-    
+    /**
+     * Ponerle color a cada tanda para identificarlo
+     * Son 12 estanqueles que tiene barriles (Bodegas)
+     * 3 Tiendas compradoras
+     */
     private void colocar(){
         add(new JLabel("EN BREVE...."),BorderLayout.CENTER);
         

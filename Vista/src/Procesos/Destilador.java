@@ -3,8 +3,10 @@
  */
 package Procesos;
 
+import java.awt.Color;
 import static java.lang.Thread.sleep;
 import java.util.ArrayList;
+import javax.swing.BorderFactory;
 import javax.swing.JProgressBar;
 
 /**
@@ -19,6 +21,7 @@ public class Destilador extends Thread implements Productor, Consumidor{
     private BufferPiniasFermentadas bufferPiniasFermentadas; // Consume de este
     private BufferMezcalDestilado bufferMezcalDestilado; // Produce a este
     private JProgressBar barra;
+    private Color color;
     
     public Destilador(int id,BufferPiniasFermentadas bufferPiniasFermentadas, BufferMezcalDestilado bufferMezcalDestilado){
         this.id = id;
@@ -32,10 +35,11 @@ public class Destilador extends Thread implements Productor, Consumidor{
         while (true) {            
             try {
                     isAvailable = false;
+                    color = barra.getBackground();
                     consumir();
                     System.out.println("Destilador terminó");
-                    barra.setString("Libre...");
-                    barra.setValue(0);
+                    actualizarBarra(0);
+                    ajustarBarra(color);
                 } catch (InterruptedException ex) {
                     System.err.println(ex.getCause());
                 }
@@ -53,6 +57,7 @@ public class Destilador extends Thread implements Productor, Consumidor{
         ArrayList<Object> mezcales = new ArrayList();
         int total = tanda.getCantidadPinias(),
             cont = 0;
+        ajustarBarra(tanda.getColor());
         for(int  i = 0; i < numDestilados(tanda);i++){
             for (Object pinia : tanda.getPinias()) {
                 sleep(2000);
@@ -91,9 +96,21 @@ public class Destilador extends Thread implements Productor, Consumidor{
         this.barra = barra;
     }
     
-    public void actualizarBarra(int time){
-        barra.setValue(time);
-        barra.setString(time + "%");
+    public void actualizarBarra(int val){
+        barra.setValue(val);
+        if(val != 0)
+            barra.setString(val + "%");
+        else
+            barra.setString("Libre...");
+    }    
+    
+    private void ajustarBarra(Color color){
+        barra.setBackground(color); // Color de la barra que se rellena
+        barra.setForeground(Color.black); // Color de la barra que rellena
+        if(this.color != color)
+            barra.setBorder(BorderFactory.createLineBorder(color));
+        else
+            barra.setBorder(BorderFactory.createLineBorder(Color.black));
     }
 
     private int numDestilados(Tanda t){
