@@ -6,6 +6,7 @@ package MVC_Principal;
 
 import Controlador.Controlador;
 import Modelo.Conexion;
+import Modelo.ManejoDatos;
 import Vista.Vista;
 
 /**
@@ -16,7 +17,7 @@ public class MVC_main {
     
     public static void main(String[] args) {
         Vista v = new Vista();
-        Conexion m = new Conexion("Mezcalera");
+        ManejoDatos m = new ManejoDatos();
         Controlador c = new Controlador(v, m);
         v.conectarControlador(c);
     }

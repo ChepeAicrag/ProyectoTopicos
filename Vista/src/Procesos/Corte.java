@@ -4,9 +4,7 @@
 
 package Procesos;
 
-import com.sun.java.swing.plaf.motif.MotifProgressBarUI;
 import java.awt.Color;
-import java.awt.Font;
 import javax.swing.BorderFactory;
 import javax.swing.JProgressBar;
 
@@ -60,6 +58,8 @@ public class Corte extends Thread implements Productor{
             cont++;
             actualizarBarra(cont * 100 / total);
         }
+        
+        tanda.setEstado("Cortado");
         bufferPiniasCortadas.put(tanda);
         barra.setString("Completado...");
         isAvailable = true;

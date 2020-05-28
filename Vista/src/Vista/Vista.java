@@ -17,10 +17,12 @@ import javax.swing.JTabbedPane;
  */
 public class Vista extends JFrame{
     
-    public VistaProducir ventana1;
-    public VistaProduccion ventana2;
-    private VistaTraslado ventana3;
+    public VistaProducir vProducir;
+    public VistaProduccion vProduccion;
+    public VistaTraslado vTraslado;
+    public VistaRegistro vRegistro;
     public JTabbedPane principal;
+    
     public Vista(){
         setSize(1080,700);
         setVisible(true);
@@ -39,21 +41,23 @@ public class Vista extends JFrame{
         ImageIcon[] imagenes = {img,img,img,img,img,img,img,img};
         
         principal = new JTabbedPane();
-        ventana1 = new VistaProducir(imagenes, txts);
-        //ventana1.setBackground(Color.yellow);
-        principal.addTab("Seleccion", ventana1);
-        ventana2 = new VistaProduccion();
-        principal.addTab("Produccion", ventana2);
-        ventana3 = new VistaTraslado();
-        principal.addTab("Traslado", ventana3);
+        vProducir = new VistaProducir(imagenes, txts);
+        principal.addTab("Seleccion", vProducir);
+        vRegistro = new VistaRegistro();
+        principal.add("Registro_Tandas",vRegistro);
+        vProduccion = new VistaProduccion();
+        principal.addTab("Produccion", vProduccion);
+        vTraslado = new VistaTraslado();
+        principal.addTab("Traslado", vTraslado);
         add(principal);
     }
     
     public void conectarControlador(Controlador c){
-       ventana1.conectarControlador(c);
+       vProducir.conectarControlador(c);
+       vRegistro.conectarControlador(c);
     }
     
     public void llenarOpciones(ArrayList<String> porcentajes,ArrayList<String> tipos){
-        ventana1.llenarOpciones(porcentajes, tipos);
+        vProducir.llenarOpciones(porcentajes, tipos);
     }
 }

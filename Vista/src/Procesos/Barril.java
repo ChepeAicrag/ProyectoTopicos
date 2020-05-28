@@ -10,21 +10,21 @@ package Procesos;
  */
 public class Barril{
     
-    private char tipo, estatus = 'N';
+    private char estatus = 'N';
     private static int _id = 0;
-    private int id;
+    private int id, tipo;
 
-    public Barril(char tipo) {
+    public Barril(int tipo) {
         this.tipo = tipo;
         _id++;
         id = _id;
     }
 
-    public char getTipo() {
+    public int getTipo() {
         return tipo;
     }
 
-    public void setTipo(char tipo) {
+    public void setTipo(int tipo) {
         this.tipo = tipo;
     }
 

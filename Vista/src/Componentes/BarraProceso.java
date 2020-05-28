@@ -76,7 +76,7 @@ public class BarraProceso extends JPanel {
         // Ya estamos seguro de que son igual tamaño
         setLayout(new GridLayout(1, 0));
         setSize(700, 220);
-        add(cancelar);
+        //add(cancelar);
         for (int i = 0; i < nProcesos; i++){ 
             ECP e = new ECP(imagenes[i], porcentajes[i]); 
             etiquetas.add(e);

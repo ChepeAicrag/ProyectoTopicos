@@ -1,6 +1,5 @@
 package Vista;
 
-import Componentes.BarraProceso;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.GridLayout;
@@ -9,6 +8,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JProgressBar;
 import javax.swing.SpringLayout;
 import javax.swing.border.Border;
 import javax.swing.border.TitledBorder;
@@ -19,6 +19,16 @@ import javax.swing.border.TitledBorder;
  */
 public class VistaTraslado extends JPanel{
     
+    /**
+     * Tenemos 12 tipos de barriles 
+     * 
+     */
+    
+    private JProgressBar barrilesAnejo55, barrilesAnejo48, barrilesAnejo37,
+                         barrilesJoven55, barrilesJoven48, barrilesJoven37,
+                         barrilesReposado55, barrilesReposado48, barrilesReposado37,
+                         barrilesMaduro55, barrilesMaduro48, barrilesMaduro37;
+    private JPanel panelBarras;
     
     public VistaTraslado(){
         setSize(1020, 680);
@@ -33,7 +43,8 @@ public class VistaTraslado extends JPanel{
      * 3 Tiendas compradoras
      */
     private void colocar(){
-        add(new JLabel("EN BREVE...."),BorderLayout.CENTER);
+        setLayout(new BorderLayout());
+        add(new JLabel("EN BREVE...."),BorderLayout.NORTH);
         
     }
 }

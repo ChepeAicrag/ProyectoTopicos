@@ -2,141 +2,56 @@ package Modelo;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
-import java.util.ArrayList;
-import java.util.List;
-import javax.swing.JOptionPane;
+import java.util.logging.Level;
 
 /**
  * @author Garcia Garcia Jose Angel
  */
 public class Conexion {
 
-    private String host = "localhost";
-    private String usuario = "postgres";
-    private final String clave = "Dexter1998";
-    private int puerto = 5432;
-    private String servidor = "";
-    private String baseDatos;
-    private static Connection conexion = null;
-
-    public Conexion(String baseDatos) {
-        this.baseDatos = baseDatos;
-        ConexionBd();
-    }
-
-    private void ConexionBd() {
-        this.servidor = "jdbc:postgresql://" + host + ":" + puerto + "/" + baseDatos;
+    private static Connection coneccion = null; // Contenida en el pquete SQL
+    private static Conexion conexion = null; // instancia a utilizar
+    private static  int numConexiones = 0; // controla el numero de veces que sucedio
+    
+    private Conexion(String url, String usuario, String password){
         try {
+            // Clase usada para una conexion con Derby
             Class.forName("org.postgresql.Driver");
-        } catch (ClassNotFoundException e) {
-            System.err.println("ERROR AL REGISTRAR EL DRIVER " + e);
-            System.exit(0);
-        }
-        try {
-            conexion = DriverManager.getConnection(this.servidor,
-                    this.usuario, this.clave);
+            // Para MySql : "com.mysql.jdbc.Driver"
+            // Para Postgres : "org.postgresql.Driver"
+            coneccion = DriverManager.getConnection(url,usuario, password);
         } catch (SQLException e) {
-            System.err.println("ERROR AL CONECTAR CON EL SERVIDOR");
-            System.exit(0); //parar la ejecución
+            java.util.logging.Logger.getLogger(Conexion.class.getName()).log(Level.SEVERE,null,e);
+        } catch (ClassNotFoundException ex) {
+            java.util.logging.Logger.getLogger(Conexion.class.getName()).log(Level.SEVERE, null, ex);
         }
-        System.out.println("Conectado a " + baseDatos);
     }
-
-    private Connection getConexion() {
+    
+    public static Conexion getConexion(String url, String Usuario, String password){
+        numConexiones++;
+        if(conexion == null)
+            return conexion = new Conexion(url, Usuario, password);
         return conexion;
-    }
-
-    public void closeConexion() {
-        if (getConexion() != null) {
-            try {
-                getConexion().close();
-            } catch (SQLException e) {
-                System.err.println("Error al cerrar la bd " + e);
-            }
-        }
-    }
-    /**
-     * Consulta la cantidad de piñas de cada tipo de maguey
-     */
-    public int consultarPinas(int id){
-        PreparedStatement ps;
+     }
+     
+     public static Connection getConeccion(){
+         return coneccion;
+     }
+     
+     public boolean CerrarConexion(){
         try {
-            Statement st = conexion.createStatement();
-            ResultSet rs = st.executeQuery("select cantidadPinas from mezcalera.magueys where id_Maguey=" + id);
-            return rs.getInt(1);
-        } catch (Exception e) {
-            System.out.println("Error al consultar las piñas del maguey " + id);
-        }
-        return 0;
-    }
-    
-    public boolean actualizarDato(String sql){  
-        PreparedStatement ps;
-        try{
-            java.sql.Statement st = conexion.createStatement();
-            st.executeUpdate(sql);
-            return true;
-        }catch (SQLException e) {
-            System.err.println("Error en la INSERCIÓN " + e );
-            JOptionPane.showMessageDialog(null,"No se completó correctamente el proceso");
+            if (coneccion != null) 
+              if(numConexiones == 1){
+                 coneccion.close();
+                 return true;
+            }else
+                numConexiones--;
             return false;
-        }
-    }
-    
-    public ArrayList<String> conexionConsultarPorcentajeOTipo(String sql){
-        ArrayList<String> datos = new ArrayList<>();
-        try {
-            Statement ps = conexion.createStatement();
-            ResultSet rs = ps.executeQuery(sql);
-            while (rs.next()) {
-               datos.add(rs.getString(2)); // La segunda columna en ambos
-            }
         } catch (SQLException e) {
-        }
-        
-        return datos;
-    }
-    
-    public List<Object[]> conexionConsultaBotellas(String sql){
-    List <Object[]> datos = new ArrayList<Object[]>();
-        try {
-           Statement ps = conexion.createStatement();
-           ResultSet rs = ps.executeQuery(sql);
-            while (rs.next()){
-                String [] dat = new String[5];
-                dat[0] = rs.getString(1);
-                dat[1] = rs.getString(2);
-                dat[2] = rs.getString(3);
-                dat[3] = rs.getString(4);
-                dat[4] = rs.getString(5);
-                datos.add(dat);
-            }
-        }catch(SQLException e){
-            System.err.println("Error al consultar botellas " + e);
-        }
-        return datos;
-    }
-    
-    public List<Object[]> conexionConsultaMezcales(String sql){
-    List <Object[]> datos = new ArrayList<Object[]>();
-        try {
-           Statement ps = conexion.createStatement();
-           ResultSet rs = ps.executeQuery(sql);
-            while (rs.next()){
-                String [] dat = new String[3];
-                dat[0] = rs.getString(1);
-                dat[1] = rs.getString(2);
-                dat[2] = rs.getString(3);
-                datos.add(dat);
-            }
-        }catch(SQLException e){
-            System.err.println("Error al consultar mezcales " + e);
-        }
-        return datos;
+            System.err.println(" Error al tratar de cerrar la conexion " + e);
+       }
+        return false;
     }
     
 }

@@ -6,6 +6,7 @@ package Procesos;
 import java.awt.Color;
 import static java.lang.Thread.sleep;
 import java.util.ArrayList;
+import java.util.Date;
 import javax.swing.BorderFactory;
 import javax.swing.JProgressBar;
 
@@ -47,12 +48,13 @@ public class Enbotelladora extends Thread implements Productor, Consumidor{
     
     @Override
     public void producir(Tanda tanda) throws InterruptedException {
-        System.out.println("Tanda terminada lista >>>> \n " + tanda);
-       bufferBarriles.put(tanda); // Las produce
+        tanda.setFechaFinal(new Date());
+        System.out.println("Tanda terminada lista >>>> \n " + tanda + " \n Fecha >> " + tanda.getFechaFinal());
+        bufferBarriles.put(tanda); // Las produce
     }
     
-    /** Produce la pinia molida*/
-    private void destilar(Tanda tanda) throws InterruptedException{
+    /** Produce los barriles*/
+    private void enbotellar(Tanda tanda) throws InterruptedException{
         ArrayList<Object> mezcalesEliminar = new ArrayList();
         ArrayList<Object> barriles = new ArrayList();
         int total = tanda.getCantidadPinias(),
@@ -86,8 +88,8 @@ public class Enbotelladora extends Thread implements Productor, Consumidor{
 
     @Override
     public void consumir() throws InterruptedException {
-        Tanda tanda = bufferMezcalDestilado.remove(); // Quita de las fermentadas
-        destilar(tanda); // Las consume para hornear
+        Tanda tanda = bufferMezcalDestilado.remove(); // Quita de las destilados
+        enbotellar(tanda); // Las consume para hornear
     }
 
     public void setBarra(JProgressBar barra){
@@ -117,12 +119,12 @@ public class Enbotelladora extends Thread implements Productor, Consumidor{
     private int numAnejamiento(Tanda t){
         int numAnejamientos = 1;
         /** Blanco 2 meses * Resposado 12 meses * Añejo 24 meses * Madurado 10 meses*/
-        String tipo = t.getTipoMezcal(); 
-        if (tipo.equals("Añejo")) 
+        int tipo = t.getTipoMezcal(); 
+        if (tipo == 1) 
             numAnejamientos = 12; // Por 2 meses
-        else if(tipo.equals("Reposado"))
+        else if(tipo == 2)
             numAnejamientos = 6;
-        else if(tipo.equals("Madurado"))
+        else if(tipo == 3)
             numAnejamientos = 5;
         return numAnejamientos;    
     }

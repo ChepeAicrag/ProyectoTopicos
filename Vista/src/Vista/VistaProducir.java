@@ -58,9 +58,7 @@ public class VistaProducir extends JPanel{
         add(etqAlcohol);
         s.putConstraint(SpringLayout.NORTH,etqAlcohol, 10, SpringLayout.SOUTH,eleccion);
         s.putConstraint(SpringLayout.WEST, etqAlcohol, 405, SpringLayout.WEST,this);
-        // Consultar en la base de datos
-        String[] datAlcohol = {"%55","%48","%37"};
-        alcohol = new JComboBox<>(datAlcohol);
+        alcohol = new JComboBox<>();
         add(alcohol);
         s.putConstraint(SpringLayout.NORTH,alcohol, 15, SpringLayout.SOUTH,etqAlcohol);
         s.putConstraint(SpringLayout.WEST, alcohol, 465, SpringLayout.WEST,this);
@@ -68,14 +66,12 @@ public class VistaProducir extends JPanel{
         add(etqTipo);
         s.putConstraint(SpringLayout.NORTH,etqTipo, 12, SpringLayout.SOUTH,alcohol);
         s.putConstraint(SpringLayout.WEST, etqTipo, 405, SpringLayout.WEST,this);
-        // Tipo de mezcal, guardar en la base de datos (TipoMezcal)
-        String[] datTipo = {"Añejo","Reposado","Madurado","Blanco"};
-        tipo = new JComboBox<>(datTipo);
+        tipo = new JComboBox<>();
         add(tipo);
         s.putConstraint(SpringLayout.NORTH,tipo, 12, SpringLayout.SOUTH,etqTipo);
         s.putConstraint(SpringLayout.WEST, tipo, 460, SpringLayout.WEST,this);
-        producir = new JButton("PRODUCIR");
-        producir.setActionCommand("producir");
+        producir = new JButton("REGISTRAR");
+        producir.setActionCommand("registrar");
         add(producir);
         s.putConstraint(SpringLayout.NORTH,producir, 12, SpringLayout.SOUTH,tipo);
         s.putConstraint(SpringLayout.WEST, producir, 447, SpringLayout.WEST,this);
@@ -92,11 +88,11 @@ public class VistaProducir extends JPanel{
     }
     
     /**
-     * Método para rellenar las opciones de % de alcohol
+     * Método para rellenar las opciones de % de alcohol y tipo de mezcal
      */
     public void llenarOpciones(ArrayList<String> porcentajes,ArrayList<String> tipos){
         for (String p : porcentajes) {
-            alcohol.addItem(p);
+            alcohol.addItem(p + "%");
         }
         for (String t : tipos) {
             tipo.addItem(t);

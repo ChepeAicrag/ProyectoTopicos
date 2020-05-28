@@ -6,6 +6,7 @@ package Procesos;
 
 import java.awt.Color;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Random;
 
 /**
@@ -13,20 +14,30 @@ import java.util.Random;
  * @author García García José Ángel
  */
 public class Tanda {
-    
-    private char tipoMaguey;
+    ;
     private ArrayList<Object> pinias;
-    private double porcentajeAlcohol;
-    private String tipoMezcal;
-    private int cantidadPinias;
+    private int  id, tipoMaguey, porcentajeAlcohol, tipoMezcal, cantidadPinias;
     private Color color;
-    public Tanda(char tipoMaguey, double porcentajeAlcohol, String tipoMezcal, int cantidadPinias) {
+    private static int id_Contador = 1;
+    private Date fechaInicio, fechaFinal;
+    private String estado;
+
+    public Tanda(){
+        
+    }
+    
+    public Tanda(int tipoMaguey, int porcentajeAlcohol, int tipoMezcal, int cantidadPinias) {
         this.tipoMaguey = tipoMaguey;
         this.porcentajeAlcohol = porcentajeAlcohol;
         this.tipoMezcal = tipoMezcal;
         this.cantidadPinias = cantidadPinias;
+        /*
+        DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+        */
+        id = id_Contador++;
         generarColor();
         generarPinias();
+        estado = "Registrada";
     }
     
     private void generarColor(){
@@ -45,7 +56,31 @@ public class Tanda {
         }
     }
 
-    public char getTipoMaguey() {
+    public void setFechaInicio(Date fechaInicio){
+        this.fechaInicio = fechaInicio;
+    }
+    
+    public Date getFechaInicio(){
+        return fechaInicio;
+    }
+    
+    public void setFechaFinal(Date fechaFinal){
+        this.fechaFinal = fechaFinal;
+    }
+    
+    public Date getFechaFinal(){
+        return fechaFinal;
+    }
+    
+    public void setId(int id){
+        this.id = id;
+    }
+    
+    public int getId(){
+        return id;
+    }
+    
+    public int getTipoMaguey() {
         return tipoMaguey;
     }
 
@@ -57,7 +92,7 @@ public class Tanda {
         return porcentajeAlcohol;
     }
 
-    public String getTipoMezcal() {
+    public int getTipoMezcal() {
         return tipoMezcal;
     }
 
@@ -69,6 +104,14 @@ public class Tanda {
         return color;
     }
 
+    public void setEstado(String estado){
+        this.estado = estado;
+    }
+    
+    public String getEstado(){
+        return estado;
+    }
+    
     @Override
     public String toString() {
         return "Tanda{" + "tipoMaguey=" + tipoMaguey + ", porcentajeAlcohol=" + porcentajeAlcohol + ", tipoMezcal=" + tipoMezcal + ", cantidadPinias=" + cantidadPinias + '}';
