@@ -90,13 +90,18 @@ public class VistaProducir extends JPanel{
     /**
      * Método para rellenar las opciones de % de alcohol y tipo de mezcal
      */
-    public void llenarOpciones(ArrayList<String> porcentajes,ArrayList<String> tipos){
+    public void llenarOpciones(ArrayList<String> mezcales,ArrayList<String> porcentajes,ArrayList<String> tipos){
         for (String p : porcentajes) {
             alcohol.addItem(p + "%");
         }
         for (String t : tipos) {
             tipo.addItem(t);
         }
+        String nombreMezcales[] = new String[mezcales.size()];        
+        for (int i = 0; i < mezcales.size(); i++) {
+            nombreMezcales[i] = mezcales.get(i);
+        }
+        eleccion.setTextos(nombreMezcales);
         revalidate();
     }
 }

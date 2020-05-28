@@ -3,6 +3,7 @@
  */
 package Procesos;
 
+import Controlador.Controlador;
 import java.awt.Color;
 import javax.swing.JProgressBar;
 import static java.lang.Thread.sleep;
@@ -21,6 +22,7 @@ public class Molino extends Thread implements Productor, Consumidor{
     private BufferPiniasMolidas bufferPiniasMolidas; //  Produce
     private JProgressBar barra;
     private Color color;
+    private Controlador c;
     
     public Molino(int id,BufferPiniasHorneadas bufferPiniasHorneadas, BufferPiniasMolidas bufferPiniasMolidas){
         this.id = id;
@@ -64,6 +66,8 @@ public class Molino extends Thread implements Productor, Consumidor{
             cont++;
             actualizarBarra(cont * 100 / total);
         }
+        tanda.setEstado("Trituarada");
+        actualizarTabla(tanda);
         producir(tanda);
         isAvailable = true;
     }
@@ -96,5 +100,14 @@ public class Molino extends Thread implements Productor, Consumidor{
             barra.setBorder(BorderFactory.createLineBorder(color));
         else
             barra.setBorder(BorderFactory.createLineBorder(Color.black));
+    }
+    
+    public void conectarControlador(Controlador c){
+        this.c = c;
+    }
+    
+    public void actualizarTabla(Tanda t){
+        c.m.updateEstadoTanda(t);
+        c.cargarDatosTandas();
     }
 }

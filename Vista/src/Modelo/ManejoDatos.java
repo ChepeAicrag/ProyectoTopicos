@@ -189,5 +189,20 @@ public class ManejoDatos {
             return false;
         }
     }
-
+    
+    public boolean updateEstadoTanda(Tanda t){
+        PreparedStatement ps;
+        String sqlUpdateTanda = "update mezcal.tanda set status = ? where id_tanda = ?;";
+        try{
+            ps  = conexion.prepareStatement(sqlUpdateTanda);
+            ps.setString(1,t.getEstado());
+            ps.setInt(2,t.getId());
+            ps.executeUpdate();
+            return true;
+        }catch (SQLException e) {
+            System.err.println("Error en la MODIFICACION de piñas \n" + e);
+            return false;
+        }
+    }
+    
 }

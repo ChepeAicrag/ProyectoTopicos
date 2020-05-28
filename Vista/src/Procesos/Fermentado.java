@@ -3,6 +3,7 @@
  */
 package Procesos;
 
+import Controlador.Controlador;
 import java.awt.Color;
 import static java.lang.Thread.sleep;
 import javax.swing.BorderFactory;
@@ -21,6 +22,7 @@ public class Fermentado extends Thread implements Productor, Consumidor{
     private BufferPiniasFermentadas bufferPiniasFermentadas; // Consume de este
     private JProgressBar barra;
     private Color color;
+    private Controlador c;
     
     public Fermentado(int id, BufferPiniasMolidas bufferPiniasMolidas, BufferPiniasFermentadas bufferPiniasFermentadas){
         this.id = id;
@@ -63,6 +65,8 @@ public class Fermentado extends Thread implements Productor, Consumidor{
             cont++;
             actualizarBarra(cont * 100 / total);
         }
+        tanda.setEstado("Fermentada");
+        actualizarTabla(tanda);
         producir(tanda);
         isAvailable = true;
     }
@@ -95,5 +99,14 @@ public class Fermentado extends Thread implements Productor, Consumidor{
             barra.setBorder(BorderFactory.createLineBorder(color));
         else
             barra.setBorder(BorderFactory.createLineBorder(Color.black));
+    }
+    
+    public void conectarControlador(Controlador c){
+        this.c = c;
+    }
+    
+    public void actualizarTabla(Tanda t){
+        c.m.updateEstadoTanda(t);
+        c.cargarDatosTandas();
     }
 }

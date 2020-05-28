@@ -4,6 +4,7 @@
 
 package Procesos;
 
+import Controlador.Controlador;
 import java.awt.Color;
 import javax.swing.BorderFactory;
 import javax.swing.JProgressBar;
@@ -22,6 +23,7 @@ public class Horno extends Thread implements Productor, Consumidor{
     private BufferPiniasHorneadas bufferPiniasHorneadas; // Produce en este
     private JProgressBar barra;
     private Color color;
+    private Controlador c;
     
     public Horno(int id, BufferPiniasCortadas bufferPiniasCortadas, BufferPiniasHorneadas bufferPiniasHorneadas){
         this.id = id;
@@ -64,6 +66,8 @@ public class Horno extends Thread implements Productor, Consumidor{
             System.out.println(pinia);
             actualizarBarra(cont * 100 / total);
         }
+        tanda.setEstado("Horneada");
+        actualizarTabla(tanda);
         producir(tanda);
         isAvailable = true;
     }
@@ -96,5 +100,14 @@ public class Horno extends Thread implements Productor, Consumidor{
             barra.setBorder(BorderFactory.createLineBorder(color));
         else
             barra.setBorder(BorderFactory.createLineBorder(Color.black));
+    }
+    
+    public void conectarControlador(Controlador c){
+        this.c = c;
+    }
+    
+    public void actualizarTabla(Tanda t){
+        c.m.updateEstadoTanda(t);
+        c.cargarDatosTandas();
     }
 }

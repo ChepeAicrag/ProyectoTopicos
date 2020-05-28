@@ -35,6 +35,9 @@ import javax.swing.JProgressBar;
 public class Controlador implements ActionListener{
  
     private Vista v;
+    
+    private int contadorTandas;// (Mejor usar serial)
+    public ManejoDatos m;
     BufferTandas bft = new BufferTandas();
     BufferPiniasCortadas bpc = new BufferPiniasCortadas();
     BufferPiniasHorneadas bph = new BufferPiniasHorneadas();
@@ -60,14 +63,13 @@ public class Controlador implements ActionListener{
     Enbotelladora e1 = new Enbotelladora(1, bmd, bb);
     Enbotelladora e2 = new Enbotelladora(2, bmd, bb);
     Enbotelladora e3 = new Enbotelladora(3, bmd, bb);
-    private int contadorTandas;// (Mejor usar serial)
-    private ManejoDatos m;
+    private ExecutorService ejecutador = Executors.newCachedThreadPool();
     
     public Controlador(Vista v, ManejoDatos m){
         this.v = v;
         this.m = m;
-        actualizarOpciones();
         IniciarEquipos();
+        actualizarOpciones();
         cargarDatosTandas();
         contadorTandas = v.vRegistro.mtt.getRowCount();
     }
@@ -75,7 +77,8 @@ public class Controlador implements ActionListener{
     private void actualizarOpciones(){
         ArrayList<String> porcentajes = m.conexionConsultarPorcentajeOTipo("select * from mezcal.gradoalcohol");
         ArrayList<String> tipos = m.conexionConsultarPorcentajeOTipo("select * from mezcal.tipomezcal");
-        v.llenarOpciones(porcentajes, tipos);
+        ArrayList<String> mezcales = m.conexionConsultarPorcentajeOTipo("select * from mezcal.maguey");
+        v.llenarOpciones(mezcales, porcentajes, tipos);
     }
             
     
@@ -120,6 +123,8 @@ public class Controlador implements ActionListener{
                     id_tanda = Integer.parseInt((String) v.vRegistro.mtt.getValueAt(filaPulsada, 0));
                     t.setId(id_tanda);
                     m.deleteTanda(t);
+                    cargarDatosTandas();
+                    v.vRegistro.tabla.updateUI();
                 }
                 break;
             case "producir":
@@ -138,60 +143,7 @@ public class Controlador implements ActionListener{
         }
         
     }
-   
-    /**
-     * Prepara todos los equipos 
-     * Deben estar listos desde el inicio
-     */
-    
-    private ExecutorService ejecutador = Executors.newCachedThreadPool();
-    
-    public void IniciarEquipos(){
-        /** Aquí creamos el proceso necesario*/
-        JProgressBar 
-            cb1 = v.vProduccion.barra1.getPos(0).getBarra(),
-            cb2 = v.vProduccion.barra2.getPos(0).getBarra(),
-            cb3 = v.vProduccion.barra3.getPos(0).getBarra(),
-                hb1 = v.vProduccion.barra1.getPos(1).getBarra(),
-                hb2 = v.vProduccion.barra2.getPos(1).getBarra(),
-                hb3 = v.vProduccion.barra3.getPos(1).getBarra(),
-                     mb1 = v.vProduccion.barra1.getPos(2).getBarra(),
-                     mb2 = v.vProduccion.barra2.getPos(2).getBarra(),
-                     mb3 = v.vProduccion.barra3.getPos(2).getBarra(),
-                          fb1 = v.vProduccion.barra1.getPos(3).getBarra(),
-                          fb2 = v.vProduccion.barra2.getPos(3).getBarra(),
-                          fb3 = v.vProduccion.barra3.getPos(3).getBarra(),
-                               db1 = v.vProduccion.barra1.getPos(4).getBarra(),
-                               db2 = v.vProduccion.barra2.getPos(4).getBarra(),
-                               db3 = v.vProduccion.barra3.getPos(4).getBarra(),
-                                    eb1 = v.vProduccion.barra1.getPos(5).getBarra(),
-                                    eb2 = v.vProduccion.barra2.getPos(5).getBarra(),
-        
-        /** Asignar barras a cada proceso */
-        eb3 = v.vProduccion.barra3.getPos(5).getBarra();
-        c1.setBarra(cb1); c2.setBarra(cb2); c3.setBarra(cb3);
-        h1.setBarra(hb1); h2.setBarra(hb2); h3.setBarra(hb3);
-        m1.setBarra(mb1); m2.setBarra(mb2); m3.setBarra(mb3);
-        f1.setBarra(fb1); f2.setBarra(fb2); f3.setBarra(fb3);
-        d1.setBarra(db1); d2.setBarra(db2); d3.setBarra(db3);
-        e1.setBarra(eb1); e2.setBarra(eb2); e3.setBarra(eb3);
-        /** Iniciar hilos    
-        c1.start(); c2.start(); c3.start();
-        h1.start(); h2.start(); h3.start();
-        m1.start(); m2.start(); m3.start();
-        f1.start(); f2.start(); f3.start();
-        d1.start(); d2.start(); d3.start();
-        e1.start(); e2.start(); e3.start();
-        * */
-        ejecutador.submit(c1); ejecutador.submit(c2); ejecutador.submit(c3);
-        ejecutador.submit(h1); ejecutador.submit(h2); ejecutador.submit(h3);
-        ejecutador.submit(m1); ejecutador.submit(m2); ejecutador.submit(m3);
-        ejecutador.submit(f1); ejecutador.submit(f2); ejecutador.submit(f3);
-        ejecutador.submit(d1); ejecutador.submit(d2); ejecutador.submit(d3);
-        ejecutador.submit(e1); ejecutador.submit(e2); ejecutador.submit(e3);
-        
-    }
-    
+       
     public void cargarDatosTandas(){
         String consultaTandas = "select * from mezcal.tanda";
         v.vRegistro.mtt.setDatos(m.conexionConsultaTanda(consultaTandas));
@@ -222,5 +174,59 @@ public class Controlador implements ActionListener{
             }
         }
         return cantidad;
+    }
+    
+    /**
+     * Prepara todos los equipos 
+     * Deben estar listos desde el inicio
+     */
+    public void IniciarEquipos(){
+        /** Aquí creamos el proceso necesario*/
+        JProgressBar 
+            cb1 = v.vProduccion.barra1.getPos(0).getBarra(),
+            cb2 = v.vProduccion.barra2.getPos(0).getBarra(),
+            cb3 = v.vProduccion.barra3.getPos(0).getBarra(),
+                hb1 = v.vProduccion.barra1.getPos(1).getBarra(),
+                hb2 = v.vProduccion.barra2.getPos(1).getBarra(),
+                hb3 = v.vProduccion.barra3.getPos(1).getBarra(),
+                     mb1 = v.vProduccion.barra1.getPos(2).getBarra(),
+                     mb2 = v.vProduccion.barra2.getPos(2).getBarra(),
+                     mb3 = v.vProduccion.barra3.getPos(2).getBarra(),
+                          fb1 = v.vProduccion.barra1.getPos(3).getBarra(),
+                          fb2 = v.vProduccion.barra2.getPos(3).getBarra(),
+                          fb3 = v.vProduccion.barra3.getPos(3).getBarra(),
+                               db1 = v.vProduccion.barra1.getPos(4).getBarra(),
+                               db2 = v.vProduccion.barra2.getPos(4).getBarra(),
+                               db3 = v.vProduccion.barra3.getPos(4).getBarra(),
+                                    eb1 = v.vProduccion.barra1.getPos(5).getBarra(),
+                                    eb2 = v.vProduccion.barra2.getPos(5).getBarra(),
+                                    eb3 = v.vProduccion.barra3.getPos(5).getBarra();
+        /** Asignar barras a cada proceso */
+        c1.conectarControlador(this); c2.conectarControlador(this); c3.conectarControlador(this);
+        h1.conectarControlador(this); h2.conectarControlador(this); h3.conectarControlador(this);
+        m1.conectarControlador(this); m2.conectarControlador(this); m3.conectarControlador(this);
+        f1.conectarControlador(this); f2.conectarControlador(this); f3.conectarControlador(this);
+        d1.conectarControlador(this); d2.conectarControlador(this); d3.conectarControlador(this);
+        e1.conectarControlador(this); e2.conectarControlador(this); e3.conectarControlador(this);
+        c1.setBarra(cb1); c2.setBarra(cb2); c3.setBarra(cb3);
+        h1.setBarra(hb1); h2.setBarra(hb2); h3.setBarra(hb3);
+        m1.setBarra(mb1); m2.setBarra(mb2); m3.setBarra(mb3);
+        f1.setBarra(fb1); f2.setBarra(fb2); f3.setBarra(fb3);
+        d1.setBarra(db1); d2.setBarra(db2); d3.setBarra(db3);
+        e1.setBarra(eb1); e2.setBarra(eb2); e3.setBarra(eb3);
+        /** Iniciar hilos    
+        c1.start(); c2.start(); c3.start();
+        h1.start(); h2.start(); h3.start();
+        m1.start(); m2.start(); m3.start();
+        f1.start(); f2.start(); f3.start();
+        d1.start(); d2.start(); d3.start();
+        e1.start(); e2.start(); e3.start();
+        * */
+        ejecutador.submit(c1); ejecutador.submit(c2); ejecutador.submit(c3);
+        ejecutador.submit(h1); ejecutador.submit(h2); ejecutador.submit(h3);
+        ejecutador.submit(m1); ejecutador.submit(m2); ejecutador.submit(m3);
+        ejecutador.submit(f1); ejecutador.submit(f2); ejecutador.submit(f3);
+        ejecutador.submit(d1); ejecutador.submit(d2); ejecutador.submit(d3);
+        ejecutador.submit(e1); ejecutador.submit(e2); ejecutador.submit(e3);
     }
 }

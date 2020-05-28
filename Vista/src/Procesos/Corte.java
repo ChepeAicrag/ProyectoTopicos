@@ -4,6 +4,7 @@
 
 package Procesos;
 
+import Controlador.Controlador;
 import java.awt.Color;
 import javax.swing.BorderFactory;
 import javax.swing.JProgressBar;
@@ -20,7 +21,7 @@ public class Corte extends Thread implements Productor{
     private BufferPiniasCortadas bufferPiniasCortadas;
     private JProgressBar barra;
     private Color color = Color.RED;
-    
+    private Controlador c;
     public Corte(int id, BufferTandas bufferTandas,BufferPiniasCortadas bufferPiniasCortadas){
         this.id = id;
         isAvailable = true;
@@ -58,8 +59,8 @@ public class Corte extends Thread implements Productor{
             cont++;
             actualizarBarra(cont * 100 / total);
         }
-        
         tanda.setEstado("Cortado");
+        actualizarTabla(tanda);
         bufferPiniasCortadas.put(tanda);
         barra.setString("Completado...");
         isAvailable = true;
@@ -95,5 +96,14 @@ public class Corte extends Thread implements Productor{
             barra.setBorder(BorderFactory.createLineBorder(color));
         else
             barra.setBorder(BorderFactory.createLineBorder(Color.black));
+    }
+    
+    public void conectarControlador(Controlador c){
+        this.c = c;
+    }
+    
+    public void actualizarTabla(Tanda t){
+        c.m.updateEstadoTanda(t);
+        c.cargarDatosTandas();
     }
 }

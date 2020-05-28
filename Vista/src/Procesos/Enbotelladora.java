@@ -3,6 +3,7 @@
  */
 package Procesos;
 
+import Controlador.Controlador;
 import java.awt.Color;
 import static java.lang.Thread.sleep;
 import java.util.ArrayList;
@@ -23,6 +24,7 @@ public class Enbotelladora extends Thread implements Productor, Consumidor{
     private BufferBarriles bufferBarriles; // Produce
     private JProgressBar barra;
     private Color color;
+    private Controlador c;
     
     public Enbotelladora(int id, BufferMezcalDestilado bufferMezcalDestilado, BufferBarriles bufferBarriles){
         this.id = id;
@@ -81,7 +83,10 @@ public class Enbotelladora extends Thread implements Productor, Consumidor{
         }
         
         tanda.getPinias().removeAll(mezcalesEliminar); // Quita los mezcales
-        tanda.getPinias().addAll(barriles); // Agrega los mezcales
+        tanda.getPinias().addAll(barriles); // Agrega los barriles
+        tanda.setFechaFinal(new Date());
+        tanda.setEstado("Enbarrilada");
+        actualizarTabla(tanda);
         producir(tanda); // Ahora la tanda ya lleva objetos de mezcal
         isAvailable = true;
     }
@@ -127,5 +132,15 @@ public class Enbotelladora extends Thread implements Productor, Consumidor{
         else if(tipo == 3)
             numAnejamientos = 5;
         return numAnejamientos;    
+    }
+    
+    public void conectarControlador(Controlador c){
+        this.c = c;
+    }
+    
+    public void actualizarTabla(Tanda t){
+        c.m.updateEstadoTanda(t);
+        c.m.deleteTanda(t);
+        c.cargarDatosTandas();
     }
 }
