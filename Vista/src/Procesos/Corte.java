@@ -17,12 +17,11 @@ public class Corte extends Thread implements Productor{
     
     private int id;
     private boolean isAvailable;
-    private BufferTandas bufferTandas;
+    private BufferTandas bufferTandas, tandasActualizar;
     private BufferPiniasCortadas bufferPiniasCortadas;
     private JProgressBar barra;
     private Color color = Color.RED;
-    private Tanda tandaUsando;
-    private ECP textoTanda;
+    private ECP etqBarra;
     
     public Corte(int id, BufferTandas bufferTandas,BufferPiniasCortadas bufferPiniasCortadas){
         this.id = id;
@@ -38,7 +37,6 @@ public class Corte extends Thread implements Productor{
             try {
                         isAvailable = false;
                         color = barra.getBackground();
-                        tandaUsando = null;
                         producir();
                         System.out.println("Corte terminado");
                         actualizarBarra(0);
@@ -62,7 +60,7 @@ public class Corte extends Thread implements Productor{
             actualizarBarra(cont * 100 / total);
         }
         tanda.setEstado("Cortado");
-        this.tandaUsando = tanda;
+        tandasActualizar.put(tanda); // La manda
         //actualizarTabla(tanda);
         bufferPiniasCortadas.put(tanda);
         isAvailable = true;
@@ -73,7 +71,8 @@ public class Corte extends Thread implements Productor{
       Tanda tanda = bufferTandas.remove();
       System.out.println(" Yo hilo: " + Thread.currentThread().getName()
               + "\nTome la tanda: " + tanda);
-      textoTanda.setDatoBarra("Tanda: " + tanda.getId());
+      /** Aquí le inserta el id a tanda para identificar que el trabajó la tanda*/
+      etqBarra.setDatoBarra("Tanda: " + tanda.getId());
       cortar(tanda);
     }
     
@@ -105,15 +104,12 @@ public class Corte extends Thread implements Productor{
         return isAvailable;
     }
     
-    public Tanda getTanda(){
-        return tandaUsando;
+    public void setIdentificador(ECP etqBarra){
+        this.etqBarra = etqBarra;
+        this.barra = this.etqBarra.getBarra();
     }
     
-    public boolean update(){
-        return !disponible() && getTanda() != null;
-    }
-    
-    public void setIdentificador(ECP textoTanda){
-        this.textoTanda = textoTanda;
+    public void setTandasActualizar(BufferTandas tandasActualizar){
+        this.tandasActualizar = tandasActualizar;
     }
 }

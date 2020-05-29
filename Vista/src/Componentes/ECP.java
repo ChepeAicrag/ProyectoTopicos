@@ -122,6 +122,6 @@ public class ECP extends JComponent {
     public void setDatoBarra(String texto){
         datoBarra.setText(texto);
         datoBarra.setAlignmentX(CENTER_ALIGNMENT);
-        repaint();
+        //repaint();
     }
 }

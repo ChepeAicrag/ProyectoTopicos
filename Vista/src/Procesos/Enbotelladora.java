@@ -3,9 +3,9 @@
  */
 package Procesos;
 
+import Componentes.ECP;
 import Controlador.Controlador;
 import java.awt.Color;
-import static java.lang.Thread.sleep;
 import java.util.ArrayList;
 import java.util.Date;
 import javax.swing.BorderFactory;
@@ -19,12 +19,13 @@ public class Enbotelladora extends Thread implements Productor, Consumidor{
     
     private int id;
     private boolean isAvailable;
-    private int procesos;
+    private BufferTandas tandasActualizar;
     private BufferMezcalDestilado bufferMezcalDestilado; // Consume
     private BufferBarriles bufferBarriles; // Produce
     private JProgressBar barra;
     private Color color;
     private Controlador c;
+    private ECP etqBarra;
     
     public Enbotelladora(int id, BufferMezcalDestilado bufferMezcalDestilado, BufferBarriles bufferBarriles){
         this.id = id;
@@ -84,9 +85,10 @@ public class Enbotelladora extends Thread implements Productor, Consumidor{
         
         tanda.getPinias().removeAll(mezcalesEliminar); // Quita los mezcales
         tanda.getPinias().addAll(barriles); // Agrega los barriles
-        tanda.setFechaFinal(new Date());
+        tanda.setFechaFinal(new Date()); // Coloca la ficha final
         tanda.setEstado("Enbarrilada");
-        actualizarTabla(tanda);
+        tandasActualizar.put(tanda);
+        //actualizarTabla(tanda);
         producir(tanda); // Ahora la tanda ya lleva objetos de mezcal
         isAvailable = true;
     }
@@ -142,5 +144,14 @@ public class Enbotelladora extends Thread implements Productor, Consumidor{
         c.m.updateEstadoTanda(t);
         c.m.deleteTanda(t);
         c.cargarDatosTandas();
+    }
+    
+    public void setIdentificador(ECP etqBarra){
+        this.etqBarra = etqBarra;
+        this.barra = this.etqBarra.getBarra();
+    }
+    
+    public void setTandasActualizar(BufferTandas tandasActualizar){
+        this.tandasActualizar = tandasActualizar;
     }
 }

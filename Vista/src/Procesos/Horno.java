@@ -4,7 +4,7 @@
 
 package Procesos;
 
-import Controlador.Controlador;
+import Componentes.ECP;
 import java.awt.Color;
 import javax.swing.BorderFactory;
 import javax.swing.JProgressBar;
@@ -18,12 +18,12 @@ public class Horno extends Thread implements Productor, Consumidor{
     
     private int id;
     private boolean isAvailable;
-    private int procesos;
-    private BufferPiniasCortadas bufferPiniasCortadas; // Consume de este
+    private BufferPiniasCortadas bufferPiniasCortadas;
+    private BufferTandas tandasActualizar; // Consume de este
     private BufferPiniasHorneadas bufferPiniasHorneadas; // Produce en este
     private JProgressBar barra;
     private Color color;
-    private Tanda tandaUsando;
+    private ECP etqBarra;
     
     public Horno(int id, BufferPiniasCortadas bufferPiniasCortadas, BufferPiniasHorneadas bufferPiniasHorneadas){
         this.id = id;
@@ -38,7 +38,6 @@ public class Horno extends Thread implements Productor, Consumidor{
             try {
                     isAvailable = false;
                     color = barra.getBackground();
-                    tandaUsando = null;
                     consumir();
                     System.out.println("Horno consumió");
                     actualizarBarra(0);
@@ -68,7 +67,7 @@ public class Horno extends Thread implements Productor, Consumidor{
             actualizarBarra(cont * 100 / total);
         }
         tanda.setEstado("Horneada");
-        tandaUsando = tanda;
+        tandasActualizar.put(tanda); // Le indica al controlador que actulice la BD
         producir(tanda);
         isAvailable = true;
     }
@@ -102,12 +101,13 @@ public class Horno extends Thread implements Productor, Consumidor{
         else
             barra.setBorder(BorderFactory.createLineBorder(Color.black));
     }
-    
-    public Tanda getTanda(){
-        return tandaUsando;
+
+    public void setIdentificador(ECP etqBarra){
+        this.etqBarra = etqBarra;
+        this.barra = this.etqBarra.getBarra();
     }
     
-    public boolean update(){
-        return !isAvailable && getTanda() != null;
+    public void setTandasActualizar(BufferTandas tandasActualizar){
+        this.tandasActualizar = tandasActualizar;
     }
 }

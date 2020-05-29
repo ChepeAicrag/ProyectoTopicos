@@ -3,9 +3,9 @@
  */
 package Procesos;
 
+import Componentes.ECP;
 import Controlador.Controlador;
 import java.awt.Color;
-import static java.lang.Thread.sleep;
 import java.util.ArrayList;
 import javax.swing.BorderFactory;
 import javax.swing.JProgressBar;
@@ -19,11 +19,13 @@ public class Destilador extends Thread implements Productor, Consumidor{
     private int id;
     private boolean isAvailable;
     private int procesos;
+    private BufferTandas tandasActualizar;
     private BufferPiniasFermentadas bufferPiniasFermentadas; // Consume de este
     private BufferMezcalDestilado bufferMezcalDestilado; // Produce a este
     private JProgressBar barra;
     private Color color;
     private Controlador c;
+    private ECP etqBarra;
     
     public Destilador(int id,BufferPiniasFermentadas bufferPiniasFermentadas, BufferMezcalDestilado bufferMezcalDestilado){
         this.id = id;
@@ -82,7 +84,8 @@ public class Destilador extends Thread implements Productor, Consumidor{
         tanda.getPinias().removeAll(piniasEliminar); // Quita las piñas
         tanda.getPinias().addAll(mezcales); // Agrega los mezcales
         tanda.setEstado("Destilada");
-        actualizarTabla(tanda);
+        tandasActualizar.put(tanda);
+        //actualizarTabla(tanda);
         producir(tanda); // Ahora la tanda ya lleva objetos de mezcal
         isAvailable = true;
     }
@@ -134,5 +137,14 @@ public class Destilador extends Thread implements Productor, Consumidor{
     public void actualizarTabla(Tanda t){
         c.m.updateEstadoTanda(t);
         c.cargarDatosTandas();
+    }
+    
+    public void setIdentificador(ECP etqBarra){
+        this.etqBarra = etqBarra;
+        this.barra = this.etqBarra.getBarra();
+    }
+    
+    public void setTandasActualizar(BufferTandas tandasActualizar){
+        this.tandasActualizar = tandasActualizar;
     }
 }

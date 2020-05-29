@@ -3,11 +3,13 @@
  */
 package Procesos;
 
+import Componentes.ECP;
 import Controlador.Controlador;
 import java.awt.Color;
 import javax.swing.JProgressBar;
-import static java.lang.Thread.sleep;
 import javax.swing.BorderFactory;
+import static java.lang.Thread.sleep;
+import static java.lang.Thread.sleep;
 
 /**
  * 
@@ -18,11 +20,13 @@ public class Molino extends Thread implements Productor, Consumidor{
     private int id;
     private boolean isAvailable;
     private int procesos;
+    private BufferTandas tandasActualizar;
     private BufferPiniasHorneadas bufferPiniasHorneadas; // Consume de este
     private BufferPiniasMolidas bufferPiniasMolidas; //  Produce
     private JProgressBar barra;
     private Color color;
     private Controlador c;
+    private ECP etqBarra;
     
     public Molino(int id,BufferPiniasHorneadas bufferPiniasHorneadas, BufferPiniasMolidas bufferPiniasMolidas){
         this.id = id;
@@ -67,7 +71,11 @@ public class Molino extends Thread implements Productor, Consumidor{
             actualizarBarra(cont * 100 / total);
         }
         tanda.setEstado("Trituarada");
-        actualizarTabla(tanda);
+        tandasActualizar.put(tanda);
+        /**
+         * Esta forma no me gusta, rompe el patrón
+         * actualizarTabla(tanda);
+         */
         producir(tanda);
         isAvailable = true;
     }
@@ -110,4 +118,13 @@ public class Molino extends Thread implements Productor, Consumidor{
         c.m.updateEstadoTanda(t);
         c.cargarDatosTandas();
     }
-}
+    
+    public void setIdentificador(ECP etqBarra){
+        this.etqBarra = etqBarra;
+        this.barra = this.etqBarra.getBarra();
+    }
+    
+    public void setTandasActualizar(BufferTandas tandasActualizar){
+        this.tandasActualizar = tandasActualizar;
+    }
+}    

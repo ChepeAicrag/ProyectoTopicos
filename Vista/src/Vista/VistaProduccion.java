@@ -7,6 +7,7 @@ package Vista;
 
 import Componentes.BarraProceso;
 import java.awt.Color;
+import java.util.ArrayList;
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JPanel;
@@ -20,9 +21,10 @@ import javax.swing.border.TitledBorder;
  */
 public class VistaProduccion extends JPanel{
     
-    public BarraProceso barra1,barra2,barra3;
+    public ArrayList<BarraProceso> barras;
     
     public VistaProduccion(){
+        barras = new ArrayList<>();
         setSize(1020, 680);
         setVisible(true);
         colocar();
@@ -31,6 +33,7 @@ public class VistaProduccion extends JPanel{
     
     public void colocar(){
             /** Creaer las imagenes de cada procesos */
+        BarraProceso barra1, barra2, barra3;
         ImageIcon img = new ImageIcon(
                 getClass().getResource("/TestVistas/maguey.png"));
         int[] porcentajes = {0,0,0,0,0,0};
@@ -63,5 +66,13 @@ public class VistaProduccion extends JPanel{
         s.putConstraint(SpringLayout.WEST, barra3,12, SpringLayout.WEST, this);
         s.putConstraint(SpringLayout.EAST, barra3,-12, SpringLayout.EAST, this);
         s.putConstraint(SpringLayout.SOUTH, barra3,-30, SpringLayout.SOUTH, this);
+        barras.add(barra1);
+        barras.add(barra2);
+        barras.add(barra3);
+        
+    }
+    
+    public BarraProceso getBarra(int i){
+        return barras.get(i);
     }
 }

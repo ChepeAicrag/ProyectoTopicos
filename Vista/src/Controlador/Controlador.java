@@ -20,13 +20,13 @@ import Procesos.Horno;
 import Procesos.Molino;
 import Procesos.Tanda;
 import Vista.Vista;
+import java.awt.AWTEventMulticaster;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import javax.swing.JOptionPane;
-import javax.swing.JProgressBar;
 
 /**
  * 
@@ -45,32 +45,25 @@ public class Controlador implements ActionListener{
     BufferPiniasFermentadas bpf = new BufferPiniasFermentadas();
     BufferMezcalDestilado bmd = new BufferMezcalDestilado();
     BufferBarriles bb = new BufferBarriles();
-    Corte c1         = new Corte(1, bft, bpc);
-    Corte c2         = new Corte(2, bft, bpc);
-    Corte c3         = new Corte(3, bft, bpc);
-    Horno h1         = new Horno(1, bpc, bph);
-    Horno h2         = new Horno(2, bpc, bph);
-    Horno h3         = new Horno(3, bpc, bph);
-    Molino m1        = new Molino(1, bph, bpm);
-    Molino m2        = new Molino(2, bph, bpm);
-    Molino m3        = new Molino(3, bph, bpm);
-    Fermentado f1    = new Fermentado(1, bpm, bpf);
-    Fermentado f2    = new Fermentado(2, bpm, bpf);
-    Fermentado f3    = new Fermentado(3, bpm, bpf);
-    Destilador d1    = new Destilador(1, bpf, bmd);
-    Destilador d2    = new Destilador(2, bpf, bmd);
-    Destilador d3    = new Destilador(3, bpf, bmd);
-    Enbotelladora e1 = new Enbotelladora(1, bmd, bb);
-    Enbotelladora e2 = new Enbotelladora(2, bmd, bb);
-    Enbotelladora e3 = new Enbotelladora(3, bmd, bb);
+    
+    BufferTandas TANDAS_ACTUALIZAR = new BufferTandas();
+    
+    ArrayList<Corte> cortes = new ArrayList<>();
+    ArrayList<Horno> hornos = new ArrayList<>();
+    ArrayList<Molino> molinos = new ArrayList<>();
+    ArrayList<Fermentado> fermentadores = new ArrayList<>();
+    ArrayList<Destilador> destiladores = new ArrayList<>();
+    ArrayList<Enbotelladora> enbotelladores = new  ArrayList<>();
+    private Controlador_Hilos ctrlHilos;
     private ExecutorService ejecutador = Executors.newCachedThreadPool();
     
     public Controlador(Vista v, ManejoDatos m){
         this.v = v;
         this.m = m;
+        prepararEquipos();
         IniciarEquipos();
         actualizarOpciones();
-        new MiHilo().start();
+        new MiHilo(TANDAS_ACTUALIZAR).start();
         cargarDatosTandas();
         contadorTandas = v.vRegistro.mtt.getRowCount();
     }
@@ -194,26 +187,6 @@ public class Controlador implements ActionListener{
      * Deben estar listos desde el inicio
      */
     public void IniciarEquipos(){
-        /** Aquí creamos el proceso necesario*/
-        JProgressBar 
-            cb1 = v.vProduccion.barra1.getPos(0).getBarra(),
-            cb2 = v.vProduccion.barra2.getPos(0).getBarra(),
-            cb3 = v.vProduccion.barra3.getPos(0).getBarra(),
-                hb1 = v.vProduccion.barra1.getPos(1).getBarra(),
-                hb2 = v.vProduccion.barra2.getPos(1).getBarra(),
-                hb3 = v.vProduccion.barra3.getPos(1).getBarra(),
-                     mb1 = v.vProduccion.barra1.getPos(2).getBarra(),
-                     mb2 = v.vProduccion.barra2.getPos(2).getBarra(),
-                     mb3 = v.vProduccion.barra3.getPos(2).getBarra(),
-                          fb1 = v.vProduccion.barra1.getPos(3).getBarra(),
-                          fb2 = v.vProduccion.barra2.getPos(3).getBarra(),
-                          fb3 = v.vProduccion.barra3.getPos(3).getBarra(),
-                               db1 = v.vProduccion.barra1.getPos(4).getBarra(),
-                               db2 = v.vProduccion.barra2.getPos(4).getBarra(),
-                               db3 = v.vProduccion.barra3.getPos(4).getBarra(),
-                                    eb1 = v.vProduccion.barra1.getPos(5).getBarra(),
-                                    eb2 = v.vProduccion.barra2.getPos(5).getBarra(),
-                                    eb3 = v.vProduccion.barra3.getPos(5).getBarra();
         /** Asignar barras a cada proceso */
         /*
         c1.conectarControlador(this); c2.conectarControlador(this); c3.conectarControlador(this);
@@ -223,77 +196,57 @@ public class Controlador implements ActionListener{
         d1.conectarControlador(this); d2.conectarControlador(this); d3.conectarControlador(this);
         e1.conectarControlador(this); e2.conectarControlador(this); e3.conectarControlador(this);
         */
-        c1.setBarra(cb1); c2.setBarra(cb2); c3.setBarra(cb3);
-        c1.setIdentificador(v.vProduccion.barra1.getPos(0));
-        c2.setIdentificador(v.vProduccion.barra1.getPos(1));
-        c3.setIdentificador(v.vProduccion.barra1.getPos(2));
-        
-        h1.setBarra(hb1); h2.setBarra(hb2); h3.setBarra(hb3);
-        m1.setBarra(mb1); m2.setBarra(mb2); m3.setBarra(mb3);
-        f1.setBarra(fb1); f2.setBarra(fb2); f3.setBarra(fb3);
-        d1.setBarra(db1); d2.setBarra(db2); d3.setBarra(db3);
-        e1.setBarra(eb1); e2.setBarra(eb2); e3.setBarra(eb3);
-        ejecutador.submit(c1); ejecutador.submit(c2); ejecutador.submit(c3);
-        ejecutador.submit(h1); ejecutador.submit(h2); ejecutador.submit(h3);
-        ejecutador.submit(m1); ejecutador.submit(m2); ejecutador.submit(m3);
-        ejecutador.submit(f1); ejecutador.submit(f2); ejecutador.submit(f3);
-        ejecutador.submit(d1); ejecutador.submit(d2); ejecutador.submit(d3);
-        ejecutador.submit(e1); ejecutador.submit(e2); ejecutador.submit(e3);
+        for (int i = 0; i < 3; i++) {
+            ejecutador.submit(cortes.get(i));
+            ejecutador.submit(hornos.get(i));
+            ejecutador.submit(molinos.get(i));
+            ejecutador.submit(fermentadores.get(i));
+            ejecutador.submit(destiladores.get(i));
+            ejecutador.submit(enbotelladores.get(i));
+        }
     }
     
     private void prepararEquipos(){
-        
+        for (int i = 0; i < 3; i++) {
+            cortes.add(new Corte(i, bft, bpc));
+            hornos.add(new Horno(i, bpc, bph));
+            molinos.add(new Molino(i, bph, bpm));
+            fermentadores.add(new Fermentado(i, bpm, bpf));
+            destiladores.add(new Destilador(i, bpf, bmd));
+            enbotelladores.add(new Enbotelladora(i, bmd, bb));
+            cortes.get(i).setIdentificador(v.vProduccion.getBarra(i).getPos(0));
+            hornos.get(i).setIdentificador(v.vProduccion.getBarra(i).getPos(1));
+            molinos.get(i).setIdentificador(v.vProduccion.getBarra(i).getPos(2));
+            fermentadores.get(i).setIdentificador(v.vProduccion.getBarra(i).getPos(3));
+            destiladores.get(i).setIdentificador(v.vProduccion.getBarra(i).getPos(4));
+            enbotelladores.get(i).setIdentificador(v.vProduccion.getBarra(i).getPos(5));
+            cortes.get(i).setTandasActualizar(TANDAS_ACTUALIZAR);
+            hornos.get(i).setTandasActualizar(TANDAS_ACTUALIZAR);
+            molinos.get(i).setTandasActualizar(TANDAS_ACTUALIZAR);
+            fermentadores.get(i).setTandasActualizar(TANDAS_ACTUALIZAR);
+            destiladores.get(i).setTandasActualizar(TANDAS_ACTUALIZAR);
+            enbotelladores.get(i).setTandasActualizar(TANDAS_ACTUALIZAR);
+            
+        }
     }
     
     /** Clase Hilo que permite hacer la actualización en tiempo real de la tabla */
     class MiHilo extends Thread{
     
-        public MiHilo(){
+        private BufferTandas tandas_actualziar;
         
+        public MiHilo(BufferTandas tandas_actualizar){
+            this.tandas_actualziar = tandas_actualizar;
         }
         
-        @Override
         public void run(){
-            while (true) {                
-                Corte c = corteActualizar();
-                Horno h = hornoActualizar();
-                if(c != null){
-                    m.updateEstadoTanda(c.getTanda());
-                    System.out.println("actulizar tabla");
-                    }
-                if(h != null){
-                    m.updateEstadoTanda(h.getTanda());
-                    System.out.println("Tabla de horno");
-                }
-                if(c != null || h != null){
+            for(;;) {                
+                Tanda t = this.tandas_actualziar.remove();
+                if(t != null){
+                    m.updateEstadoTanda(t);
                     cargarDatosTandas();
-                    v.vRegistro.tabla.updateUI();
                 }
             }
-        }
-        
-        public Corte corteActualizar(){
-            Corte c = null;
-            if (c1.update()) {
-                c = c1;
-            }else if (c2.update()) {
-                c = c2;
-            }else if (c3.update()) {
-                c = c3;
-            }
-            return c;
-        }
-        
-        public Horno hornoActualizar(){
-            Horno h = null;
-            if (h1.update()) {
-                h = h1;
-            }else if (h2.update()) {
-                h = h2;
-            }else if (h3.update()) {
-                h = h3;
-            }
-            return h;
         }
     }
 }

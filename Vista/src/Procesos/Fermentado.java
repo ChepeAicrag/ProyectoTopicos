@@ -3,9 +3,9 @@
  */
 package Procesos;
 
+import Componentes.ECP;
 import Controlador.Controlador;
 import java.awt.Color;
-import static java.lang.Thread.sleep;
 import javax.swing.BorderFactory;
 import javax.swing.JProgressBar;
 
@@ -18,11 +18,13 @@ public class Fermentado extends Thread implements Productor, Consumidor{
     private int id;
     private boolean isAvailable;
     private int procesos;
+    private BufferTandas tandasActualizar;
     private BufferPiniasMolidas bufferPiniasMolidas; //  Produce
     private BufferPiniasFermentadas bufferPiniasFermentadas; // Consume de este
     private JProgressBar barra;
     private Color color;
     private Controlador c;
+    private ECP etqBarra;
     
     public Fermentado(int id, BufferPiniasMolidas bufferPiniasMolidas, BufferPiniasFermentadas bufferPiniasFermentadas){
         this.id = id;
@@ -66,7 +68,8 @@ public class Fermentado extends Thread implements Productor, Consumidor{
             actualizarBarra(cont * 100 / total);
         }
         tanda.setEstado("Fermentada");
-        actualizarTabla(tanda);
+        tandasActualizar.put(tanda);
+        //actualizarTabla(tanda);
         producir(tanda);
         isAvailable = true;
     }
@@ -108,5 +111,14 @@ public class Fermentado extends Thread implements Productor, Consumidor{
     public void actualizarTabla(Tanda t){
         c.m.updateEstadoTanda(t);
         c.cargarDatosTandas();
+    }
+    
+    public void setIdentificador(ECP etqBarra){
+        this.etqBarra = etqBarra;
+        this.barra = this.etqBarra.getBarra();
+    }
+    
+    public void setTandasActualizar(BufferTandas tandasActualizar){
+        this.tandasActualizar = tandasActualizar;
     }
 }
