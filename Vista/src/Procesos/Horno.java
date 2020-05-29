@@ -23,7 +23,7 @@ public class Horno extends Thread implements Productor, Consumidor{
     private BufferPiniasHorneadas bufferPiniasHorneadas; // Produce en este
     private JProgressBar barra;
     private Color color;
-    private Controlador c;
+    private Tanda tandaUsando;
     
     public Horno(int id, BufferPiniasCortadas bufferPiniasCortadas, BufferPiniasHorneadas bufferPiniasHorneadas){
         this.id = id;
@@ -38,6 +38,7 @@ public class Horno extends Thread implements Productor, Consumidor{
             try {
                     isAvailable = false;
                     color = barra.getBackground();
+                    tandaUsando = null;
                     consumir();
                     System.out.println("Horno consumió");
                     actualizarBarra(0);
@@ -67,7 +68,7 @@ public class Horno extends Thread implements Productor, Consumidor{
             actualizarBarra(cont * 100 / total);
         }
         tanda.setEstado("Horneada");
-        actualizarTabla(tanda);
+        tandaUsando = tanda;
         producir(tanda);
         isAvailable = true;
     }
@@ -102,12 +103,11 @@ public class Horno extends Thread implements Productor, Consumidor{
             barra.setBorder(BorderFactory.createLineBorder(Color.black));
     }
     
-    public void conectarControlador(Controlador c){
-        this.c = c;
+    public Tanda getTanda(){
+        return tandaUsando;
     }
     
-    public void actualizarTabla(Tanda t){
-        c.m.updateEstadoTanda(t);
-        c.cargarDatosTandas();
+    public boolean update(){
+        return !isAvailable && getTanda() != null;
     }
 }

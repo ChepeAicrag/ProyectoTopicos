@@ -9,6 +9,7 @@ package Vista;
 import Controlador.Controlador;
 import Modelo.ModeloTablaTandas;
 import java.awt.Color;
+import java.awt.Component;
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JLabel;
@@ -48,13 +49,11 @@ public class VistaRegistro extends JPanel{
         s.putConstraint(SpringLayout.NORTH, titulo, 12, SpringLayout.NORTH, this);
         s.putConstraint(SpringLayout.WEST, titulo,430, SpringLayout.WEST, this);
         s.putConstraint(SpringLayout.EAST, titulo, -300, SpringLayout.EAST, this);
-        scroll = new JScrollPane();
         mtt = new ModeloTablaTandas();
         tabla = new JTable(mtt);
         tabla.setVisible(true);
-        tabla.setBorder(BorderFactory.createBevelBorder(2));
         tabla.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-        scroll.setViewportView(tabla);
+        //tabla.setBorder(BorderFactory.createEmptyBorder());
         JTableHeader hTab = tabla.getTableHeader();
         hTab.setAlignmentX(JTableHeader.CENTER_ALIGNMENT);
         hTab.setResizingAllowed(false);
@@ -67,9 +66,20 @@ public class VistaRegistro extends JPanel{
         s.putConstraint(SpringLayout.WEST, hTab, 300, SpringLayout.WEST, this);
         s.putConstraint(SpringLayout.EAST, hTab, -310, SpringLayout.EAST, this);
         add(tabla);
-        s.putConstraint(SpringLayout.NORTH, tabla, 0, SpringLayout.SOUTH, hTab);
-        s.putConstraint(SpringLayout.WEST, tabla, 300, SpringLayout.WEST, this);
-        s.putConstraint(SpringLayout.EAST, tabla, -310, SpringLayout.EAST, this);
+        //s.putConstraint(SpringLayout.NORTH, tabla, 0, SpringLayout.SOUTH, hTab);
+        //s.putConstraint(SpringLayout.WEST, tabla, 300, SpringLayout.WEST, this);
+        //s.putConstraint(SpringLayout.EAST, tabla, -310, SpringLayout.EAST, this);
+        scroll = new JScrollPane();
+        scroll.setViewportView(tabla);
+        scroll.setBackground(Color.BLACK);
+        scroll.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+        scroll.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
+        
+        add(scroll);
+        s.putConstraint(SpringLayout.NORTH, scroll, 12, SpringLayout.SOUTH, hTab);
+        s.putConstraint(SpringLayout.WEST, scroll, 300, SpringLayout.WEST, this);
+        s.putConstraint(SpringLayout.EAST, scroll, -310, SpringLayout.EAST, this);
+        
         btnEliminar = new JButton("ELIMINAR");
         btnEliminar.setActionCommand("eliminar");
         add(btnEliminar);

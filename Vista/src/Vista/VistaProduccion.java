@@ -25,8 +25,6 @@ public class VistaProduccion extends JPanel{
     public VistaProduccion(){
         setSize(1020, 680);
         setVisible(true);
-        //setLocationRelativeTo(null);
-        //setDefaultCloseOperation(EXIT_ON_CLOSE);
         colocar();
         revalidate();
     }
@@ -54,7 +52,7 @@ public class VistaProduccion extends JPanel{
         s.putConstraint(SpringLayout.NORTH, barra1,5, SpringLayout.NORTH, this);
         s.putConstraint(SpringLayout.WEST, barra1,12, SpringLayout.WEST, this);
         s.putConstraint(SpringLayout.EAST, barra1,-12, SpringLayout.EAST, this);
-        s.putConstraint(SpringLayout.SOUTH, barra1,-445, SpringLayout.SOUTH, this);
+        s.putConstraint(SpringLayout.SOUTH, barra1,-440, SpringLayout.SOUTH, this);
         add(barra2);
         s.putConstraint(SpringLayout.NORTH, barra2,15, SpringLayout.SOUTH, barra1);
         s.putConstraint(SpringLayout.WEST, barra2,12, SpringLayout.WEST, this);

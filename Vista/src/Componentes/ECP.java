@@ -3,14 +3,13 @@
  */
 package Componentes;
 
-import java.awt.BorderLayout;
 import java.awt.Dimension;
-import java.awt.GridLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JProgressBar;
 import javax.swing.SpringLayout;
+import javax.swing.SwingUtilities;
 
 /**
  *
@@ -21,13 +20,15 @@ public class ECP extends JComponent {
     // Variables de instancia
     private JProgressBar barra;
     private EtiquetaRedonda etq;
-
+    private JLabel datoBarra;
+    
     /**
      * Constructor simple
      */
     public ECP() {
         barra = new JProgressBar();
         etq = new EtiquetaRedonda("texto a colocar");
+        datoBarra = new JLabel("Textoo");
         colocar();
     }
 
@@ -40,6 +41,7 @@ public class ECP extends JComponent {
     public ECP(ImageIcon img, int val) {
         barra = new JProgressBar();
         etq = new EtiquetaRedonda("Texto Ejemplo");
+        datoBarra = new JLabel("Texto",SwingUtilities.CENTER);
         setValor(val);
         setImagen(img);
         colocar();
@@ -65,6 +67,11 @@ public class ECP extends JComponent {
         s.putConstraint(SpringLayout.WEST, barra, 10, SpringLayout.WEST, this);
         s.putConstraint(SpringLayout.EAST, barra, -10, SpringLayout.EAST, this);
         //s.putConstraint(SpringLayout.SOUTH, barra, -10, SpringLayout.SOUTH, this);
+        add(datoBarra);
+        s.putConstraint(SpringLayout.NORTH, datoBarra, 5, SpringLayout.SOUTH, barra);
+        s.putConstraint(SpringLayout.WEST, datoBarra, 10, SpringLayout.WEST, this);
+        s.putConstraint(SpringLayout.EAST, datoBarra, -10, SpringLayout.EAST, this);
+        
         
     }
     
@@ -110,5 +117,11 @@ public class ECP extends JComponent {
      */
     public JLabel getEtiqueta() {
         return etq;
+    }
+    
+    public void setDatoBarra(String texto){
+        datoBarra.setText(texto);
+        datoBarra.setAlignmentX(CENTER_ALIGNMENT);
+        repaint();
     }
 }

@@ -195,6 +195,7 @@ public class ManejoDatos {
         String sqlUpdateTanda = "update mezcal.tanda set status = ? where id_tanda = ?;";
         try{
             ps  = conexion.prepareStatement(sqlUpdateTanda);
+            System.out.println(t);
             ps.setString(1,t.getEstado());
             ps.setInt(2,t.getId());
             ps.executeUpdate();

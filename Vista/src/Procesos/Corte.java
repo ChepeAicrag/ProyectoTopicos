@@ -4,7 +4,7 @@
 
 package Procesos;
 
-import Controlador.Controlador;
+import Componentes.ECP;
 import java.awt.Color;
 import javax.swing.BorderFactory;
 import javax.swing.JProgressBar;
@@ -21,7 +21,9 @@ public class Corte extends Thread implements Productor{
     private BufferPiniasCortadas bufferPiniasCortadas;
     private JProgressBar barra;
     private Color color = Color.RED;
-    private Controlador c;
+    private Tanda tandaUsando;
+    private ECP textoTanda;
+    
     public Corte(int id, BufferTandas bufferTandas,BufferPiniasCortadas bufferPiniasCortadas){
         this.id = id;
         isAvailable = true;
@@ -36,11 +38,11 @@ public class Corte extends Thread implements Productor{
             try {
                         isAvailable = false;
                         color = barra.getBackground();
+                        tandaUsando = null;
                         producir();
                         System.out.println("Corte terminado");
                         actualizarBarra(0);
                         ajustarBarra(color);
-                        
             } catch (InterruptedException ex) {
                 System.err.println(ex.getCause());
             }
@@ -60,9 +62,9 @@ public class Corte extends Thread implements Productor{
             actualizarBarra(cont * 100 / total);
         }
         tanda.setEstado("Cortado");
-        actualizarTabla(tanda);
+        this.tandaUsando = tanda;
+        //actualizarTabla(tanda);
         bufferPiniasCortadas.put(tanda);
-        barra.setString("Completado...");
         isAvailable = true;
     }
     
@@ -71,6 +73,7 @@ public class Corte extends Thread implements Productor{
       Tanda tanda = bufferTandas.remove();
       System.out.println(" Yo hilo: " + Thread.currentThread().getName()
               + "\nTome la tanda: " + tanda);
+      textoTanda.setDatoBarra("Tanda: " + tanda.getId());
       cortar(tanda);
     }
     
@@ -93,17 +96,24 @@ public class Corte extends Thread implements Productor{
         barra.setBackground(color); // Color de la barra que se rellena
         barra.setForeground(Color.black); // Color de la barra que rellena
         if(this.color != color)
-            barra.setBorder(BorderFactory.createLineBorder(color));
+           barra.setBorder(BorderFactory.createLineBorder(color));
         else
-            barra.setBorder(BorderFactory.createLineBorder(Color.black));
+           barra.setBorder(BorderFactory.createLineBorder(Color.black));
+    }
+
+    public boolean disponible(){
+        return isAvailable;
     }
     
-    public void conectarControlador(Controlador c){
-        this.c = c;
+    public Tanda getTanda(){
+        return tandaUsando;
     }
     
-    public void actualizarTabla(Tanda t){
-        c.m.updateEstadoTanda(t);
-        c.cargarDatosTandas();
+    public boolean update(){
+        return !disponible() && getTanda() != null;
+    }
+    
+    public void setIdentificador(ECP textoTanda){
+        this.textoTanda = textoTanda;
     }
 }

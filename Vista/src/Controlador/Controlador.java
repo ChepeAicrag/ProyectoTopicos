@@ -70,6 +70,7 @@ public class Controlador implements ActionListener{
         this.m = m;
         IniciarEquipos();
         actualizarOpciones();
+        new MiHilo().start();
         cargarDatosTandas();
         contadorTandas = v.vRegistro.mtt.getRowCount();
     }
@@ -83,7 +84,7 @@ public class Controlador implements ActionListener{
             
     
     int filaPulsada = 0, id_tanda = 0, limite = 0,id_Maguey = 0, id_alcohol = 0, id_tipoMezcal = 0, cantPinias = 0;
-        
+    ArrayList<Integer> tandasProduciendo = new ArrayList();
     @Override
     public void actionPerformed(ActionEvent ae) {
         Tanda t;
@@ -122,22 +123,33 @@ public class Controlador implements ActionListener{
                     t = new Tanda(); // Solo para eliminar
                     id_tanda = Integer.parseInt((String) v.vRegistro.mtt.getValueAt(filaPulsada, 0));
                     t.setId(id_tanda);
-                    m.deleteTanda(t);
-                    cargarDatosTandas();
-                    v.vRegistro.tabla.updateUI();
+                    if(!tandasProduciendo.contains(id_tanda)){
+                        m.deleteTanda(t);
+                        cargarDatosTandas();
+                        v.vRegistro.tabla.updateUI();
+                    }else{
+                        JOptionPane.showMessageDialog(v, "No lo puede eliminar, está en produccion");
+                    }
                 }
                 break;
             case "producir":
-                filaPulsada = v.vRegistro.tabla.getSelectedRow();
-                System.out.println(filaPulsada);
+                filaPulsada = v.vRegistro.tabla.getSelectedRow();      
                 if (filaPulsada >= 0) {
                     id_tanda = Integer.parseInt((String) v.vRegistro.mtt.getValueAt(filaPulsada, 0));
                     t = new Tanda();
                     t.setId(id_tanda);
                     Tanda tandaProducir = m.selectTanda(t);
-                    m.updatePinias(tandaProducir);
-                    bft.put(tandaProducir); // Lo colocamos en la tanda
-                    v.principal.setSelectedIndex(2);
+                    if(!tandasProduciendo.contains(t.getId())){
+                        tandasProduciendo.add(t.getId());
+                        m.updatePinias(tandaProducir);
+                        bft.put(tandaProducir); // Lo colocamos en la tanda
+                        tandaProducir.setEstado("Produciendo");
+                        m.updateEstadoTanda(tandaProducir);
+                        cargarDatosTandas();
+                        //v.principal.setSelectedIndex(2);
+                    }else{
+                        JOptionPane.showMessageDialog(v, "Ya está en proceso esa tanda");
+                    }
                 }
                 break;
         }
@@ -147,6 +159,7 @@ public class Controlador implements ActionListener{
     public void cargarDatosTandas(){
         String consultaTandas = "select * from mezcal.tanda";
         v.vRegistro.mtt.setDatos(m.conexionConsultaTanda(consultaTandas));
+        v.vRegistro.tabla.updateUI();
     }
       
     /** 
@@ -202,31 +215,85 @@ public class Controlador implements ActionListener{
                                     eb2 = v.vProduccion.barra2.getPos(5).getBarra(),
                                     eb3 = v.vProduccion.barra3.getPos(5).getBarra();
         /** Asignar barras a cada proceso */
+        /*
         c1.conectarControlador(this); c2.conectarControlador(this); c3.conectarControlador(this);
         h1.conectarControlador(this); h2.conectarControlador(this); h3.conectarControlador(this);
         m1.conectarControlador(this); m2.conectarControlador(this); m3.conectarControlador(this);
         f1.conectarControlador(this); f2.conectarControlador(this); f3.conectarControlador(this);
         d1.conectarControlador(this); d2.conectarControlador(this); d3.conectarControlador(this);
         e1.conectarControlador(this); e2.conectarControlador(this); e3.conectarControlador(this);
+        */
         c1.setBarra(cb1); c2.setBarra(cb2); c3.setBarra(cb3);
+        c1.setIdentificador(v.vProduccion.barra1.getPos(0));
+        c2.setIdentificador(v.vProduccion.barra1.getPos(1));
+        c3.setIdentificador(v.vProduccion.barra1.getPos(2));
+        
         h1.setBarra(hb1); h2.setBarra(hb2); h3.setBarra(hb3);
         m1.setBarra(mb1); m2.setBarra(mb2); m3.setBarra(mb3);
         f1.setBarra(fb1); f2.setBarra(fb2); f3.setBarra(fb3);
         d1.setBarra(db1); d2.setBarra(db2); d3.setBarra(db3);
         e1.setBarra(eb1); e2.setBarra(eb2); e3.setBarra(eb3);
-        /** Iniciar hilos    
-        c1.start(); c2.start(); c3.start();
-        h1.start(); h2.start(); h3.start();
-        m1.start(); m2.start(); m3.start();
-        f1.start(); f2.start(); f3.start();
-        d1.start(); d2.start(); d3.start();
-        e1.start(); e2.start(); e3.start();
-        * */
         ejecutador.submit(c1); ejecutador.submit(c2); ejecutador.submit(c3);
         ejecutador.submit(h1); ejecutador.submit(h2); ejecutador.submit(h3);
         ejecutador.submit(m1); ejecutador.submit(m2); ejecutador.submit(m3);
         ejecutador.submit(f1); ejecutador.submit(f2); ejecutador.submit(f3);
         ejecutador.submit(d1); ejecutador.submit(d2); ejecutador.submit(d3);
         ejecutador.submit(e1); ejecutador.submit(e2); ejecutador.submit(e3);
+    }
+    
+    private void prepararEquipos(){
+        
+    }
+    
+    /** Clase Hilo que permite hacer la actualización en tiempo real de la tabla */
+    class MiHilo extends Thread{
+    
+        public MiHilo(){
+        
+        }
+        
+        @Override
+        public void run(){
+            while (true) {                
+                Corte c = corteActualizar();
+                Horno h = hornoActualizar();
+                if(c != null){
+                    m.updateEstadoTanda(c.getTanda());
+                    System.out.println("actulizar tabla");
+                    }
+                if(h != null){
+                    m.updateEstadoTanda(h.getTanda());
+                    System.out.println("Tabla de horno");
+                }
+                if(c != null || h != null){
+                    cargarDatosTandas();
+                    v.vRegistro.tabla.updateUI();
+                }
+            }
+        }
+        
+        public Corte corteActualizar(){
+            Corte c = null;
+            if (c1.update()) {
+                c = c1;
+            }else if (c2.update()) {
+                c = c2;
+            }else if (c3.update()) {
+                c = c3;
+            }
+            return c;
+        }
+        
+        public Horno hornoActualizar(){
+            Horno h = null;
+            if (h1.update()) {
+                h = h1;
+            }else if (h2.update()) {
+                h = h2;
+            }else if (h3.update()) {
+                h = h3;
+            }
+            return h;
+        }
     }
 }
