@@ -16,16 +16,19 @@ import java.util.Random;
 public class Tanda {
     ;
     private ArrayList<Object> pinias;
-    private int  id, tipoMaguey, porcentajeAlcohol, tipoMezcal, cantidadPinias;
+    private int  id, tipoMaguey, porcentajeAlcohol, tipoMezcal, cantidadPinias,
+                 id_Cortador, id_Horneador, id_Triturador, id_Fermentador, 
+                 id_Destilador, id_Enbotelladora;
     private Color color;
     private static int id_Contador = 1;
     private Date fechaInicio, fechaFinal;
     private String estado;
-
+   
     public Tanda(){
         
     }
     
+    // Se crea con los id para las FK
     public Tanda(int tipoMaguey, int porcentajeAlcohol, int tipoMezcal, int cantidadPinias) {
         this.tipoMaguey = tipoMaguey;
         this.porcentajeAlcohol = porcentajeAlcohol;
@@ -88,7 +91,7 @@ public class Tanda {
         return pinias;
     }
 
-    public double getPorcentajeAlcohol() {
+    public int getPorcentajeAlcohol() {
         return porcentajeAlcohol;
     }
 
@@ -116,6 +119,52 @@ public class Tanda {
     public String toString() {
         return "Tanda{" + "tipoMaguey=" + tipoMaguey + ", porcentajeAlcohol=" + porcentajeAlcohol + ", tipoMezcal=" + tipoMezcal + ", cantidadPinias=" + cantidadPinias + '}';
     }
-    
-    
+
+    public int getId_Cortador() {
+        return id_Cortador;
+    }
+
+    public void setId_Cortador(int id_Cortador) {
+        this.id_Cortador = id_Cortador;
+    }
+
+    public int getId_Horneador() {
+        return id_Horneador;
+    }
+
+    public void setId_Horneador(int id_Horneador) {
+        this.id_Horneador = id_Horneador;
+    }
+
+    public int getId_Triturador() {
+        return id_Triturador;
+    }
+
+    public void setId_Triturador(int id_Triturador) {
+        this.id_Triturador = id_Triturador;
+    }
+
+    public int getId_Fermentador() {
+        return id_Fermentador;
+    }
+
+    public void setId_Fermentador(int id_Fermentador) {
+        this.id_Fermentador = id_Fermentador;
+    }
+
+    public int getId_Destilador() {
+        return id_Destilador;
+    }
+
+    public void setId_Destilador(int id_Destilador) {
+        this.id_Destilador = id_Destilador;
+    }
+
+    public int getId_Enbotelladora() {
+        return id_Enbotelladora;
+    }
+
+    public void setId_Enbotelladora(int id_Enbotelladora) {
+        this.id_Enbotelladora = id_Enbotelladora;
+    }
 }

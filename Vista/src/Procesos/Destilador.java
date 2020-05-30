@@ -18,16 +18,15 @@ public class Destilador extends Thread implements Productor, Consumidor{
     
     private int id;
     private boolean isAvailable;
-    private int procesos;
-    private BufferTandas tandasActualizar;
-    private BufferPiniasFermentadas bufferPiniasFermentadas; // Consume de este
-    private BufferMezcalDestilado bufferMezcalDestilado; // Produce a este
+    private BufferTandas tandasActualizar, bufferPiniasFermentadas, bufferMezcalDestilado;
+    //private BufferPiniasFermentadas bufferPiniasFermentadas; // Consume de este
+    //private BufferMezcalDestilado bufferMezcalDestilado; // Produce a este
     private JProgressBar barra;
     private Color color;
     private Controlador c;
     private ECP etqBarra;
     
-    public Destilador(int id,BufferPiniasFermentadas bufferPiniasFermentadas, BufferMezcalDestilado bufferMezcalDestilado){
+    public Destilador(int id, BufferTandas bufferPiniasFermentadas, BufferTandas bufferMezcalDestilado){
         this.id = id;
         isAvailable = true;
         this.bufferPiniasFermentadas = bufferPiniasFermentadas;
@@ -87,12 +86,15 @@ public class Destilador extends Thread implements Productor, Consumidor{
         tandasActualizar.put(tanda);
         //actualizarTabla(tanda);
         producir(tanda); // Ahora la tanda ya lleva objetos de mezcal
+        etqBarra.setDatoBarra("---");
         isAvailable = true;
     }
 
     @Override
     public void consumir() throws InterruptedException {
         Tanda tanda = bufferPiniasFermentadas.remove(); // Quita de las fermentadas
+        tanda.setId_Destilador(id);
+        etqBarra.setDatoBarra("Tanda " + tanda.getId());
         destilar(tanda); // Las consume para hornear
     }
 
@@ -129,16 +131,7 @@ public class Destilador extends Thread implements Productor, Consumidor{
         }
         return numDestilados;
     }   
-    
-    public void conectarControlador(Controlador c){
-        this.c = c;
-    }
-    
-    public void actualizarTabla(Tanda t){
-        c.m.updateEstadoTanda(t);
-        c.cargarDatosTandas();
-    }
-    
+ 
     public void setIdentificador(ECP etqBarra){
         this.etqBarra = etqBarra;
         this.barra = this.etqBarra.getBarra();

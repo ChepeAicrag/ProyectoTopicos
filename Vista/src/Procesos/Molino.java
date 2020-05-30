@@ -8,8 +8,6 @@ import Controlador.Controlador;
 import java.awt.Color;
 import javax.swing.JProgressBar;
 import javax.swing.BorderFactory;
-import static java.lang.Thread.sleep;
-import static java.lang.Thread.sleep;
 
 /**
  * 
@@ -19,16 +17,15 @@ public class Molino extends Thread implements Productor, Consumidor{
     
     private int id;
     private boolean isAvailable;
-    private int procesos;
-    private BufferTandas tandasActualizar;
-    private BufferPiniasHorneadas bufferPiniasHorneadas; // Consume de este
-    private BufferPiniasMolidas bufferPiniasMolidas; //  Produce
+    private BufferTandas tandasActualizar, bufferPiniasHorneadas, bufferPiniasMolidas;
+    //private BufferPiniasHorneadas bufferPiniasHorneadas; // Consume de este
+    //private BufferPiniasMolidas bufferPiniasMolidas; //  Produce
     private JProgressBar barra;
     private Color color;
     private Controlador c;
     private ECP etqBarra;
     
-    public Molino(int id,BufferPiniasHorneadas bufferPiniasHorneadas, BufferPiniasMolidas bufferPiniasMolidas){
+    public Molino(int id,BufferTandas bufferPiniasHorneadas, BufferTandas bufferPiniasMolidas){
         this.id = id;
         isAvailable = true;
         this.bufferPiniasHorneadas = bufferPiniasHorneadas;
@@ -77,12 +74,15 @@ public class Molino extends Thread implements Productor, Consumidor{
          * actualizarTabla(tanda);
          */
         producir(tanda);
+        etqBarra.setDatoBarra("---");
         isAvailable = true;
     }
 
     @Override
     public synchronized void consumir() throws InterruptedException {
         Tanda tanda = bufferPiniasHorneadas.remove(); // Quita de las horneadas
+        tanda.setId_Horneador(id);
+        etqBarra.setDatoBarra("Tanda " + tanda.getId());
         moler(tanda); // Las consume para hornear
     }
     

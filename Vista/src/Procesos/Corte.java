@@ -17,13 +17,13 @@ public class Corte extends Thread implements Productor{
     
     private int id;
     private boolean isAvailable;
-    private BufferTandas bufferTandas, tandasActualizar;
-    private BufferPiniasCortadas bufferPiniasCortadas;
+    private BufferTandas bufferTandas, tandasActualizar, bufferPiniasCortadas;
+    //private BufferPiniasCortadas bufferPiniasCortadas;
     private JProgressBar barra;
     private Color color = Color.RED;
     private ECP etqBarra;
     
-    public Corte(int id, BufferTandas bufferTandas,BufferPiniasCortadas bufferPiniasCortadas){
+    public Corte(int id, BufferTandas bufferTandas, BufferTandas bufferPiniasCortadas){
         this.id = id;
         isAvailable = true;
         this.bufferTandas = bufferTandas;
@@ -63,6 +63,7 @@ public class Corte extends Thread implements Productor{
         tandasActualizar.put(tanda); // La manda
         //actualizarTabla(tanda);
         bufferPiniasCortadas.put(tanda);
+        etqBarra.setDatoBarra("---");
         isAvailable = true;
     }
     

@@ -17,16 +17,15 @@ public class Fermentado extends Thread implements Productor, Consumidor{
     
     private int id;
     private boolean isAvailable;
-    private int procesos;
-    private BufferTandas tandasActualizar;
-    private BufferPiniasMolidas bufferPiniasMolidas; //  Produce
-    private BufferPiniasFermentadas bufferPiniasFermentadas; // Consume de este
+    private BufferTandas tandasActualizar, bufferPiniasMolidas, bufferPiniasFermentadas;
+    //private BufferPiniasMolidas bufferPiniasMolidas; //  Produce
+    //private BufferPiniasFermentadas bufferPiniasFermentadas; // Consume de este
     private JProgressBar barra;
     private Color color;
     private Controlador c;
     private ECP etqBarra;
     
-    public Fermentado(int id, BufferPiniasMolidas bufferPiniasMolidas, BufferPiniasFermentadas bufferPiniasFermentadas){
+    public Fermentado(int id, BufferTandas bufferPiniasMolidas, BufferTandas bufferPiniasFermentadas){
         this.id = id;
         isAvailable = true;
         this.bufferPiniasMolidas = bufferPiniasMolidas;
@@ -71,12 +70,15 @@ public class Fermentado extends Thread implements Productor, Consumidor{
         tandasActualizar.put(tanda);
         //actualizarTabla(tanda);
         producir(tanda);
+        etqBarra.setDatoBarra("---");
         isAvailable = true;
     }
 
     @Override
     public void consumir() throws InterruptedException {
         Tanda tanda = bufferPiniasMolidas.remove(); // Quita de las molidas
+        tanda.setId_Fermentador(id);
+        etqBarra.setDatoBarra("Tanda " + tanda.getId());
         fermentar(tanda); // Las consume para hornear
     }
     
@@ -102,15 +104,6 @@ public class Fermentado extends Thread implements Productor, Consumidor{
             barra.setBorder(BorderFactory.createLineBorder(color));
         else
             barra.setBorder(BorderFactory.createLineBorder(Color.black));
-    }
-    
-    public void conectarControlador(Controlador c){
-        this.c = c;
-    }
-    
-    public void actualizarTabla(Tanda t){
-        c.m.updateEstadoTanda(t);
-        c.cargarDatosTandas();
     }
     
     public void setIdentificador(ECP etqBarra){

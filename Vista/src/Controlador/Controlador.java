@@ -20,7 +20,6 @@ import Procesos.Horno;
 import Procesos.Molino;
 import Procesos.Tanda;
 import Vista.Vista;
-import java.awt.AWTEventMulticaster;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
@@ -38,14 +37,22 @@ public class Controlador implements ActionListener{
     
     private int contadorTandas;// (Mejor usar serial)
     public ManejoDatos m;
-    BufferTandas bft = new BufferTandas();
-    BufferPiniasCortadas bpc = new BufferPiniasCortadas();
+    BufferTandas bft = new BufferTandas(),
+    //BufferPiniasCortadas 
+                bpc = new BufferTandas(),
+                bph = new BufferTandas(),
+                bpm = new BufferTandas(),
+                bpf = new BufferTandas(),
+                bmd = new BufferTandas(),
+                bb  = new BufferTandas();
+    /*
+    BufferPiniasCortadas  bpc = new BufferPiniasCortadas();
     BufferPiniasHorneadas bph = new BufferPiniasHorneadas();
     BufferPiniasMolidas bpm = new BufferPiniasMolidas();
     BufferPiniasFermentadas bpf = new BufferPiniasFermentadas();
     BufferMezcalDestilado bmd = new BufferMezcalDestilado();
     BufferBarriles bb = new BufferBarriles();
-    
+    */
     BufferTandas TANDAS_ACTUALIZAR = new BufferTandas();
     
     ArrayList<Corte> cortes = new ArrayList<>();
@@ -63,7 +70,6 @@ public class Controlador implements ActionListener{
         prepararEquipos();
         IniciarEquipos();
         actualizarOpciones();
-        new MiHilo(TANDAS_ACTUALIZAR).start();
         cargarDatosTandas();
         contadorTandas = v.vRegistro.mtt.getRowCount();
     }
@@ -125,6 +131,7 @@ public class Controlador implements ActionListener{
                     }
                 }
                 break;
+
             case "producir":
                 filaPulsada = v.vRegistro.tabla.getSelectedRow();      
                 if (filaPulsada >= 0) {
@@ -204,6 +211,7 @@ public class Controlador implements ActionListener{
             ejecutador.submit(destiladores.get(i));
             ejecutador.submit(enbotelladores.get(i));
         }
+        new MiHilo(TANDAS_ACTUALIZAR).start();
     }
     
     private void prepararEquipos(){
@@ -226,7 +234,6 @@ public class Controlador implements ActionListener{
             fermentadores.get(i).setTandasActualizar(TANDAS_ACTUALIZAR);
             destiladores.get(i).setTandasActualizar(TANDAS_ACTUALIZAR);
             enbotelladores.get(i).setTandasActualizar(TANDAS_ACTUALIZAR);
-            
         }
     }
     

@@ -166,7 +166,6 @@ public class ManejoDatos {
                 tandaEncontrada.setFechaFinal(rs.getDate(8));
                 tandaEncontrada.setId(rs.getInt(1));
             }
-            
         }catch (SQLException e) {
             System.err.println("Error al CARGAR TANDA " + e);
         }
@@ -190,13 +189,27 @@ public class ManejoDatos {
         }
     }
     
+    // Actualiza el id de la tanda 
     public boolean updateEstadoTanda(Tanda t){
         PreparedStatement ps;
+        // Antes actualizar la tabla de Tanda
+        String sqlUpdateTanda2 = "update mezcal.tanda set "
+                + "status = ?, id_Cortador = ?, id_Horno = ?, id_Molino = ?,"
+                + "id_Fermentador = ?, id_Destilador = ?, id_Enbotelladora = ?"
+                + "where id_tanda = ?;";
         String sqlUpdateTanda = "update mezcal.tanda set status = ? where id_tanda = ?;";
         try{
             ps  = conexion.prepareStatement(sqlUpdateTanda);
             System.out.println(t);
             ps.setString(1,t.getEstado());
+            /*
+            ps.setInt(2, t.getId_Cortador());
+            ps.setInt(3, t.getId_Horneador());
+            ps.setInt(4, t.getId_Triturador());
+            ps.setInt(5, t.getId_Fermentador());
+            ps.setInt(6, t.getId_Destilador());
+            ps.setInt(7, t.getId_Enbotelladora());
+            */
             ps.setInt(2,t.getId());
             ps.executeUpdate();
             return true;
