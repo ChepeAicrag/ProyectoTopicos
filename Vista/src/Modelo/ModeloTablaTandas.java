@@ -4,8 +4,13 @@
 
 package Modelo;
 
+import java.awt.Component;
 import java.util.List;
+import javax.swing.JTable;
+import javax.swing.SwingConstants;
 import javax.swing.table.AbstractTableModel;
+import javax.swing.table.DefaultTableCellRenderer;
+import javax.swing.table.TableCellRenderer;
 
 /**
  * 
@@ -19,7 +24,6 @@ public class ModeloTablaTandas extends AbstractTableModel{
     private Class tipos[] = new Class[]{
             String.class,String.class,String.class
             ,String.class,String.class,String.class};
-    
     
     public void setDatos(List<Object[]> d) {
         dato = d;

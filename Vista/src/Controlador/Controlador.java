@@ -5,12 +5,6 @@
 package Controlador;
 
 import Modelo.ManejoDatos;
-import Procesos.BufferBarriles;
-import Procesos.BufferMezcalDestilado;
-import Procesos.BufferPiniasCortadas;
-import Procesos.BufferPiniasFermentadas;
-import Procesos.BufferPiniasHorneadas;
-import Procesos.BufferPiniasMolidas;
 import Procesos.BufferTandas;
 import Procesos.Corte;
 import Procesos.Destilador;
@@ -45,22 +39,14 @@ public class Controlador implements ActionListener{
                 bpf = new BufferTandas(),
                 bmd = new BufferTandas(),
                 bb  = new BufferTandas();
-    /*
-    BufferPiniasCortadas  bpc = new BufferPiniasCortadas();
-    BufferPiniasHorneadas bph = new BufferPiniasHorneadas();
-    BufferPiniasMolidas bpm = new BufferPiniasMolidas();
-    BufferPiniasFermentadas bpf = new BufferPiniasFermentadas();
-    BufferMezcalDestilado bmd = new BufferMezcalDestilado();
-    BufferBarriles bb = new BufferBarriles();
-    */
     BufferTandas TANDAS_ACTUALIZAR = new BufferTandas();
-    
     ArrayList<Corte> cortes = new ArrayList<>();
     ArrayList<Horno> hornos = new ArrayList<>();
     ArrayList<Molino> molinos = new ArrayList<>();
     ArrayList<Fermentado> fermentadores = new ArrayList<>();
     ArrayList<Destilador> destiladores = new ArrayList<>();
     ArrayList<Enbotelladora> enbotelladores = new  ArrayList<>();
+    
     private Controlador_Hilos ctrlHilos;
     private ExecutorService ejecutador = Executors.newCachedThreadPool();
     
@@ -71,6 +57,7 @@ public class Controlador implements ActionListener{
         IniciarEquipos();
         actualizarOpciones();
         cargarDatosTandas();
+        cargarInformeTandas();
         contadorTandas = v.vRegistro.mtt.getRowCount();
     }
     
@@ -152,14 +139,19 @@ public class Controlador implements ActionListener{
                     }
                 }
                 break;
-        }
-        
-    }
+        } 
+   }
        
     public void cargarDatosTandas(){
         String consultaTandas = "select * from mezcal.tanda";
         v.vRegistro.mtt.setDatos(m.conexionConsultaTanda(consultaTandas));
         v.vRegistro.tabla.updateUI();
+    }
+    
+    private void cargarInformeTandas() {
+        String consultaTandas = "select * from mezcal.tanda";
+        v.vInforme.mti.setDatos(m.conexionConsultaInformeTanda(consultaTandas));
+        v.vInforme.tabla.updateUI();
     }
       
     /** 
@@ -194,15 +186,6 @@ public class Controlador implements ActionListener{
      * Deben estar listos desde el inicio
      */
     public void IniciarEquipos(){
-        /** Asignar barras a cada proceso */
-        /*
-        c1.conectarControlador(this); c2.conectarControlador(this); c3.conectarControlador(this);
-        h1.conectarControlador(this); h2.conectarControlador(this); h3.conectarControlador(this);
-        m1.conectarControlador(this); m2.conectarControlador(this); m3.conectarControlador(this);
-        f1.conectarControlador(this); f2.conectarControlador(this); f3.conectarControlador(this);
-        d1.conectarControlador(this); d2.conectarControlador(this); d3.conectarControlador(this);
-        e1.conectarControlador(this); e2.conectarControlador(this); e3.conectarControlador(this);
-        */
         for (int i = 0; i < 3; i++) {
             ejecutador.submit(cortes.get(i));
             ejecutador.submit(hornos.get(i));
@@ -252,6 +235,8 @@ public class Controlador implements ActionListener{
                 if(t != null){
                     m.updateEstadoTanda(t);
                     cargarDatosTandas();
+                    if(t.getEstado().equals("Enbarrilada"))
+                    cargarInformeTandas();    
                 }
             }
         }

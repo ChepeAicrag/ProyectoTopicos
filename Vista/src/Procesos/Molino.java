@@ -81,7 +81,7 @@ public class Molino extends Thread implements Productor, Consumidor{
     @Override
     public synchronized void consumir() throws InterruptedException {
         Tanda tanda = bufferPiniasHorneadas.remove(); // Quita de las horneadas
-        tanda.setId_Horneador(id);
+        tanda.setId_Triturador(id);
         etqBarra.setDatoBarra("Tanda " + tanda.getId());
         moler(tanda); // Las consume para hornear
     }

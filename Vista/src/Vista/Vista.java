@@ -21,13 +21,14 @@ public class Vista extends JFrame{
     public VistaProduccion vProduccion;
     public VistaTraslado vTraslado;
     public VistaRegistro vRegistro;
+    public VistaRegistroFinal vInforme;
     public JTabbedPane principal;
     
     public Vista(){
-        setSize(1080,700);
+        setSize(1200,700);
         setVisible(true);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
-        //setResizable(false);
+        setResizable(false);
         setLocationRelativeTo(null);
         colocar();
         revalidate();
@@ -49,6 +50,8 @@ public class Vista extends JFrame{
         principal.addTab("Produccion", vProduccion);
         vTraslado = new VistaTraslado();
         principal.addTab("Traslado", vTraslado);
+        vInforme = new VistaRegistroFinal();
+        principal.add("Informe",vInforme);
         add(principal);
     }
     

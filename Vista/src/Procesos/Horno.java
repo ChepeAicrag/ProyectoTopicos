@@ -76,7 +76,7 @@ public class Horno extends Thread implements Productor, Consumidor{
     @Override
     public synchronized void consumir() throws InterruptedException {
         Tanda tanda = bufferPiniasCortadas.remove(); // Quita de las cortadas
-        tanda.setId_Cortador(id);
+        tanda.setId_Horneador(id);
         etqBarra.setDatoBarra("Tanda " + tanda.getId());
         hornear(tanda); // Las consume para hornear
     }

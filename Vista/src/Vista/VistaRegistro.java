@@ -9,7 +9,6 @@ package Vista;
 import Controlador.Controlador;
 import Modelo.ModeloTablaTandas;
 import java.awt.Color;
-import java.awt.Component;
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JLabel;
@@ -18,8 +17,11 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.ListSelectionModel;
 import javax.swing.SpringLayout;
+import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
+import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.JTableHeader;
+import sun.swing.table.DefaultTableCellHeaderRenderer;
 
 /**
  * 
@@ -32,6 +34,8 @@ public class VistaRegistro extends JPanel{
     private JScrollPane scroll;
     private JLabel titulo;
     public JButton btnEliminar, btnProducir;
+    private DefaultTableCellRenderer dtcr;
+    private JTableHeader hTab ;
     
     public VistaRegistro(){
         setSize(1020, 680);
@@ -51,10 +55,13 @@ public class VistaRegistro extends JPanel{
         s.putConstraint(SpringLayout.EAST, titulo, -300, SpringLayout.EAST, this);
         mtt = new ModeloTablaTandas();
         tabla = new JTable(mtt);
-        tabla.setVisible(true);
+        dtcr = new DefaultTableCellRenderer();
+        dtcr.setHorizontalAlignment(SwingConstants.CENTER);
+        tabla.setDefaultRenderer(String.class, dtcr);
         tabla.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+        tabla.setAlignmentX(SwingConstants.CENTER);
         //tabla.setBorder(BorderFactory.createEmptyBorder());
-        JTableHeader hTab = tabla.getTableHeader();
+        hTab = tabla.getTableHeader();
         hTab.setAlignmentX(JTableHeader.CENTER_ALIGNMENT);
         hTab.setResizingAllowed(false);
         hTab.setReorderingAllowed(false);
@@ -62,9 +69,9 @@ public class VistaRegistro extends JPanel{
         hTab.setBackground(Color.BLACK);
         hTab.setForeground(Color.WHITE);
         add(hTab);
-        s.putConstraint(SpringLayout.NORTH, hTab, 12, SpringLayout.SOUTH, titulo);
-        s.putConstraint(SpringLayout.WEST, hTab, 300, SpringLayout.WEST, this);
-        s.putConstraint(SpringLayout.EAST, hTab, -310, SpringLayout.EAST, this);
+        //s.putConstraint(SpringLayout.NORTH, hTab, 12, SpringLayout.SOUTH, titulo);
+        //s.putConstraint(SpringLayout.WEST, hTab, 300, SpringLayout.WEST, this);
+        //s.putConstraint(SpringLayout.EAST, hTab, -310, SpringLayout.EAST, this);
         add(tabla);
         //s.putConstraint(SpringLayout.NORTH, tabla, 0, SpringLayout.SOUTH, hTab);
         //s.putConstraint(SpringLayout.WEST, tabla, 300, SpringLayout.WEST, this);
@@ -77,8 +84,8 @@ public class VistaRegistro extends JPanel{
         
         add(scroll);
         s.putConstraint(SpringLayout.NORTH, scroll, 12, SpringLayout.SOUTH, hTab);
-        s.putConstraint(SpringLayout.WEST, scroll, 300, SpringLayout.WEST, this);
-        s.putConstraint(SpringLayout.EAST, scroll, -310, SpringLayout.EAST, this);
+        s.putConstraint(SpringLayout.WEST, scroll, 270, SpringLayout.WEST, this);
+        s.putConstraint(SpringLayout.EAST, scroll, -270, SpringLayout.EAST, this);
         
         btnEliminar = new JButton("ELIMINAR");
         btnEliminar.setActionCommand("eliminar");
@@ -91,7 +98,7 @@ public class VistaRegistro extends JPanel{
         add(btnProducir);
         s.putConstraint(SpringLayout.NORTH, btnProducir, 580, SpringLayout.NORTH, this);
         s.putConstraint(SpringLayout.WEST, btnProducir, 20, SpringLayout.EAST, btnEliminar);
-        s.putConstraint(SpringLayout.EAST, btnProducir, -100, SpringLayout.EAST, this);
+        s.putConstraint(SpringLayout.EAST, btnProducir, -200, SpringLayout.EAST, this);
         
     }
     

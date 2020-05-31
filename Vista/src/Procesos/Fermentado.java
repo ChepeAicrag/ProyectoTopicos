@@ -18,8 +18,6 @@ public class Fermentado extends Thread implements Productor, Consumidor{
     private int id;
     private boolean isAvailable;
     private BufferTandas tandasActualizar, bufferPiniasMolidas, bufferPiniasFermentadas;
-    //private BufferPiniasMolidas bufferPiniasMolidas; //  Produce
-    //private BufferPiniasFermentadas bufferPiniasFermentadas; // Consume de este
     private JProgressBar barra;
     private Color color;
     private Controlador c;

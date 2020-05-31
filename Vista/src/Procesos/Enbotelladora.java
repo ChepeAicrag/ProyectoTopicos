@@ -51,7 +51,9 @@ public class Enbotelladora extends Thread implements Productor, Consumidor{
     
     @Override
     public void producir(Tanda tanda) throws InterruptedException {
+        tanda.setEstado("Enbarrilada");
         tanda.setFechaFinal(new Date());
+        tandasActualizar.put(tanda);
         System.out.println("Tanda terminada lista >>>> \n " + tanda + " \n Fecha >> " + tanda.getFechaFinal());
         bufferBarriles.put(tanda); // Las produce
     }
@@ -85,9 +87,6 @@ public class Enbotelladora extends Thread implements Productor, Consumidor{
         
         tanda.getPinias().removeAll(mezcalesEliminar); // Quita los mezcales
         tanda.getPinias().addAll(barriles); // Agrega los barriles
-        tanda.setFechaFinal(new Date()); // Coloca la ficha final
-        tanda.setEstado("Enbarrilada");
-        tandasActualizar.put(tanda);
         //actualizarTabla(tanda);
         producir(tanda); // Ahora la tanda ya lleva objetos de mezcal
         etqBarra.setDatoBarra("---");
