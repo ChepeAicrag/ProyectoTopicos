@@ -28,7 +28,6 @@ public class Vista extends JFrame{
         setSize(1200,700);
         setVisible(true);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
-        setResizable(false);
         setLocationRelativeTo(null);
         colocar();
         revalidate();
@@ -37,9 +36,9 @@ public class Vista extends JFrame{
     public void colocar(){
         ImageIcon img = new ImageIcon(
                 getClass().getResource("/TestVistas/maguey.png"));
-        String[] txts = {"Tobalá","Cuishe","Coyote","Tepeztate",
-                        "Papalote","Cenizo","Estoquillo","Mexicano"};
-        ImageIcon[] imagenes = {img,img,img,img,img,img,img,img};
+        String[] txts = {"Tobalá","Cuishe","Coyote","Tepeztate","Papalote","Cenizo",
+                        "Estoquillo","Mexicano","Tobalá","Cuishe","Coyote","Tepeztate"};
+        ImageIcon[] imagenes = {img,img,img,img,img,img,img,img,img,img,img,img};
         
         principal = new JTabbedPane();
         vProducir = new VistaProducir(imagenes, txts);

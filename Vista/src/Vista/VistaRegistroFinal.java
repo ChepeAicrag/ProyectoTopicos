@@ -1,5 +1,6 @@
 /*
  * Para la informacion final de las tandas
+ * Quitar las FK de las tandas, ya que se repiten 
  */
 
 package Vista;
@@ -53,8 +54,26 @@ public class VistaRegistroFinal extends JPanel{
         dtcr = new DefaultTableCellRenderer();
         dtcr.setHorizontalAlignment(SwingConstants.CENTER);
         tabla.setDefaultRenderer(String.class, dtcr);
+        tabla.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+        tabla.getColumnModel().getColumn(0).setPreferredWidth(40);
+        tabla.getColumnModel().getColumn(1).setPreferredWidth(80);
+        tabla.getColumnModel().getColumn(2).setPreferredWidth(70);
+        tabla.getColumnModel().getColumn(3).setPreferredWidth(75);
+        tabla.getColumnModel().getColumn(4).setPreferredWidth(60);
+        tabla.getColumnModel().getColumn(5).setPreferredWidth(70);
+        tabla.getColumnModel().getColumn(6).setPreferredWidth(60);
+        
+        tabla.getColumnModel().getColumn(7).setPreferredWidth(65);
+        tabla.getColumnModel().getColumn(8).setPreferredWidth(90);
+        tabla.getColumnModel().getColumn(9).setPreferredWidth(80);
+        tabla.getColumnModel().getColumn(10).setPreferredWidth(90);
+        tabla.getColumnModel().getColumn(11).setPreferredWidth(80);
+        tabla.getColumnModel().getColumn(12).setPreferredWidth(150);
+        tabla.getColumnModel().getColumn(13).setPreferredWidth(150);
+        
         hTab = tabla.getTableHeader();
         hTab.setAlignmentX(JTableHeader.CENTER_ALIGNMENT);
+        
         hTab.setResizingAllowed(false);
         hTab.setReorderingAllowed(false);
         hTab.setBorder(BorderFactory.createLineBorder(Color.yellow, 1));

@@ -29,12 +29,8 @@ public class VistaProducir extends JPanel{
     private String[] textos;
     
     public VistaProducir(ImageIcon[] imagenes,String[] textos){
-        //setTitle("Vista Producir");
         setSize(1020, 680);
-        //setLocationRelativeTo(null);
         setVisible(true);
-        //setDefaultCloseOperation(EXIT_ON_CLOSE);
-        //setResizable(false);
         this.imagenes = imagenes;
         this.textos = textos;
         colocar();
@@ -45,14 +41,14 @@ public class VistaProducir extends JPanel{
         SpringLayout s = new SpringLayout();
         setLayout(s);
         eleccion = new BarraEleccion(imagenes,textos);
-        eleccion.setLayout(new GridLayout(2,4));
+        eleccion.setLayout(new GridLayout(4,4));
         eleccion.setBackground(Color.yellow);
         eleccion.setBorder(BorderFactory.createTitledBorder(
                 BorderFactory.createBevelBorder(2), "Selecciona tu mezcal", TitledBorder.CENTER, TitledBorder.TOP));
         add(eleccion);
         s.putConstraint(SpringLayout.NORTH, eleccion, 5, SpringLayout.NORTH,this);
-        s.putConstraint(SpringLayout.WEST, eleccion, 20, SpringLayout.WEST,this);
-        s.putConstraint(SpringLayout.EAST, eleccion, -20, SpringLayout.EAST,this);
+        s.putConstraint(SpringLayout.WEST, eleccion, 50, SpringLayout.WEST,this);
+        s.putConstraint(SpringLayout.EAST, eleccion, -50, SpringLayout.EAST,this);
         s.putConstraint(SpringLayout.SOUTH, eleccion, -200, SpringLayout.SOUTH,this);
         etqAlcohol = new JLabel("Selecciona el grado de alcohol");
         add(etqAlcohol);
@@ -97,8 +93,8 @@ public class VistaProducir extends JPanel{
         for (String t : tipos) {
             tipo.addItem(t);
         }
-        String nombreMezcales[] = new String[mezcales.size()];        
-        for (int i = 0; i < mezcales.size(); i++) {
+        String nombreMezcales[] = new String[mezcales.size()-1];
+        for (int i = 0; i < mezcales.size() - 1; i++) {
             nombreMezcales[i] = mezcales.get(i);
         }
         eleccion.setTextos(nombreMezcales);

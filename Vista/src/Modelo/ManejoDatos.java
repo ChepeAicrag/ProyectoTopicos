@@ -110,23 +110,23 @@ public class ManejoDatos {
             ps = conexion.prepareStatement(sql);
             rs = ps.executeQuery();
             while (rs.next()) {
-                String dat[] = new String[15];
+                String dat[] = new String[14];
                 dat[0] = String.valueOf((Integer) rs.getInt(1));
                 dat[1] = (String) selectValueDe("select nombre from mezcal.maguey where id_maguey = " + rs.getString(2));
                 dat[2] = String.valueOf((Double)selectValueDe("select valor from mezcal.gradoalcohol where id_grado = " + rs.getInt(3)));
                 dat[3] = (String) selectValueDe("select nombre from mezcal.tipomezcal where id_tipo = " + rs.getInt(4));
                 dat[4] = String.valueOf((Integer) rs.getInt(5));
-                dat[5] = rs.getString(6);
-                dat[6] = (String) selectValueDe("select nombre from mezcal.cortador where id_cortador = " + rs.getInt(7));
-                dat[7] = (String) selectValueDe("select nombre from mezcal.horno where id_horno = " + rs.getInt(8));
-                dat[8] = (String) selectValueDe("select nombre from mezcal.molino where id_molino = " + rs.getInt(9));
-                dat[9] = (String) selectValueDe("select nombre from mezcal.fermentador where id_fermentador = " + rs.getInt(10));
-                dat[10] = (String) selectValueDe("select nombre from mezcal.destilador where id_destilador = " + rs.getInt(11));
-                dat[11] = (String) selectValueDe("select nombre from mezcal.enbotelladora where id_enbotelladora = " + rs.getInt(12));
-                dat[12] = "Pendiente"; // Pendiente el cliente
+               // dat[5] = rs.getString(6);
+                dat[5] = (String) selectValueDe("select nombre from mezcal.cortador where id_cortador = " + rs.getInt(7));
+                dat[6] = (String) selectValueDe("select nombre from mezcal.horno where id_horno = " + rs.getInt(8));
+                dat[7] = (String) selectValueDe("select nombre from mezcal.molino where id_molino = " + rs.getInt(9));
+                dat[8] = (String) selectValueDe("select nombre from mezcal.fermentador where id_fermentador = " + rs.getInt(10));
+                dat[9] = (String) selectValueDe("select nombre from mezcal.destilador where id_destilador = " + rs.getInt(11));
+                dat[10] = (String) selectValueDe("select nombre from mezcal.enbotelladora where id_enbotelladora = " + rs.getInt(12));
+                dat[11] = "Pendiente"; // Pendiente el cliente
                 SimpleDateFormat dt1 = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
-                dat[13] = (rs.getDate(14) == null) ? "Null" : dt1.format(rs.getDate(14));
-                dat[14] = (rs.getDate(15) == null) ? "Null" : dt1.format(rs.getDate(15));
+                dat[12] = (rs.getDate(14) == null) ? "Null" : dt1.format(rs.getDate(14));
+                dat[13] = (rs.getDate(15) == null) ? "Null" : dt1.format(rs.getDate(15));
                 datos.add(dat);
             }
         } catch (SQLException e) {
