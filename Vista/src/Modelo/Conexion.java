@@ -44,6 +44,7 @@ public class Conexion {
             if (coneccion != null) 
               if(numConexiones == 1){
                  coneccion.close();
+                  System.out.println("Conexion cerrada.");
                  return true;
             }else
                 numConexiones--;

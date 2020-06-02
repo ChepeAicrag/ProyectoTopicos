@@ -9,6 +9,7 @@ package Vista;
 import Controlador.Controlador;
 import Modelo.ModeloTablaTandas;
 import java.awt.Color;
+import javax.swing.Action;
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JLabel;
@@ -68,30 +69,23 @@ public class VistaRegistro extends JPanel{
         hTab.setBackground(Color.BLACK);
         hTab.setForeground(Color.WHITE);
         add(hTab);
-        //s.putConstraint(SpringLayout.NORTH, hTab, 12, SpringLayout.SOUTH, titulo);
-        //s.putConstraint(SpringLayout.WEST, hTab, 300, SpringLayout.WEST, this);
-        //s.putConstraint(SpringLayout.EAST, hTab, -310, SpringLayout.EAST, this);
+        s.putConstraint(SpringLayout.NORTH, hTab, 12, SpringLayout.SOUTH, titulo);
+        s.putConstraint(SpringLayout.WEST, hTab, 300, SpringLayout.WEST, this);
+        s.putConstraint(SpringLayout.EAST, hTab, -310, SpringLayout.EAST, this);
         add(tabla);
-        //s.putConstraint(SpringLayout.NORTH, tabla, 0, SpringLayout.SOUTH, hTab);
-        //s.putConstraint(SpringLayout.WEST, tabla, 300, SpringLayout.WEST, this);
-        //s.putConstraint(SpringLayout.EAST, tabla, -310, SpringLayout.EAST, this);
+        s.putConstraint(SpringLayout.NORTH, tabla, 0, SpringLayout.SOUTH, hTab);
+        s.putConstraint(SpringLayout.WEST, tabla, 300, SpringLayout.WEST, this);
+        s.putConstraint(SpringLayout.EAST, tabla, -310, SpringLayout.EAST, this);
         scroll = new JScrollPane();
         scroll.setViewportView(tabla);
         scroll.setBackground(Color.BLACK);
         scroll.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
         scroll.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
-        
-        add(scroll);
-        s.putConstraint(SpringLayout.NORTH, scroll, 12, SpringLayout.SOUTH, hTab);
-        s.putConstraint(SpringLayout.WEST, scroll, 270, SpringLayout.WEST, this);
-        s.putConstraint(SpringLayout.EAST, scroll, -270, SpringLayout.EAST, this);
-        
         btnEliminar = new JButton("ELIMINAR");
         btnEliminar.setActionCommand("eliminar");
-        btnEliminar.setBackground(Color.yellow);
-        btnEliminar.setAlignmentX(TOP_ALIGNMENT);
+        btnEliminar.revalidate();
         add(btnEliminar);
-        s.putConstraint(SpringLayout.NORTH, btnEliminar, 580, SpringLayout.NORTH, this);
+        s.putConstraint(SpringLayout.NORTH, btnEliminar, 125, SpringLayout.SOUTH, scroll);
         s.putConstraint(SpringLayout.WEST, btnEliminar, 750, SpringLayout.WEST, this);
         //s.putConstraint(SpringLayout.EAST, btnEliminar, -100, SpringLayout.EAST, this);
         btnProducir = new JButton("PRODUCIR");
@@ -100,6 +94,12 @@ public class VistaRegistro extends JPanel{
         s.putConstraint(SpringLayout.NORTH, btnProducir, 580, SpringLayout.NORTH, this);
         s.putConstraint(SpringLayout.WEST, btnProducir, 20, SpringLayout.EAST, btnEliminar);
         s.putConstraint(SpringLayout.EAST, btnProducir, -200, SpringLayout.EAST, this);
+        
+        add(scroll);
+        s.putConstraint(SpringLayout.NORTH, scroll, 12, SpringLayout.SOUTH, hTab);
+        s.putConstraint(SpringLayout.WEST, scroll, 270, SpringLayout.WEST, this);
+        s.putConstraint(SpringLayout.EAST, scroll, -270, SpringLayout.EAST, this);
+        
         
     }
     

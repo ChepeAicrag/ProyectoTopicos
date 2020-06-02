@@ -5,6 +5,7 @@
 
 package Vista;
 
+import Controlador.Controlador;
 import Modelo.ModeloTablaInforme;
 import java.awt.Color;
 import javax.swing.BorderFactory;
@@ -40,7 +41,7 @@ public class VistaRegistroFinal extends JPanel{
         revalidate();
     }
     
-    public void colocar(){
+    private void colocar(){
         SpringLayout s = new SpringLayout();
         setLayout(s);
         titulo = new JLabel("REGISTRO DE LAS TANDAS PRODUCIDAS");
@@ -90,9 +91,19 @@ public class VistaRegistroFinal extends JPanel{
         scroll.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
         scroll.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
         scroll.setAlignmentX(JScrollPane.CENTER_ALIGNMENT);
+         btnSalir = new JButton("SALIR");
+        btnSalir.setActionCommand("salir");
+        add(btnSalir);
+        s.putConstraint(SpringLayout.NORTH, btnSalir, 100, SpringLayout.SOUTH, scroll);
+        s.putConstraint(SpringLayout.WEST, btnSalir, 1080, SpringLayout.WEST, this);
+        s.putConstraint(SpringLayout.EAST, btnSalir, -20, SpringLayout.EAST, this);
         add(scroll);
         s.putConstraint(SpringLayout.NORTH, scroll, 12, SpringLayout.SOUTH, hTab);
         s.putConstraint(SpringLayout.WEST, scroll, 2, SpringLayout.WEST, this);
-        s.putConstraint(SpringLayout.EAST, scroll, -2, SpringLayout.EAST, this);
+        s.putConstraint(SpringLayout.EAST, scroll, -2, SpringLayout.EAST, this);           
+    }
+    
+    public void conectarControlador(Controlador c){
+        btnSalir.addActionListener(c);
     }
 }

@@ -57,6 +57,7 @@ public class Vista extends JFrame{
     public void conectarControlador(Controlador c){
        vProducir.conectarControlador(c);
        vRegistro.conectarControlador(c);
+       vInforme.conectarControlador(c);
     }
     
     public void llenarOpciones(ArrayList<String> mezcales, ArrayList<String> porcentajes,ArrayList<String> tipos){

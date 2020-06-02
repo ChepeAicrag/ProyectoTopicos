@@ -47,7 +47,6 @@ public class Controlador implements ActionListener{
     ArrayList<Destilador> destiladores = new ArrayList<>();
     ArrayList<Enbotelladora> enbotelladores = new  ArrayList<>();
     
-    private Controlador_Hilos ctrlHilos;
     private ExecutorService ejecutador = Executors.newCachedThreadPool();
     
     public Controlador(Vista v, ManejoDatos m){
@@ -90,7 +89,7 @@ public class Controlador implements ActionListener{
                      id_tipoMezcal = v.vProducir.tipo.getSelectedIndex() + 1;
                      id_alcohol = v.vProducir.alcohol.getSelectedIndex() + 1;
                      t = new Tanda(id_Maguey,id_alcohol,id_tipoMezcal, cantPinias);
-                     t.setId(++contadorTandas);
+                     //t.setId(++contadorTandas);
                      System.out.println(t);
                      m.insertTanda(t); // Insertamos la tanda al registro de la tabla (OJO)
                      v.principal.setSelectedIndex(1);
@@ -140,6 +139,10 @@ public class Controlador implements ActionListener{
                     }
                 }
                 break;
+            case "salir":
+                m.cerrarConexion();
+                System.exit(0);
+                break;
         } 
    }
        
@@ -148,6 +151,7 @@ public class Controlador implements ActionListener{
         String consultaTandas = "select * from mezcal.tanda";
         v.vRegistro.mtt.setDatos(m.conexionConsultaTanda(consultaTandas));
         v.vRegistro.tabla.updateUI();
+        v.vRegistro.btnEliminar.repaint();
     }
     
     private void cargarInformeTandas() {

@@ -276,4 +276,7 @@ public class ManejoDatos {
         }
     }
     
+    public void cerrarConexion(){
+        crearConexion.CerrarConexion();
+    }
 }

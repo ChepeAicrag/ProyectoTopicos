@@ -5,7 +5,6 @@
 package MVC_Principal;
 
 import Controlador.Controlador;
-import Modelo.Conexion;
 import Modelo.ManejoDatos;
 import Vista.Vista;
 
