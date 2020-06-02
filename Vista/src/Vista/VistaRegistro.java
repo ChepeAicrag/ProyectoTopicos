@@ -21,7 +21,6 @@ import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.JTableHeader;
-import sun.swing.table.DefaultTableCellHeaderRenderer;
 
 /**
  * 
@@ -89,6 +88,8 @@ public class VistaRegistro extends JPanel{
         
         btnEliminar = new JButton("ELIMINAR");
         btnEliminar.setActionCommand("eliminar");
+        btnEliminar.setBackground(Color.yellow);
+        btnEliminar.setAlignmentX(TOP_ALIGNMENT);
         add(btnEliminar);
         s.putConstraint(SpringLayout.NORTH, btnEliminar, 580, SpringLayout.NORTH, this);
         s.putConstraint(SpringLayout.WEST, btnEliminar, 750, SpringLayout.WEST, this);

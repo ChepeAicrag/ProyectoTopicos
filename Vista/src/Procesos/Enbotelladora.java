@@ -6,6 +6,7 @@ package Procesos;
 import Componentes.ECP;
 import Controlador.Controlador;
 import java.awt.Color;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Date;
 import javax.swing.BorderFactory;
@@ -52,7 +53,7 @@ public class Enbotelladora extends Thread implements Productor, Consumidor{
     @Override
     public void producir(Tanda tanda) throws InterruptedException {
         tanda.setEstado("Enbarrilada");
-        tanda.setFechaFinal(new Date());
+        tanda.setFechaFinal(new Timestamp(System.currentTimeMillis()));
         tandasActualizar.put(tanda);
         System.out.println("Tanda terminada lista >>>> \n " + tanda + " \n Fecha >> " + tanda.getFechaFinal());
         bufferBarriles.put(tanda); // Las produce

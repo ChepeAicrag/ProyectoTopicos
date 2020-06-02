@@ -12,6 +12,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
@@ -124,13 +125,13 @@ public class ManejoDatos {
                 dat[9] = (String) selectValueDe("select nombre from mezcal.destilador where id_destilador = " + rs.getInt(11));
                 dat[10] = (String) selectValueDe("select nombre from mezcal.enbotelladora where id_enbotelladora = " + rs.getInt(12));
                 dat[11] = "Pendiente"; // Pendiente el cliente
-                SimpleDateFormat dt1 = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
-                dat[12] = (rs.getDate(14) == null) ? "Null" : dt1.format(rs.getDate(14));
-                dat[13] = (rs.getDate(15) == null) ? "Null" : dt1.format(rs.getDate(15));
+                SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss");
+                dat[12] = (rs.getTimestamp(14) == null) ? "Null" : sdf.format(rs.getTimestamp(14));//sdf.format(new Date(rs.getTimestamp(12).getTime()));
+                dat[13] = (rs.getTimestamp(15) == null) ? "Null" : sdf.format(rs.getTimestamp(15));//sdf.format(new Date(rs.getTimestamp(13).getTime()));
                 datos.add(dat);
             }
         } catch (SQLException e) {
-            // System.err.println("Error al CARGAR DATOS " + e);
+           System.err.println("Error al CARGAR DATOS " + e.getCause());
         }
         return datos;
     }
@@ -205,8 +206,8 @@ public class ManejoDatos {
                 tandaEncontrada.setId_Destilador(rs.getInt(11));
                 tandaEncontrada.setId_Enbotelladora(rs.getInt(12));
                 tandaEncontrada.setId_Cliente(rs.getInt(13));
-                tandaEncontrada.setFechaInicio(rs.getDate(14));
-                tandaEncontrada.setFechaFinal(rs.getDate(15));
+                tandaEncontrada.setFechaInicio(rs.getTimestamp(14));
+                tandaEncontrada.setFechaFinal(rs.getTimestamp(15));
             }
         }catch (SQLException e) {
             System.err.println("Error al CARGAR TANDA " + e);
@@ -259,8 +260,11 @@ public class ManejoDatos {
                 ps.setInt(5, t.getId_Fermentador());
                 ps.setInt(6, t.getId_Destilador());
                 ps.setInt(7, t.getId_Enbotelladora());
-                ps.setDate(8, new Date(t.getFechaInicio().getTime()));
-                ps.setDate(9, new Date(t.getFechaFinal().getTime()));
+                Timestamp d1 = new Timestamp(t.getFechaInicio().getTime());
+                Timestamp d2 = new Timestamp(t.getFechaFinal().getTime());
+                ps.setTimestamp(8, d1);
+                System.out.println("La fecha de inicio es : " + d1 + "\nLA final es :"+ d2);
+                ps.setTimestamp(9, d2);
                 ps.setInt(10,t.getId());
             }else
                 ps.setInt(2, t.getId());

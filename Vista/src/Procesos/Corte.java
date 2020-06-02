@@ -6,6 +6,7 @@ package Procesos;
 
 import Componentes.ECP;
 import java.awt.Color;
+import java.sql.Timestamp;
 import java.util.Date;
 import javax.swing.BorderFactory;
 import javax.swing.JProgressBar;
@@ -75,7 +76,7 @@ public class Corte extends Thread implements Productor{
               + "\nTome la tanda: " + tanda);
       tanda.setId_Cortador(id);
       /** Aquí le inserta el id a tanda para identificar que el trabajó la tanda*/
-      tanda.setFechaInicio(new Date());
+      tanda.setFechaInicio(new Timestamp(System.currentTimeMillis()));
       etqBarra.setDatoBarra("Tanda: " + tanda.getId());
       cortar(tanda);
     }

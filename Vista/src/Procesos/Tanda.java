@@ -5,6 +5,7 @@
 package Procesos;
 
 import java.awt.Color;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Random;
@@ -21,7 +22,7 @@ public class Tanda {
                  id_Destilador, id_Enbotelladora, id_Cliente;
     private Color color;
     private static int id_Contador = 1;
-    private Date fechaInicio, fechaFinal;
+    private Timestamp fechaInicio, fechaFinal;
     private String estado;
    
     public Tanda(){
@@ -59,7 +60,7 @@ public class Tanda {
         }
     }
 
-    public void setFechaInicio(Date fechaInicio){
+    public void setFechaInicio(Timestamp fechaInicio){
         this.fechaInicio = fechaInicio;
     }
     
@@ -67,7 +68,7 @@ public class Tanda {
         return fechaInicio;
     }
     
-    public void setFechaFinal(Date fechaFinal){
+    public void setFechaFinal(Timestamp fechaFinal){
         this.fechaFinal = fechaFinal;
     }
     

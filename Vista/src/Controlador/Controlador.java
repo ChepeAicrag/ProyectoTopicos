@@ -117,6 +117,7 @@ public class Controlador implements ActionListener{
                         JOptionPane.showMessageDialog(v, "No lo puede eliminar, está en produccion");
                     }
                 }
+                System.out.println("Holaaaaaaaaaaaaaaa");
                 break;
 
             case "producir":
@@ -143,6 +144,7 @@ public class Controlador implements ActionListener{
    }
        
     public void cargarDatosTandas(){
+        //String consultaTandas = "select * from mezcal.tanda where status = 'Registrada'";
         String consultaTandas = "select * from mezcal.tanda";
         v.vRegistro.mtt.setDatos(m.conexionConsultaTanda(consultaTandas));
         v.vRegistro.tabla.updateUI();
@@ -198,13 +200,15 @@ public class Controlador implements ActionListener{
     }
     
     private void prepararEquipos(){
+        int id_Equipo = 0;
         for (int i = 0; i < 3; i++) {
-            cortes.add(new Corte(i, bft, bpc));
-            hornos.add(new Horno(i, bpc, bph));
-            molinos.add(new Molino(i, bph, bpm));
-            fermentadores.add(new Fermentado(i, bpm, bpf));
-            destiladores.add(new Destilador(i, bpf, bmd));
-            enbotelladores.add(new Enbotelladora(i, bmd, bb));
+            id_Equipo = i + 1;
+            cortes.add(new Corte(id_Equipo, bft, bpc));
+            hornos.add(new Horno(id_Equipo, bpc, bph));
+            molinos.add(new Molino(id_Equipo , bph, bpm));
+            fermentadores.add(new Fermentado(id_Equipo, bpm, bpf));
+            destiladores.add(new Destilador(id_Equipo, bpf, bmd));
+            enbotelladores.add(new Enbotelladora(id_Equipo, bmd, bb));
             cortes.get(i).setIdentificador(v.vProduccion.getBarra(i).getPos(0));
             hornos.get(i).setIdentificador(v.vProduccion.getBarra(i).getPos(1));
             molinos.get(i).setIdentificador(v.vProduccion.getBarra(i).getPos(2));
@@ -235,8 +239,11 @@ public class Controlador implements ActionListener{
                 if(t != null){
                     m.updateEstadoTanda(t);
                     cargarDatosTandas();
-                    if(t.getEstado().equals("Enbarrilada"))
-                    cargarInformeTandas();    
+                    if(t.getEstado().equals("Enbarrilada")){
+                        cargarInformeTandas();
+                        //m.deleteTanda(t);
+                        cargarDatosTandas();
+                    }
                 }
             }
         }
