@@ -88,7 +88,7 @@ public class VistaRegistroFinal extends JPanel{
         scroll = new JScrollPane();
         scroll.setViewportView(tabla);
         scroll.setBackground(Color.BLACK);
-        scroll.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+        scroll.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
         scroll.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
         scroll.setAlignmentX(JScrollPane.CENTER_ALIGNMENT);
          btnSalir = new JButton("SALIR");

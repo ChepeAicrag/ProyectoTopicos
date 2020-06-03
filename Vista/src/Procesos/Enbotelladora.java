@@ -138,7 +138,7 @@ public class Enbotelladora extends Thread implements Productor, Consumidor{
             numAnejamientos = 5;
         return numAnejamientos;    
     }
-        
+            
     public void setIdentificador(ECP etqBarra){
         this.etqBarra = etqBarra;
         this.barra = this.etqBarra.getBarra();

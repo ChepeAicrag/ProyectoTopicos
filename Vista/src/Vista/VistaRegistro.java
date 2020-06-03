@@ -9,7 +9,6 @@ package Vista;
 import Controlador.Controlador;
 import Modelo.ModeloTablaTandas;
 import java.awt.Color;
-import javax.swing.Action;
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JLabel;

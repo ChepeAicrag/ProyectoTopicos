@@ -52,7 +52,7 @@ public class VistaProduccion extends JPanel{
         barra3.setBorder(BorderFactory.createTitledBorder(
                 border,"Palenque 3",TitledBorder.CENTER,TitledBorder.TOP));
         add(barra1);
-        s.putConstraint(SpringLayout.NORTH, barra1,5, SpringLayout.NORTH, this);
+        s.putConstraint(SpringLayout.NORTH, barra1,2, SpringLayout.NORTH, this);
         s.putConstraint(SpringLayout.WEST, barra1,12, SpringLayout.WEST, this);
         s.putConstraint(SpringLayout.EAST, barra1,-12, SpringLayout.EAST, this);
         s.putConstraint(SpringLayout.SOUTH, barra1,-440, SpringLayout.SOUTH, this);
@@ -60,12 +60,12 @@ public class VistaProduccion extends JPanel{
         s.putConstraint(SpringLayout.NORTH, barra2,15, SpringLayout.SOUTH, barra1);
         s.putConstraint(SpringLayout.WEST, barra2,12, SpringLayout.WEST, this);
         s.putConstraint(SpringLayout.EAST, barra2,-12, SpringLayout.EAST, this);
-        s.putConstraint(SpringLayout.SOUTH, barra2,-240, SpringLayout.SOUTH, this);
+        s.putConstraint(SpringLayout.SOUTH, barra2,-220, SpringLayout.SOUTH, this);
         add(barra3);
         s.putConstraint(SpringLayout.NORTH, barra3,15, SpringLayout.SOUTH, barra2);
         s.putConstraint(SpringLayout.WEST, barra3,12, SpringLayout.WEST, this);
         s.putConstraint(SpringLayout.EAST, barra3,-12, SpringLayout.EAST, this);
-        s.putConstraint(SpringLayout.SOUTH, barra3,-30, SpringLayout.SOUTH, this);
+        s.putConstraint(SpringLayout.SOUTH, barra3,-10, SpringLayout.SOUTH, this);
         barras.add(barra1);
         barras.add(barra2);
         barras.add(barra3);

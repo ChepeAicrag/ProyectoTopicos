@@ -29,17 +29,16 @@ public class Controlador implements ActionListener{
  
     private Vista v;
     
-    private int contadorTandas;// (Mejor usar serial)
     public ManejoDatos m;
     BufferTandas bft = new BufferTandas(),
-    //BufferPiniasCortadas 
                 bpc = new BufferTandas(),
                 bph = new BufferTandas(),
                 bpm = new BufferTandas(),
                 bpf = new BufferTandas(),
                 bmd = new BufferTandas(),
-                bb  = new BufferTandas();
-    BufferTandas TANDAS_ACTUALIZAR = new BufferTandas();
+                bb  = new BufferTandas(),
+    TANDAS_TRANSPORTAR = new BufferTandas(),
+    TANDAS_ACTUALIZAR = new BufferTandas();
     ArrayList<Corte> cortes = new ArrayList<>();
     ArrayList<Horno> hornos = new ArrayList<>();
     ArrayList<Molino> molinos = new ArrayList<>();
@@ -57,7 +56,6 @@ public class Controlador implements ActionListener{
         actualizarOpciones();
         cargarDatosTandas();
         cargarInformeTandas();
-        contadorTandas = v.vRegistro.mtt.getRowCount();
     }
     
     private void actualizarOpciones(){
@@ -89,7 +87,6 @@ public class Controlador implements ActionListener{
                      id_tipoMezcal = v.vProducir.tipo.getSelectedIndex() + 1;
                      id_alcohol = v.vProducir.alcohol.getSelectedIndex() + 1;
                      t = new Tanda(id_Maguey,id_alcohol,id_tipoMezcal, cantPinias);
-                     //t.setId(++contadorTandas);
                      System.out.println(t);
                      m.insertTanda(t); // Insertamos la tanda al registro de la tabla (OJO)
                      v.principal.setSelectedIndex(1);
@@ -147,8 +144,8 @@ public class Controlador implements ActionListener{
    }
        
     public void cargarDatosTandas(){
-        //String consultaTandas = "select * from mezcal.tanda where status = 'Registrada'";
-        String consultaTandas = "select * from mezcal.tanda";
+        String consultaTandas = "select * from mezcal.tanda where status = 'Registrada'";
+        //String consultaTandas = "select * from mezcal.tanda";
         v.vRegistro.mtt.setDatos(m.conexionConsultaTanda(consultaTandas));
         v.vRegistro.tabla.updateUI();
         v.vRegistro.btnEliminar.repaint();

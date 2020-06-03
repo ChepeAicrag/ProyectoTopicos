@@ -49,7 +49,7 @@ public class VistaProducir extends JPanel{
         s.putConstraint(SpringLayout.NORTH, eleccion, 5, SpringLayout.NORTH,this);
         s.putConstraint(SpringLayout.WEST, eleccion, 50, SpringLayout.WEST,this);
         s.putConstraint(SpringLayout.EAST, eleccion, -50, SpringLayout.EAST,this);
-        s.putConstraint(SpringLayout.SOUTH, eleccion, -200, SpringLayout.SOUTH,this);
+        s.putConstraint(SpringLayout.SOUTH, eleccion, -100, SpringLayout.SOUTH,this);
         etqAlcohol = new JLabel("Selecciona el grado de alcohol");
         add(etqAlcohol);
         s.putConstraint(SpringLayout.NORTH,etqAlcohol, 10, SpringLayout.SOUTH,eleccion);

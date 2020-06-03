@@ -25,7 +25,8 @@ public class Vista extends JFrame{
     public JTabbedPane principal;
     
     public Vista(){
-        setSize(1200,700);
+        setSize(1000, 700);
+        //setSize(780,670);
         setVisible(true);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setLocationRelativeTo(null);

@@ -6,7 +6,6 @@
 
 package Componentes;
 
-import Componentes.BotonRedondo;
 import java.awt.Color;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -56,10 +55,10 @@ public class BCE2 extends JComponent{
         SpringLayout s = new SpringLayout();
         setLayout(s);
         add(btn);
-        s.putConstraint(SpringLayout.NORTH, btn, 5, SpringLayout.NORTH, this);
-        s.putConstraint(SpringLayout.WEST, btn, 5, SpringLayout.WEST, this);
-        s.putConstraint(SpringLayout.EAST, btn, -5, SpringLayout.EAST, this);
-        s.putConstraint(SpringLayout.SOUTH, btn, -10, SpringLayout.SOUTH, this);
+        s.putConstraint(SpringLayout.NORTH, btn, 0, SpringLayout.NORTH, this);
+        s.putConstraint(SpringLayout.WEST, btn, 0, SpringLayout.WEST, this);
+        s.putConstraint(SpringLayout.EAST, btn, -0, SpringLayout.EAST, this);
+        s.putConstraint(SpringLayout.SOUTH, btn, -0, SpringLayout.SOUTH, this);
     }
 
     /**
