@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JTabbedPane;
+import javax.swing.UIManager;
 
 /**
  * 
@@ -25,6 +26,11 @@ public class Vista extends JFrame{
     public JTabbedPane principal;
     
     public Vista(){
+        super("MEZCALERA CHAHUE");
+        try {
+            UIManager.setLookAndFeel("com.jtattoo.plaf.hifi.HiFiInternalFrameUI");
+        } catch (Exception e) {
+        }
         setSize(1000, 700);
         //setSize(780,670);
         setVisible(true);
@@ -59,6 +65,7 @@ public class Vista extends JFrame{
        vProducir.conectarControlador(c);
        vRegistro.conectarControlador(c);
        vInforme.conectarControlador(c);
+       vTraslado.conectarControlador(c);
     }
     
     public void llenarOpciones(ArrayList<String> mezcales, ArrayList<String> porcentajes,ArrayList<String> tipos){

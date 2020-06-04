@@ -13,6 +13,7 @@ import Procesos.Fermentado;
 import Procesos.Horno;
 import Procesos.Molino;
 import Procesos.Tanda;
+import Procesos.Transportista;
 import Vista.Vista;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -45,7 +46,7 @@ public class Controlador implements ActionListener{
     ArrayList<Fermentado> fermentadores = new ArrayList<>();
     ArrayList<Destilador> destiladores = new ArrayList<>();
     ArrayList<Enbotelladora> enbotelladores = new  ArrayList<>();
-    
+    ArrayList<Transportista> transportistas = new ArrayList<>();
     private ExecutorService ejecutador = Executors.newCachedThreadPool();
     
     public Controlador(Vista v, ManejoDatos m){
@@ -97,7 +98,6 @@ public class Controlador implements ActionListener{
                     JOptionPane.showMessageDialog(v,"No rellenó correctamente");
                 }
                 break;
-            
             /** Elimina el registro de la tabla de tandas*/    
             case "eliminar":
                 filaPulsada = v.vRegistro.tabla.getSelectedRow();
@@ -115,7 +115,6 @@ public class Controlador implements ActionListener{
                 }
                 System.out.println("Holaaaaaaaaaaaaaaa");
                 break;
-
             case "producir":
                 filaPulsada = v.vRegistro.tabla.getSelectedRow();      
                 if (filaPulsada >= 0) {
@@ -134,6 +133,11 @@ public class Controlador implements ActionListener{
                     }else{
                         JOptionPane.showMessageDialog(v, "Ya está en proceso esa tanda");
                     }
+                }
+                break;
+            case "transportar":
+                for (Transportista transportista : transportistas) {
+                    transportista.start();
                 }
                 break;
             case "salir":
@@ -210,6 +214,7 @@ public class Controlador implements ActionListener{
             fermentadores.add(new Fermentado(id_Equipo, bpm, bpf));
             destiladores.add(new Destilador(id_Equipo, bpf, bmd));
             enbotelladores.add(new Enbotelladora(id_Equipo, bmd, bb));
+            transportistas.add(new Transportista(id_Equipo, bb, v.vTraslado));
             cortes.get(i).setIdentificador(v.vProduccion.getBarra(i).getPos(0));
             hornos.get(i).setIdentificador(v.vProduccion.getBarra(i).getPos(1));
             molinos.get(i).setIdentificador(v.vProduccion.getBarra(i).getPos(2));
@@ -222,6 +227,7 @@ public class Controlador implements ActionListener{
             fermentadores.get(i).setTandasActualizar(TANDAS_ACTUALIZAR);
             destiladores.get(i).setTandasActualizar(TANDAS_ACTUALIZAR);
             enbotelladores.get(i).setTandasActualizar(TANDAS_ACTUALIZAR);
+            transportistas.get(i).setTandasActualizar(TANDAS_ACTUALIZAR);
         }
     }
     

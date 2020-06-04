@@ -3,8 +3,14 @@ package Vista;
 import Componentes.BCE2;
 import Componentes.BarraEleccion;
 import Controlador.Controlador;
+import com.jtattoo.plaf.BasePanelUI;
+import com.jtattoo.plaf.aluminium.AluminiumPanelUI;
+import com.jtattoo.plaf.bernstein.BernsteinPanelUI;
+import com.jtattoo.plaf.hifi.HiFiPanelUI;
+import com.jtattoo.plaf.texture.TexturePanelUI;
 import java.awt.Color;
 import java.awt.GridLayout;
+import java.awt.Image;
 import java.util.ArrayList;
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
@@ -13,7 +19,9 @@ import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SpringLayout;
+import javax.swing.UIManager;
 import javax.swing.border.TitledBorder;
+import javax.swing.plaf.PanelUI;
 
 /**
  * 
@@ -27,7 +35,10 @@ public class VistaProducir extends JPanel{
     private JLabel etqAlcohol, etqTipo;
     private ImageIcon[] imagenes;
     private String[] textos;
-    
+    private ImageIcon imgFond = new ImageIcon(getClass().getResource("/Imagenes/fondo_0.jpg")),
+                  icon = new ImageIcon(imgFond.getImage().getScaledInstance(1020, 680, Image.SCALE_DEFAULT));
+    private JLabel fondo = new JLabel(icon);
+        
     public VistaProducir(ImageIcon[] imagenes,String[] textos){
         setSize(1020, 680);
         setVisible(true);
@@ -42,9 +53,14 @@ public class VistaProducir extends JPanel{
         setLayout(s);
         eleccion = new BarraEleccion(imagenes,textos);
         eleccion.setLayout(new GridLayout(4,4));
-        eleccion.setBackground(Color.yellow);
+        //eleccion.setBackground(Color.yellow);
         eleccion.setBorder(BorderFactory.createTitledBorder(
                 BorderFactory.createBevelBorder(2), "Selecciona tu mezcal", TitledBorder.CENTER, TitledBorder.TOP));
+        eleccion.add(fondo);
+        try {
+            
+        } catch (Exception e) {
+        }
         add(eleccion);
         s.putConstraint(SpringLayout.NORTH, eleccion, 5, SpringLayout.NORTH,this);
         s.putConstraint(SpringLayout.WEST, eleccion, 50, SpringLayout.WEST,this);
@@ -71,7 +87,7 @@ public class VistaProducir extends JPanel{
         add(producir);
         s.putConstraint(SpringLayout.NORTH,producir, 12, SpringLayout.SOUTH,tipo);
         s.putConstraint(SpringLayout.WEST, producir, 447, SpringLayout.WEST,this);
-        setBackground(Color.RED);
+        add(fondo);
     }
     
     public void conectarControlador(Controlador c){

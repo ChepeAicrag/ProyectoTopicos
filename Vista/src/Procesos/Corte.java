@@ -7,7 +7,6 @@ package Procesos;
 import Componentes.ECP;
 import java.awt.Color;
 import java.sql.Timestamp;
-import java.util.Date;
 import javax.swing.BorderFactory;
 import javax.swing.JProgressBar;
 

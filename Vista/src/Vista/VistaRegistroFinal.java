@@ -94,9 +94,9 @@ public class VistaRegistroFinal extends JPanel{
          btnSalir = new JButton("SALIR");
         btnSalir.setActionCommand("salir");
         add(btnSalir);
-        s.putConstraint(SpringLayout.NORTH, btnSalir, 100, SpringLayout.SOUTH, scroll);
-        s.putConstraint(SpringLayout.WEST, btnSalir, 1080, SpringLayout.WEST, this);
-        s.putConstraint(SpringLayout.EAST, btnSalir, -20, SpringLayout.EAST, this);
+        s.putConstraint(SpringLayout.NORTH, btnSalir, 120, SpringLayout.SOUTH, scroll);
+        s.putConstraint(SpringLayout.WEST, btnSalir, 870, SpringLayout.WEST, this);
+        s.putConstraint(SpringLayout.EAST, btnSalir, -30, SpringLayout.EAST, this);
         add(scroll);
         s.putConstraint(SpringLayout.NORTH, scroll, 12, SpringLayout.SOUTH, hTab);
         s.putConstraint(SpringLayout.WEST, scroll, 2, SpringLayout.WEST, this);
