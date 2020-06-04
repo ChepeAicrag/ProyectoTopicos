@@ -7,7 +7,6 @@
 package Controlador;
 
 import Procesos.BufferTandas;
-import Procesos.Corte;
 import Procesos.Tanda;
 import java.util.ArrayList;
 

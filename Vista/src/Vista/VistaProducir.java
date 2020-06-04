@@ -3,12 +3,6 @@ package Vista;
 import Componentes.BCE2;
 import Componentes.BarraEleccion;
 import Controlador.Controlador;
-import com.jtattoo.plaf.BasePanelUI;
-import com.jtattoo.plaf.aluminium.AluminiumPanelUI;
-import com.jtattoo.plaf.bernstein.BernsteinPanelUI;
-import com.jtattoo.plaf.hifi.HiFiPanelUI;
-import com.jtattoo.plaf.texture.TexturePanelUI;
-import java.awt.Color;
 import java.awt.GridLayout;
 import java.awt.Image;
 import java.util.ArrayList;
@@ -19,9 +13,7 @@ import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SpringLayout;
-import javax.swing.UIManager;
 import javax.swing.border.TitledBorder;
-import javax.swing.plaf.PanelUI;
 
 /**
  * 

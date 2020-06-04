@@ -136,9 +136,11 @@ public class Controlador implements ActionListener{
                 }
                 break;
             case "transportar":
-                for (Transportista transportista : transportistas) {
-                    transportista.start();
-                }
+                for (Transportista transportista : transportistas) 
+                     if (!transportista.isAlive()) 
+                        transportista.start();
+                    else 
+                        transportista.run();
                 break;
             case "salir":
                 m.cerrarConexion();

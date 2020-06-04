@@ -1,18 +1,12 @@
 package Vista;
 
 import Controlador.Controlador;
-import Procesos.Transportista;
-import java.awt.Color;
 import java.awt.Image;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JProgressBar;
-import javax.swing.SpringLayout;
-import javax.swing.SwingUtilities;
 
 /**
  *
@@ -20,10 +14,6 @@ import javax.swing.SwingUtilities;
  */
 public class VistaTraslado extends JPanel {
 
-    /**
-     * Tenemos 12 tipos de barriles
-     *
-     */
     private JProgressBar barrilesAnejo55, barrilesAnejo48, barrilesAnejo37,
             barrilesJoven55, barrilesJoven48, barrilesJoven37,
             barrilesReposado55, barrilesReposado48, barrilesReposado37,
@@ -49,10 +39,6 @@ public class VistaTraslado extends JPanel {
         revalidate();
     }
 
-    /**
-     * Ponerle color a cada tanda para identificarlo Son 12 estanqueles que
-     * tiene barriles (Bodegas) 3 Tiendas compradoras
-     */
     private void colocar() {
         //SpringLayout sp = new SpringLayout(), s = new SpringLayout();
         //escenario = new JPanel(s);
@@ -121,6 +107,10 @@ public class VistaTraslado extends JPanel {
         trailer.setLocation(trailer.getLocation().x + 20, trailer.getLocation().y);
         else
         trailer.setLocation(trailer.getLocation().x, trailer.getLocation().y + 10);
+    }
+    
+    public void moverArriba(Trailer trailer){
+        trailer.setLocation(trailer.getLocation().x, trailer.getLocation().y - 10);
     }
     
 }
