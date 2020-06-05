@@ -7,6 +7,8 @@ package Vista;
 
 import Componentes.BarraProceso;
 import java.awt.Color;
+import java.awt.Graphics;
+import java.awt.Image;
 import java.util.ArrayList;
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
@@ -22,6 +24,8 @@ import javax.swing.border.TitledBorder;
 public class VistaProduccion extends JPanel{
     
     public ArrayList<BarraProceso> barras;
+    private ImageIcon img = new ImageIcon(getClass().getResource("/Imagenes/Mezcal_desenfocado.png"));
+    private Image imagenFondo = img.getImage();
     
     public VistaProduccion(){
         barras = new ArrayList<>();
@@ -74,5 +78,14 @@ public class VistaProduccion extends JPanel{
     
     public BarraProceso getBarra(int i){
         return barras.get(i);
+    }
+    
+    @Override
+    public void paint(Graphics g) {
+        g.drawImage(imagenFondo, 0, 0, getWidth(), getHeight(),
+                        this);
+ 
+        setOpaque(false);
+        super.paint(g);
     }
 }

@@ -8,7 +8,10 @@ package Vista;
 import Controlador.Controlador;
 import Modelo.ModeloTablaInforme;
 import java.awt.Color;
+import java.awt.Graphics;
+import java.awt.Image;
 import javax.swing.BorderFactory;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -33,6 +36,8 @@ public class VistaRegistroFinal extends JPanel{
     public JButton btnSalir; // Solo para cerrar la BD
     private DefaultTableCellRenderer dtcr;
     private JTableHeader hTab ;
+    private ImageIcon img = new ImageIcon(getClass().getResource("/Imagenes/silueta-maguey.jpg"));
+    private Image imagenFondo = img.getImage();
     
     public VistaRegistroFinal(){
         setSize(1020, 680);
@@ -71,10 +76,8 @@ public class VistaRegistroFinal extends JPanel{
         tabla.getColumnModel().getColumn(11).setPreferredWidth(80);
         tabla.getColumnModel().getColumn(12).setPreferredWidth(150);
         tabla.getColumnModel().getColumn(13).setPreferredWidth(150);
-        
         hTab = tabla.getTableHeader();
         hTab.setAlignmentX(JTableHeader.CENTER_ALIGNMENT);
-        
         hTab.setResizingAllowed(false);
         hTab.setReorderingAllowed(false);
         hTab.setBorder(BorderFactory.createLineBorder(Color.yellow, 1));
@@ -95,15 +98,23 @@ public class VistaRegistroFinal extends JPanel{
         btnSalir.setActionCommand("salir");
         add(btnSalir);
         s.putConstraint(SpringLayout.NORTH, btnSalir, 120, SpringLayout.SOUTH, scroll);
-        s.putConstraint(SpringLayout.WEST, btnSalir, 870, SpringLayout.WEST, this);
-        s.putConstraint(SpringLayout.EAST, btnSalir, -30, SpringLayout.EAST, this);
+        s.putConstraint(SpringLayout.WEST, btnSalir, 770, SpringLayout.WEST, this);
+        //s.putConstraint(SpringLayout.EAST, btnSalir, -30, SpringLayout.EAST, this);
         add(scroll);
         s.putConstraint(SpringLayout.NORTH, scroll, 12, SpringLayout.SOUTH, hTab);
-        s.putConstraint(SpringLayout.WEST, scroll, 2, SpringLayout.WEST, this);
-        s.putConstraint(SpringLayout.EAST, scroll, -2, SpringLayout.EAST, this);           
+        s.putConstraint(SpringLayout.WEST, scroll, 30, SpringLayout.WEST, this);
+        s.putConstraint(SpringLayout.EAST, scroll, -25, SpringLayout.EAST, this);           
     }
     
     public void conectarControlador(Controlador c){
         btnSalir.addActionListener(c);
     }
+    
+    @Override
+    public void paint(Graphics g) {
+        g.drawImage(imagenFondo, 0, 0, getWidth(), getHeight(),this);
+        setOpaque(false);
+        super.paint(g);
+    }
+    
 }

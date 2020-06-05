@@ -3,7 +3,9 @@
  */
 package Componentes;
 
+import java.awt.Graphics;
 import java.awt.GridLayout;
+import java.awt.Image;
 import java.util.ArrayList;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -213,4 +215,17 @@ public class BarraProceso extends JPanel {
     public JButton getBotonCancelar(){
         return cancelar.getBoton();
     }
+    
+    private ImageIcon img = new ImageIcon(getClass().getResource("/Imagenes/fondo_barra.jpg"));
+    private Image imagenFondo = img.getImage();
+    
+     @Override
+    public void paint(Graphics g) {
+        g.drawImage(imagenFondo, 0, 0, getWidth(), getHeight(),
+                        this);
+ 
+        setOpaque(false);
+        super.paint(g);
+    }
+    
 }

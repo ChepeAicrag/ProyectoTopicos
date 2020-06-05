@@ -6,7 +6,11 @@
 
 package Componentes;
 
+import java.awt.Color;
+import java.awt.Font;
+import java.awt.Graphics;
 import java.awt.GridLayout;
+import java.awt.Image;
 import java.util.ArrayList;
 import javax.swing.ImageIcon;
 import javax.swing.JPanel;
@@ -141,7 +145,9 @@ public class BarraEleccion extends JPanel{
     public void setTextos(String[] textos){
         if (!vacio() && textos.length == nMagueys) {
             for (int i = 0; i < nMagueys; i++) {
-                magueys.get(i).setTexto(textos[i]);
+                magueys.get(i).setTexto(textos[i].toUpperCase());
+                magueys.get(i).setFont(new Font("Arial", Font.BOLD, 14));
+                magueys.get(i).setColorText(Color.WHITE);
             }
         }
     }
@@ -166,5 +172,20 @@ public class BarraEleccion extends JPanel{
     /***/
     public ArrayList<BCE2> getBotones(){
         return magueys;
+    }
+    
+    private Image imagen;
+    
+    public void setFondoImagen(ImageIcon imagen){
+        this.imagen = imagen.getImage();
+    }
+    
+    @Override
+    public void paint(Graphics g) {
+        g.drawImage(imagen, 0, 0, getWidth(), getHeight(),
+                        this);
+ 
+        setOpaque(false);
+        super.paint(g);
     }
 }

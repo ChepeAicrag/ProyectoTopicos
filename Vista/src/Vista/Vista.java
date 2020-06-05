@@ -29,9 +29,8 @@ public class Vista extends JFrame{
         super("MEZCALERA CHAHUE");
         try {
             UIManager.setLookAndFeel("com.jtattoo.plaf.hifi.HiFiInternalFrameUI");
-        } catch (Exception e) {
-        }
-        setSize(1000, 700);
+        } catch (Exception e) {}
+        setSize(875, 725);
         //setSize(780,670);
         setVisible(true);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
@@ -42,10 +41,21 @@ public class Vista extends JFrame{
     
     public void colocar(){
         ImageIcon img = new ImageIcon(
-                getClass().getResource("/TestVistas/maguey.png"));
+                getClass().getResource("/TestVistas/maguey.png")),
+        mAzul = new ImageIcon(getClass().getResource("/Imagenes/Maguey_Azul.png")),
+        mCenizo = new ImageIcon(getClass().getResource("/Imagenes/Maguey_Cenizo.png")),
+        mCoyote = new ImageIcon(getClass().getResource("/Imagenes/Maguey_Coyote.png")),
+        mCuishe = new ImageIcon(getClass().getResource("/Imagenes/Maguey_Cuishe.png")),
+        mEspadín = new ImageIcon(getClass().getResource("/Imagenes/Maguey_Espadín.png")),
+        mMexicano = new ImageIcon(getClass().getResource("/Imagenes/Maguey_Mexicano.png")),
+        mPapalote = new ImageIcon(getClass().getResource("/Imagenes/Maguey_Papalote.png")),
+        mTobala = new ImageIcon(getClass().getResource("/Imagenes/Maguey_Tobalá.png"));
+                
         String[] txts = {"Tobalá","Cuishe","Coyote","Tepeztate","Papalote","Cenizo",
                         "Estoquillo","Mexicano","Tobalá","Cuishe","Coyote","Tepeztate"};
-        ImageIcon[] imagenes = {img,img,img,img,img,img,img,img,img,img,img,img};
+        ImageIcon[] imagenes = {mCoyote,img,mPapalote,mCenizo,
+                                img,mMexicano,mTobala,mCuishe,
+                                mAzul,img,img,img};
         
         principal = new JTabbedPane();
         vProducir = new VistaProducir(imagenes, txts);
@@ -58,6 +68,9 @@ public class Vista extends JFrame{
         principal.addTab("Traslado", vTraslado);
         vInforme = new VistaRegistroFinal();
         principal.add("Informe",vInforme);
+        principal.setEnabledAt(1, false);
+        principal.setEnabledAt(2, false);
+        principal.setEnabledAt(3, false);
         add(principal);
     }
     

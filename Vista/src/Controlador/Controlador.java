@@ -84,6 +84,10 @@ public class Controlador implements ActionListener{
         }
         switch(o){
             case "registrar":
+                //v.setSize(1020, 680);
+                v.principal.setEnabledAt(1, true);
+                v.principal.setEnabledAt(2, true);
+                v.principal.setEnabledAt(3, true);
                 if(id_Maguey > 0 && cantPinias > 0){
                      id_tipoMezcal = v.vProducir.tipo.getSelectedIndex() + 1;
                      id_alcohol = v.vProducir.alcohol.getSelectedIndex() + 1;
@@ -155,6 +159,7 @@ public class Controlador implements ActionListener{
         v.vRegistro.mtt.setDatos(m.conexionConsultaTanda(consultaTandas));
         v.vRegistro.tabla.updateUI();
         v.vRegistro.btnEliminar.repaint();
+        v.vRegistro.updateUI();
     }
     
     private void cargarInformeTandas() {
