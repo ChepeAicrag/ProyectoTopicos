@@ -17,11 +17,11 @@ public class ModeloTablaInforme extends AbstractTableModel{
     private String encabezado[] = new String[]{
             "Id","Tipo Maguey","% Alcohol","Tipo Mezcal","N° Piñas",
             "Cortado","Horneado","Molido","Fermentado","Destilado","Enbotellado",
-            "Consumidor","Fecha Inicio","Fecha Final"};
+            "Transportador","Consumidor","Fecha Inicio","Fecha Final"};
     private Class tipos[] = new Class[]{
             String.class,String.class,String.class,String.class,String.class,String.class,
             String.class,String.class,String.class,String.class,String.class,String.class,
-            String.class,String.class};
+            String.class,String.class,String.class};
     
     public void setDatos(List<Object[]> d) {
         dato = d;

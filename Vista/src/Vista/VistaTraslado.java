@@ -95,7 +95,8 @@ public class VistaTraslado extends JPanel {
         add(fondo);
 
     }
-    
+
+    /** Rellenar el texto de los clientes con los de la base de datos*/
     public void rotar(Trailer t, double val){
         t.rotar(val);
     }

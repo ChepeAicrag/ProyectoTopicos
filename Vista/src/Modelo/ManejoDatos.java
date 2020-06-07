@@ -111,7 +111,7 @@ public class ManejoDatos {
             ps = conexion.prepareStatement(sql);
             rs = ps.executeQuery();
             while (rs.next()) {
-                String dat[] = new String[14];
+                String dat[] = new String[15];
                 dat[0] = String.valueOf((Integer) rs.getInt(1));
                 dat[1] = (String) selectValueDe("select nombre from mezcal.maguey where id_maguey = " + rs.getString(2));
                 dat[2] = String.valueOf((Double)selectValueDe("select valor from mezcal.gradoalcohol where id_grado = " + rs.getInt(3)));
@@ -124,10 +124,11 @@ public class ManejoDatos {
                 dat[8] = (String) selectValueDe("select nombre from mezcal.fermentador where id_fermentador = " + rs.getInt(10));
                 dat[9] = (String) selectValueDe("select nombre from mezcal.destilador where id_destilador = " + rs.getInt(11));
                 dat[10] = (String) selectValueDe("select nombre from mezcal.enbotelladora where id_enbotelladora = " + rs.getInt(12));
-                dat[11] = "Pendiente"; // Pendiente el cliente
+                dat[12] = (String) selectValueDe("select nombre from mezcal.cliente where id_cliente = " + rs.getInt(13));
                 SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss");
-                dat[12] = (rs.getTimestamp(14) == null) ? "Null" : sdf.format(rs.getTimestamp(14));//sdf.format(new Date(rs.getTimestamp(12).getTime()));
-                dat[13] = (rs.getTimestamp(15) == null) ? "Null" : sdf.format(rs.getTimestamp(15));//sdf.format(new Date(rs.getTimestamp(13).getTime()));
+                dat[13] = (rs.getTimestamp(14) == null) ? "Null" : sdf.format(rs.getTimestamp(14));
+                dat[14] = (rs.getTimestamp(15) == null) ? "Null" : sdf.format(rs.getTimestamp(15));
+                dat[11] = String.valueOf(rs.getInt(16));
                 datos.add(dat);
             }
         } catch (SQLException e) {
@@ -242,7 +243,7 @@ public class ManejoDatos {
             sqlUpdateTanda = "update mezcal.tanda set "
                 + "status = ?, id_Cortador = ?, id_Horno = ?, id_Molino = ?,"
                 + "id_Fermentador = ?, id_Destilador = ?, id_Enbotelladora = ?"
-                + ", fecha_inicio = ?, fecha_final = ? where id_tanda = ?;";
+                + ",id_Cliente = ?, \"id_Transportista\" = ?, fecha_inicio = ?, fecha_final = ? where id_tanda = ?;";
             completa = true;
         }
         else
@@ -260,10 +261,13 @@ public class ManejoDatos {
                 ps.setInt(7, t.getId_Enbotelladora());
                 Timestamp d1 = new Timestamp(t.getFechaInicio().getTime());
                 Timestamp d2 = new Timestamp(t.getFechaFinal().getTime());
-                ps.setTimestamp(8, d1);
+                ps.setInt(8,t.getId_Cliente());
+                ps.setInt(9,t.getId_Transportador());
+                ps.setTimestamp(10, d1);
                 System.out.println("La fecha de inicio es : " + d1 + "\nLA final es :"+ d2);
-                ps.setTimestamp(9, d2);
-                ps.setInt(10,t.getId());
+                ps.setTimestamp(11, d2);
+                ps.setInt(12,t.getId());
+                /** Falta mostrar que trailer transportó la tanda*/
             }else
                 ps.setInt(2, t.getId());
             ps.executeUpdate();

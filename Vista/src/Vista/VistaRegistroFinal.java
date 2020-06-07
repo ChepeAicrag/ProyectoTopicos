@@ -69,8 +69,9 @@ public class VistaRegistroFinal extends JPanel{
         tabla.getColumnModel().getColumn(9).setPreferredWidth(80);
         tabla.getColumnModel().getColumn(10).setPreferredWidth(90);
         tabla.getColumnModel().getColumn(11).setPreferredWidth(80);
-        tabla.getColumnModel().getColumn(12).setPreferredWidth(150);
+        tabla.getColumnModel().getColumn(12).setPreferredWidth(80);
         tabla.getColumnModel().getColumn(13).setPreferredWidth(150);
+        tabla.getColumnModel().getColumn(14).setPreferredWidth(150);
         hTab = tabla.getTableHeader();
         hTab.setAlignmentX(JTableHeader.CENTER_ALIGNMENT);
         hTab.setResizingAllowed(false);

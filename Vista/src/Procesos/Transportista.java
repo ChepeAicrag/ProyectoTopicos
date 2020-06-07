@@ -25,21 +25,26 @@ public class Transportista extends Thread {
     public Transportista(int id, BufferTandas bufferBarriles, VistaTraslado v) {
         this.id = id;
         this.v = v;
-        bufferBarriles = bufferBarriles;
+        this.bufferBarriles = bufferBarriles;
     }
 
-    public void run() {
-        int i = 0;
-        boolean op = true;
+    public synchronized void run() {
         while (true) {
-            transporte();
-            break;
+            try {
+                transporte();
+            }catch (Exception e){
+                System.out.println("Error trasnportistada : " + e);
+            }
         }
     }
 
     private synchronized void transporte() {
         Tanda tanda = bufferBarriles.remove();
-        System.out.println("Yo auto " + id);//+ " transpoto a la tanda \n " + tanda);
+        if(tanda == null){
+            System.out.println("Tanda es null");
+            return;
+        }
+        System.out.println("Yo auto " + id + " transpoto a la tanda \n " + tanda);
         int cliente = 1;//new Random().nextInt(4) + 1;
         if (id == 1) {
             rutaTrailer1(cliente);
@@ -49,10 +54,14 @@ public class Transportista extends Thread {
             rutaTrailer3(cliente);
         }
         tanda.setEstado("Entregada");
+        // Falta modificar la base de datos para asignarle quien lo entregó
+        tanda.setId_Transportador(id);
+        tanda.setId_Cliente(cliente);
         tandasActualizar.put(tanda); // La manda a actualizar
+        System.out.println("Termine transporte\n" + tanda);
     }
 
-    private void rutaTrailer1(int cliente) {
+    private synchronized void rutaTrailer1(int cliente) {
         Point p = v.trailer1.getLocation();
         switch (cliente) {
             case 1:
@@ -72,14 +81,9 @@ public class Transportista extends Thread {
                 break;
         }
         v.trailer1.setLocation(p);
-        try {
-            wait();
-        } catch (InterruptedException ex) {
-            Logger.getLogger(Transportista.class.getName()).log(Level.SEVERE, null, ex);
-        }
     }
 
-    private void rutaTrailer2(int cliente) {
+    private synchronized void rutaTrailer2(int cliente) {
         Point p = v.trailer2.getLocation();
         switch (cliente) {
             case 1:
@@ -101,7 +105,7 @@ public class Transportista extends Thread {
         v.trailer2.setLocation(p);
     }
 
-    private void rutaTrailer3(int cliente) {
+    private synchronized void rutaTrailer3(int cliente) {
         Point p = v.trailer3.getLocation();
         switch (cliente) {
             case 1:
@@ -129,7 +133,6 @@ public class Transportista extends Thread {
                 v.mover(t, true);
                 Thread.sleep(1000);
             }
-            System.out.println("Entregado");
             Thread.sleep(1000);
         } catch (InterruptedException ex) {
             ex.printStackTrace();
@@ -139,7 +142,7 @@ public class Transportista extends Thread {
     /**
      * Va recto, gira hacia abajo
      */
-    private void entregaGiroDerecha(Trailer t, int distanciaMaxima) {
+    private synchronized void entregaGiroDerecha(Trailer t, int distanciaMaxima) {
         t.rotar(Math.toRadians(90));
         while (t.getLocation().y <= distanciaMaxima) {
             v.mover(t, false);
@@ -151,14 +154,14 @@ public class Transportista extends Thread {
         }
     }
 
-    private void Trailer1_ClienteN(int bajar) {
+    private synchronized void Trailer1_ClienteN(int bajar) {
         entregaRecta(v.trailer1, 330);
         entregaGiroDerecha(v.trailer1, bajar);
         v.trailer1.setRotacion(0);
         entregaRecta(v.trailer1, limite);
     }
 
-    private void entregaGiroIzquierda(Trailer t, int distanciaMaxima) {
+    private synchronized void entregaGiroIzquierda(Trailer t, int distanciaMaxima) {
         t.rotar(Math.toRadians(-90));
         while (t.getLocation().y >= distanciaMaxima) {
             v.moverArriba(t);
@@ -170,21 +173,21 @@ public class Transportista extends Thread {
         }
     }
 
-    private void Trailer2_ClienteArriba(int arriba) {
+    private synchronized void Trailer2_ClienteArriba(int arriba) {
         entregaRecta(v.trailer2, 220);
         entregaGiroIzquierda(v.trailer2, arriba);
         v.trailer2.setRotacion(0);
         entregaRecta(v.trailer2, limite);
     }
 
-    private void Trailer2_ClienteAbajo(int bajar) {
+    private synchronized void Trailer2_ClienteAbajo(int bajar) {
         entregaRecta(v.trailer2, 220);
         entregaGiroDerecha(v.trailer2, bajar);
         v.trailer2.setRotacion(0);
         entregaRecta(v.trailer2, limite);
     }
 
-    private void Trailer3_ClienteN(int arriba) {
+    private synchronized void Trailer3_ClienteN(int arriba) {
         entregaRecta(v.trailer3, 300);
         entregaGiroIzquierda(v.trailer3, arriba);
         v.trailer3.rotar(0);

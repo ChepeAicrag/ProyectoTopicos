@@ -19,7 +19,7 @@ public class Tanda {
     private ArrayList<Object> pinias;
     private int  id, tipoMaguey, porcentajeAlcohol, tipoMezcal, cantidadPinias,
                  id_Cortador, id_Horneador, id_Triturador, id_Fermentador, 
-                 id_Destilador, id_Enbotelladora, id_Cliente;
+                 id_Destilador, id_Enbotelladora, id_Transportador, id_Cliente;
     private Color color;
     private static int id_Contador = 1;
     private Timestamp fechaInicio, fechaFinal;
@@ -169,6 +169,9 @@ public class Tanda {
         this.id_Enbotelladora = id_Enbotelladora;
     }
 
+    public void setId_Transportador(int id_Transportador){this.id_Transportador = id_Transportador;}
+
+    public int getId_Transportador(){return id_Transportador;}
     public int getId_Cliente() {
         return id_Cliente;
     }

@@ -157,12 +157,15 @@ public class Controlador implements ActionListener{
                 if(bb.isEmpty()){
                     JOptionPane.showMessageDialog(v,"No hay barriles para transportar");
                     return;
-                }
-                for (Transportista transportista : transportistas) 
+                }//for (Transportista transportista : transportistas){
+                   //   ejecutador.submit(transportista);
+               // }
+                for (Transportista transportista : transportistas)
                      if (!transportista.isAlive()) 
                         transportista.start();
                     else 
                         transportista.run();
+
                 break;
             case "salir":
                 m.cerrarConexion();
