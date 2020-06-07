@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="TiposMagueyes1">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/Vista/src/Imagenes/TiposMagueyes.zip!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

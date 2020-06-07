@@ -4,6 +4,7 @@
 
 package Controlador;
 
+import Modelo.Conexion;
 import Modelo.ManejoDatos;
 import Procesos.BufferTandas;
 import Procesos.Corte;
@@ -15,8 +16,8 @@ import Procesos.Molino;
 import Procesos.Tanda;
 import Procesos.Transportista;
 import Vista.Vista;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+
+import java.awt.event.*;
 import java.util.ArrayList;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -32,14 +33,14 @@ public class Controlador implements ActionListener{
     
     public ManejoDatos m;
     BufferTandas bft = new BufferTandas(),
-                bpc = new BufferTandas(),
-                bph = new BufferTandas(),
-                bpm = new BufferTandas(),
-                bpf = new BufferTandas(),
-                bmd = new BufferTandas(),
-                bb  = new BufferTandas(),
-    TANDAS_TRANSPORTAR = new BufferTandas(),
-    TANDAS_ACTUALIZAR = new BufferTandas();
+                 bpc = new BufferTandas(),
+                 bph = new BufferTandas(),
+                 bpm = new BufferTandas(),
+                 bpf = new BufferTandas(),
+                 bmd = new BufferTandas(),
+                 bb  = new BufferTandas(),
+                TANDAS_TRANSPORTAR = new BufferTandas(),
+                TANDAS_ACTUALIZAR = new BufferTandas();
     ArrayList<Corte> cortes = new ArrayList<>();
     ArrayList<Horno> hornos = new ArrayList<>();
     ArrayList<Molino> molinos = new ArrayList<>();
@@ -48,7 +49,9 @@ public class Controlador implements ActionListener{
     ArrayList<Enbotelladora> enbotelladores = new  ArrayList<>();
     ArrayList<Transportista> transportistas = new ArrayList<>();
     private ExecutorService ejecutador = Executors.newCachedThreadPool();
-    
+    int filaPulsada = 0, id_tanda = 0, limite = 0,id_Maguey = 0, id_alcohol = 0, id_tipoMezcal = 0, cantPinias = 0;
+    ArrayList<Integer> tandasProduciendo = new ArrayList(); // Almacena los id de las tandas
+
     public Controlador(Vista v, ManejoDatos m){
         this.v = v;
         this.m = m;
@@ -57,18 +60,26 @@ public class Controlador implements ActionListener{
         actualizarOpciones();
         cargarDatosTandas();
         cargarInformeTandas();
+        v.addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent e) {
+                m.cerrarConexion();
+                super.windowClosing(e);
+            }
+        });
     }
-    
+
+    /**
+     * Consulta para rellenar los checkbox
+     *
+     * */
     private void actualizarOpciones(){
         ArrayList<String> porcentajes = m.conexionConsultarPorcentajeOTipo("select * from mezcal.gradoalcohol");
         ArrayList<String> tipos = m.conexionConsultarPorcentajeOTipo("select * from mezcal.tipomezcal");
         ArrayList<String> mezcales = m.conexionConsultarPorcentajeOTipo("select * from mezcal.maguey");
         v.llenarOpciones(mezcales, porcentajes, tipos);
     }
-            
-    
-    int filaPulsada = 0, id_tanda = 0, limite = 0,id_Maguey = 0, id_alcohol = 0, id_tipoMezcal = 0, cantPinias = 0;
-    ArrayList<Integer> tandasProduciendo = new ArrayList();
+
     @Override
     public void actionPerformed(ActionEvent ae) {
         Tanda t;
@@ -84,12 +95,11 @@ public class Controlador implements ActionListener{
         }
         switch(o){
             case "registrar":
-                //v.setSize(1020, 680);
-                v.principal.setEnabledAt(1, true);
-                v.principal.setEnabledAt(2, true);
-                v.principal.setEnabledAt(3, true);
+                /** Reajustamos los tamaños y hacemos visibles las demás ventanas*/
+                v.reajustarVistas();
                 if(id_Maguey > 0 && cantPinias > 0){
-                     id_tipoMezcal = v.vProducir.tipo.getSelectedIndex() + 1;
+                    // Aqui debe ir lo de arriba
+                    id_tipoMezcal = v.vProducir.tipo.getSelectedIndex() + 1;
                      id_alcohol = v.vProducir.alcohol.getSelectedIndex() + 1;
                      t = new Tanda(id_Maguey,id_alcohol,id_tipoMezcal, cantPinias);
                      System.out.println(t);
@@ -102,7 +112,11 @@ public class Controlador implements ActionListener{
                     JOptionPane.showMessageDialog(v,"No rellenó correctamente");
                 }
                 break;
-            /** Elimina el registro de la tabla de tandas*/    
+            case "atrasProducir":
+                v.iniciarVistas();
+                // Habilitar produccion y transporte si tenemos a una tanda en produccion
+                break;
+            /** Elimina el registro de la tabla de tandas*/
             case "eliminar":
                 filaPulsada = v.vRegistro.tabla.getSelectedRow();
                 if (filaPulsada >= 0) {
@@ -140,6 +154,10 @@ public class Controlador implements ActionListener{
                 }
                 break;
             case "transportar":
+                if(bb.isEmpty()){
+                    JOptionPane.showMessageDialog(v,"No hay barriles para transportar");
+                    return;
+                }
                 for (Transportista transportista : transportistas) 
                      if (!transportista.isAlive()) 
                         transportista.start();
@@ -152,16 +170,22 @@ public class Controlador implements ActionListener{
                 break;
         } 
    }
-       
+
+    /**
+     * Carga información a la primera tabla sobre las tandas que están disponibles para producir
+     * */
     public void cargarDatosTandas(){
-        String consultaTandas = "select * from mezcal.tanda where status = 'Registrada'";
+        String consultaTandas = "select * from mezcal.tanda where status != 'Entregada'";
         //String consultaTandas = "select * from mezcal.tanda";
         v.vRegistro.mtt.setDatos(m.conexionConsultaTanda(consultaTandas));
         v.vRegistro.tabla.updateUI();
         v.vRegistro.btnEliminar.repaint();
         v.vRegistro.updateUI();
     }
-    
+
+    /**
+     * Carga la informacion de las tandas a la ultima tabla
+     * */
     private void cargarInformeTandas() {
         String consultaTandas = "select * from mezcal.tanda";
         v.vInforme.mti.setDatos(m.conexionConsultaInformeTanda(consultaTandas));
@@ -210,7 +234,11 @@ public class Controlador implements ActionListener{
         }
         new MiHilo(TANDAS_ACTUALIZAR).start();
     }
-    
+
+    /**
+     * Método que permite preparar los equipos
+     * Falta hacer que sean introducidos a la base de datos
+     * */
     private void prepararEquipos(){
         int id_Equipo = 0;
         for (int i = 0; i < 3; i++) {
@@ -253,7 +281,7 @@ public class Controlador implements ActionListener{
                 if(t != null){
                     m.updateEstadoTanda(t);
                     cargarDatosTandas();
-                    if(t.getEstado().equals("Enbarrilada")){
+                    if(t.getEstado().equals("Entregada")){
                         cargarInformeTandas();
                         //m.deleteTanda(t);
                         cargarDatosTandas();

@@ -30,8 +30,8 @@ public class Vista extends JFrame{
         try {
             UIManager.setLookAndFeel("com.jtattoo.plaf.hifi.HiFiInternalFrameUI");
         } catch (Exception e) {}
-        setSize(875, 725);
-        //setSize(780,670);
+        //setSize(1020, 725);
+        setSize(780,670);
         setVisible(true);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
@@ -83,5 +83,29 @@ public class Vista extends JFrame{
     
     public void llenarOpciones(ArrayList<String> mezcales, ArrayList<String> porcentajes,ArrayList<String> tipos){
         vProducir.llenarOpciones(mezcales, porcentajes, tipos);
+    }
+
+    /** Reajusta la vista de cada panel */
+    public void reajustarVistas(){
+        setSize(1020, 725);
+        setLocationRelativeTo(null);
+        principal.setEnabledAt(0,false);
+        principal.setSelectedIndex(1);
+        principal.setEnabledAt(1, true);
+        principal.setEnabledAt(2, true);
+        principal.setEnabledAt(3, true);
+        vInforme.reajustarVista();
+    }
+
+    public void iniciarVistas(){
+        setSize(780,670);
+        setLocationRelativeTo(null);
+        vInforme.iniciarVistas();
+        vProducir.iniciarVistas();
+        principal.setEnabledAt(0,true);
+        principal.setSelectedIndex(0);
+        principal.setEnabledAt(1, false);
+        principal.setEnabledAt(2, false);
+        principal.setEnabledAt(3, false);
     }
 }

@@ -38,7 +38,7 @@ public class Transportista extends Thread {
     }
 
     private synchronized void transporte() {
-        //Tanda tanda = bufferBarriles.remove();
+        Tanda tanda = bufferBarriles.remove();
         System.out.println("Yo auto " + id);//+ " transpoto a la tanda \n " + tanda);
         int cliente = 1;//new Random().nextInt(4) + 1;
         if (id == 1) {
@@ -48,9 +48,8 @@ public class Transportista extends Thread {
         } else {
             rutaTrailer3(cliente);
         }
-        //tanda.setEstado("Entregada");
-        //andasActualizar.put(tanda); // La manda a actualizar
-        // 12 rutas
+        tanda.setEstado("Entregada");
+        tandasActualizar.put(tanda); // La manda a actualizar
     }
 
     private void rutaTrailer1(int cliente) {

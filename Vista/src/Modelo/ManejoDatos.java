@@ -236,9 +236,7 @@ public class ManejoDatos {
         PreparedStatement ps;
         String sqlUpdateTanda = "";
         boolean completa = false;
-        if (t.getEstado().equals("Enbarrilada")) {
-            
-        
+        if (t.getEstado().equals("Entregada")) {
         //if(t.getId_Cortador() != 0 && t.getId_Horneador() != 0 && t.getId_Triturador() != 0 && t.getId_Fermentador() != 0 
         //            && t.getId_Destilador() != 0 && t.getId_Enbotelladora() != 0 && t.getId_Cliente() != 0){
             sqlUpdateTanda = "update mezcal.tanda set "
