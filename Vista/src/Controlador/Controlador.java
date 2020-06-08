@@ -4,6 +4,7 @@
 
 package Controlador;
 
+import Modelo.ColorearFilas;
 import Modelo.Conexion;
 import Modelo.ManejoDatos;
 import Procesos.BufferTandas;
@@ -21,7 +22,7 @@ import java.awt.event.*;
 import java.util.ArrayList;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
-import javax.swing.JOptionPane;
+import javax.swing.*;
 
 /**
  * 
@@ -157,15 +158,10 @@ public class Controlador implements ActionListener{
                 if(bb.isEmpty()){
                     JOptionPane.showMessageDialog(v,"No hay barriles para transportar");
                     return;
-                }//for (Transportista transportista : transportistas){
-                   //   ejecutador.submit(transportista);
-               // }
-                for (Transportista transportista : transportistas)
-                     if (!transportista.isAlive()) 
-                        transportista.start();
-                    else 
-                        transportista.run();
-
+                }
+                transportistas.stream()
+                        .filter(transportista -> !transportista.isAlive())
+                        .forEach(Thread::start);
                 break;
             case "salir":
                 m.cerrarConexion();
@@ -178,12 +174,17 @@ public class Controlador implements ActionListener{
      * Carga información a la primera tabla sobre las tandas que están disponibles para producir
      * */
     public void cargarDatosTandas(){
+        ColorearFilas c = new ColorearFilas(5);
         String consultaTandas = "select * from mezcal.tanda where status != 'Entregada'";
-        //String consultaTandas = "select * from mezcal.tanda";
-        v.vRegistro.mtt.setDatos(m.conexionConsultaTanda(consultaTandas));
-        v.vRegistro.tabla.updateUI();
-        v.vRegistro.btnEliminar.repaint();
-        v.vRegistro.updateUI();
+        /** Se lo dejamos al Thread del despachador de eventos
+         *  De lo contrario tendriamos un error
+         * */
+        SwingUtilities.invokeLater(() ->{
+            v.vRegistro.mtt.setDatos(m.conexionConsultaTanda(consultaTandas));
+            v.vRegistro.tabla.getColumnModel().getColumn(5).setCellRenderer(c);
+            v.vRegistro.tabla.updateUI();
+            v.vRegistro.updateUI();
+        });
     }
 
     /**

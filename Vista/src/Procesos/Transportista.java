@@ -7,6 +7,7 @@ package Procesos;
 import Vista.Trailer;
 import Vista.VistaTraslado;
 import java.awt.Point;
+import java.util.Random;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -45,7 +46,7 @@ public class Transportista extends Thread {
             return;
         }
         System.out.println("Yo auto " + id + " transpoto a la tanda \n " + tanda);
-        int cliente = 1;//new Random().nextInt(4) + 1;
+        int cliente = new Random().nextInt(4) + 1;
         if (id == 1) {
             rutaTrailer1(cliente);
         } else if (id == 2) {

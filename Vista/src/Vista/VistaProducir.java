@@ -6,13 +6,7 @@ import Controlador.Controlador;
 
 import java.awt.*;
 import java.util.ArrayList;
-import javax.swing.BorderFactory;
-import javax.swing.ImageIcon;
-import javax.swing.JButton;
-import javax.swing.JComboBox;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.SpringLayout;
+import javax.swing.*;
 import javax.swing.border.TitledBorder;
 
 /**
@@ -64,7 +58,7 @@ public class VistaProducir extends JPanel{
             //btn.setBorder(BorderFactory.createEtchedBorder(Color.decode("#ffc8bd"), Color.decode("#f3d1f4")));
         btnRegistrar.setFont(new Font("Sylfaen", Font.BOLD, 17));
         btnRegistrar.setText("Registrar");
-        btnRegistrar.setAlignmentY(JButton.CENTER_ALIGNMENT);
+        btnRegistrar.setHorizontalAlignment(SwingConstants.CENTER);
         btnRegistrar.setActionCommand("registrar");
         //producir.setIcon(new ImageIcon(new ImageIcon(getClass().getResource("/Imagenes/btnRegistrar.png"))
         //        .getImage().getScaledInstance(110,60, Image.SCALE_DEFAULT)));

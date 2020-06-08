@@ -12,17 +12,8 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Image;
-import javax.swing.BorderFactory;
-import javax.swing.ImageIcon;
-import javax.swing.JButton;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import javax.swing.JTable;
-import javax.swing.ListSelectionModel;
-import javax.swing.SpringLayout;
-import javax.swing.SwingConstants;
-import javax.swing.SwingUtilities;
+import javax.swing.*;
+import javax.swing.plaf.basic.BasicTableHeaderUI;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.JTableHeader;
 
@@ -67,6 +58,7 @@ public class VistaRegistro extends JPanel{
         tabla.setDefaultRenderer(String.class, dtcr);
         tabla.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         tabla.setAlignmentX(SwingConstants.CENTER);
+        
         //tabla.setBorder(BorderFactory.createEmptyBorder());
         hTab = tabla.getTableHeader();
         hTab.setAlignmentX(JTableHeader.CENTER_ALIGNMENT);

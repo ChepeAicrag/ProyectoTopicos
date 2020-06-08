@@ -55,8 +55,12 @@ public class VistaRegistroFinal extends JPanel{
         tabla = new JTable(mti);
         dtcr = new DefaultTableCellRenderer();
         dtcr.setHorizontalAlignment(SwingConstants.CENTER);
+        tabla.setFont(new Font("Helvetica", Font.ITALIC, 11)); // Colocar la fuente de mi gusto
         tabla.setDefaultRenderer(String.class, dtcr);
         tabla.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+        tabla.setSelectionBackground(Color.PINK);
+        tabla.setGridColor(Color.BLACK);
+        tabla.setBackground(Color.lightGray);
         tabla.getColumnModel().getColumn(0).setPreferredWidth(40);
         tabla.getColumnModel().getColumn(1).setPreferredWidth(80);
         tabla.getColumnModel().getColumn(2).setPreferredWidth(70);
