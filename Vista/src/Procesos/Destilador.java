@@ -136,6 +136,8 @@ public class Destilador extends Thread implements Productor, Consumidor{
         this.etqBarra = etqBarra;
         this.barra = this.etqBarra.getBarra();
     }
+
+    public boolean disponible(){return isAvailable;}
     
     public void setTandasActualizar(BufferTandas tandasActualizar){
         this.tandasActualizar = tandasActualizar;

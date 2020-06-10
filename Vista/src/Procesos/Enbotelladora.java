@@ -16,8 +16,8 @@ import javax.swing.JProgressBar;
  * 
  * @author García García José Ángel
  */
-public class Enbotelladora extends Thread implements Productor, Consumidor{
-    
+public class Enbotelladora extends Thread implements Productor, Consumidor {
+
     private int id;
     private boolean isAvailable;
     private BufferTandas tandasActualizar, bufferMezcalDestilado, bufferBarriles;
@@ -27,29 +27,29 @@ public class Enbotelladora extends Thread implements Productor, Consumidor{
     private Color color;
     private Controlador c;
     private ECP etqBarra;
-    
-    public Enbotelladora(int id, BufferTandas bufferMezcalDestilado, BufferTandas bufferBarriles){
+
+    public Enbotelladora(int id, BufferTandas bufferMezcalDestilado, BufferTandas bufferBarriles) {
         this.id = id;
         isAvailable = true;
         this.bufferMezcalDestilado = bufferMezcalDestilado;
         this.bufferBarriles = bufferBarriles;
     }
-    
+
     @Override
-    public void run(){
-        while (true) {            
+    public void run() {
+        while (true) {
             try {
-                    isAvailable = false;
-                    color = barra.getBackground();
-                    consumir();
-                    actualizarBarra(0);
-                    ajustarBarra(color);
-                }catch (InterruptedException ex) {
-                    System.err.println(ex.getCause());
-                }
+                isAvailable = false;
+                color = barra.getBackground();
+                consumir();
+                actualizarBarra(0);
+                ajustarBarra(color);
+            } catch (InterruptedException ex) {
+                System.err.println(ex.getCause());
+            }
         }
     }
-    
+
     @Override
     public void producir(Tanda tanda) throws InterruptedException {
         tanda.setEstado("Enbarrilada");
@@ -58,20 +58,22 @@ public class Enbotelladora extends Thread implements Productor, Consumidor{
         System.out.println("Tanda terminada lista >>>> \n " + tanda + " \n Fecha >> " + tanda.getFechaFinal());
         bufferBarriles.put(tanda); // Las produce
     }
-    
-    /** Produce los barriles*/
-    private void enbotellar(Tanda tanda) throws InterruptedException{
+
+    /**
+     * Produce los barriles
+     */
+    private void enbotellar(Tanda tanda) throws InterruptedException {
         ArrayList<Object> mezcalesEliminar = new ArrayList();
         ArrayList<Object> barriles = new ArrayList();
         int total = tanda.getCantidadPinias(),
-            cont = 0;
+                cont = 0;
         ajustarBarra(tanda.getColor());
         for (int i = 0; i < numAnejamiento(tanda); i++) {
             for (Object mezcal : tanda.getPinias()) {
                 sleep(2000); // Tiempo por estimar
                 System.out.println(mezcal);
                 Mezcal m = (Mezcal) mezcal;
-                if(i == 0){
+                if (i == 0) {
                     Barril barril = new Barril(m.getTipo());
                     barril.setEstatus('E'); // Listo  E: Enbotellado
                     barriles.add(barril);
@@ -85,7 +87,7 @@ public class Enbotelladora extends Thread implements Productor, Consumidor{
             barra.setString("Fase " + (i + 1));
             sleep(1000);
         }
-        
+
         tanda.getPinias().removeAll(mezcalesEliminar); // Quita los mezcales
         tanda.getPinias().addAll(barriles); // Agrega los barriles
         //actualizarTabla(tanda);
@@ -102,48 +104,51 @@ public class Enbotelladora extends Thread implements Productor, Consumidor{
         enbotellar(tanda); // Las consume para hornear
     }
 
-    public void setBarra(JProgressBar barra){
+    public void setBarra(JProgressBar barra) {
         this.barra = barra;
     }
-    
-    public void actualizarBarra(int val){
+
+    public void actualizarBarra(int val) {
         barra.setValue(val);
-        if(val != 0)
+        if (val != 0)
             barra.setString(val + "%");
         else
             barra.setString("Libre...");
-    }    
-    
-    private void ajustarBarra(Color color){
+    }
+
+    private void ajustarBarra(Color color) {
         barra.setBackground(color); // Color de la barra que se rellena
         barra.setForeground(Color.black); // Color de la barra que rellena
-        if(this.color != color)
+        if (this.color != color)
             barra.setBorder(BorderFactory.createLineBorder(color));
         else
             barra.setBorder(BorderFactory.createLineBorder(Color.black));
     }
 
     @Override
-    public void producir() throws InterruptedException {}
-    
-    private int numAnejamiento(Tanda t){
+    public void producir() throws InterruptedException {
+    }
+
+    private int numAnejamiento(Tanda t) {
         int numAnejamientos = 1;
         /** Blanco 2 meses * Resposado 12 meses * Añejo 24 meses * Madurado 10 meses*/
-        int tipo = t.getTipoMezcal(); 
-        if (tipo == 1) 
+        int tipo = t.getTipoMezcal();
+        if (tipo == 1)
             numAnejamientos = 12; // Por 2 meses
-        else if(tipo == 2)
+        else if (tipo == 2)
             numAnejamientos = 6;
-        else if(tipo == 3)
+        else if (tipo == 3)
             numAnejamientos = 5;
-        return numAnejamientos;    
+        return numAnejamientos;
     }
-            
-    public void setIdentificador(ECP etqBarra){
+
+    public void setIdentificador(ECP etqBarra) {
         this.etqBarra = etqBarra;
         this.barra = this.etqBarra.getBarra();
     }
-    
+
+    public boolean disponible(){return isAvailable;}
+
     public void setTandasActualizar(BufferTandas tandasActualizar){
         this.tandasActualizar = tandasActualizar;
     }

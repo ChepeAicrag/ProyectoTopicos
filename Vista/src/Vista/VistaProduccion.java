@@ -6,9 +6,8 @@
 package Vista;
 
 import Componentes.BarraProceso;
-import java.awt.Color;
-import java.awt.Graphics;
-import java.awt.Image;
+
+import java.awt.*;
 import java.util.ArrayList;
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
@@ -48,13 +47,16 @@ public class VistaProduccion extends JPanel{
         barra1 = new BarraProceso(imagenes, porcentajes);
         Border border = BorderFactory.createEtchedBorder(5, Color.BLACK, Color.BLACK);
         barra1.setBorder(BorderFactory.createTitledBorder(
-                border,"Palenque 1",TitledBorder.CENTER,TitledBorder.TOP));
+                border,"PALENQUE 1",TitledBorder.CENTER,TitledBorder.TOP,
+                new Font("Helvetica",Font.BOLD,15),Color.WHITE));
         barra2 = new BarraProceso(imagenes, porcentajes);
         barra2.setBorder(BorderFactory.createTitledBorder(
-                border,"Palenque 2",TitledBorder.CENTER,TitledBorder.TOP));
+                border,"PALENQUE 2",TitledBorder.CENTER,TitledBorder.TOP,
+                new Font("Helvetica",Font.BOLD,15),Color.WHITE));
         barra3 = new BarraProceso(imagenes, porcentajes);
         barra3.setBorder(BorderFactory.createTitledBorder(
-                border,"Palenque 3",TitledBorder.CENTER,TitledBorder.TOP));
+                border,"PALENQUE 3",TitledBorder.CENTER,TitledBorder.TOP,
+                new Font("Helvetica",Font.BOLD,15),Color.WHITE));
         add(barra1);
         s.putConstraint(SpringLayout.NORTH, barra1,2, SpringLayout.NORTH, this);
         s.putConstraint(SpringLayout.WEST, barra1,12, SpringLayout.WEST, this);

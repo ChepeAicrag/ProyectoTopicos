@@ -7,6 +7,8 @@ package Procesos;
 import Vista.Trailer;
 import Vista.VistaTraslado;
 import java.awt.Point;
+import java.lang.reflect.Array;
+import java.util.ArrayList;
 import java.util.Random;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -20,6 +22,7 @@ public class Transportista extends Thread {
     private int id;
     private boolean isAvaliable;
     private BufferTandas tandasActualizar, bufferBarriles;
+    ArrayList<Integer> tandasTransportadas;
     private VistaTraslado v;
     private final int limite = 660;
 
@@ -59,6 +62,7 @@ public class Transportista extends Thread {
         tanda.setId_Transportador(id);
         tanda.setId_Cliente(cliente);
         tandasActualizar.put(tanda); // La manda a actualizar
+        tandasTransportadas.add(tanda.getId()); // La guarda para indicar que la ha transportado
         System.out.println("Termine transporte\n" + tanda);
     }
 
@@ -195,6 +199,9 @@ public class Transportista extends Thread {
         entregaRecta(v.trailer3, limite);
     }
 
+    public void setTandasTransportadas(ArrayList<Integer> tandasTransportar){
+        this.tandasTransportadas = tandasTransportadas;
+    }
     public void setTandasActualizar(BufferTandas tandasActualizar) {
         this.tandasActualizar = tandasActualizar;
     }

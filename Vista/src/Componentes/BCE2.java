@@ -1,6 +1,6 @@
 /*
  * Componente boton circular con imagen y texto
- * Personalziado:
+ * Personalizado:
  *  Solo usamos el componente boton redondo, evitamos la etiqueta 
  */
 
@@ -18,7 +18,7 @@ import javax.swing.SpringLayout;
  */
 public class BCE2 extends JComponent{
         
-    /* Variablesde instacia */
+    /* Variables de instacia */
     private BotonRedondo btn;
     
     public BCE2(){
@@ -62,7 +62,7 @@ public class BCE2 extends JComponent{
     }
 
     /**
-     * @param  Text texto que tendrá la etiqueta
+     * @param  text texto que tendrá la etiqueta
      */
     public void setTexto(String text){
         btn.setText(text);
@@ -78,6 +78,7 @@ public class BCE2 extends JComponent{
     
     /**
      * Establece la imagen que contendrá el boton
+     * @param img Imagen a colocar
      */
     public void setImagen(ImageIcon img){
         btn.setImagen(img);
@@ -85,7 +86,7 @@ public class BCE2 extends JComponent{
     
     /**
      * Indicar color del texto 
-     * @param Color color a usar
+     * @param color color a usar
      */
     public void setColorText(Color color){
         btn.setColorText(color);

@@ -3,7 +3,7 @@
  */
 package Componentes;
 
-import java.awt.Dimension;
+import java.awt.*;
 import javax.swing.ImageIcon;
 import javax.swing.JComponent;
 import javax.swing.JLabel;
@@ -120,6 +120,7 @@ public class ECP extends JComponent {
     }
     
     public void setDatoBarra(String texto){
+        datoBarra.setForeground(Color.WHITE);
         datoBarra.setText(texto);
         datoBarra.setAlignmentX(CENTER_ALIGNMENT);
         //repaint();

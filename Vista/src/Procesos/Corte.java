@@ -76,6 +76,7 @@ public class Corte extends Thread implements Productor{
       tanda.setId_Cortador(id);
       /** Aquí le inserta el id a tanda para identificar que el trabajó la tanda*/
       tanda.setFechaInicio(new Timestamp(System.currentTimeMillis()));
+      etqBarra.setForeground(Color.WHITE);
       etqBarra.setDatoBarra("Tanda: " + tanda.getId());
       cortar(tanda);
     }

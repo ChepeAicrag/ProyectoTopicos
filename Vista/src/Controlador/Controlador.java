@@ -20,6 +20,7 @@ import Vista.Vista;
 
 import java.awt.event.*;
 import java.util.ArrayList;
+import java.util.Queue;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import javax.swing.*;
@@ -51,7 +52,9 @@ public class Controlador implements ActionListener{
     ArrayList<Transportista> transportistas = new ArrayList<>();
     private ExecutorService ejecutador = Executors.newCachedThreadPool();
     int filaPulsada = 0, id_tanda = 0, limite = 0,id_Maguey = 0, id_alcohol = 0, id_tipoMezcal = 0, cantPinias = 0;
-    ArrayList<Integer> tandasProduciendo = new ArrayList(); // Almacena los id de las tandas
+    ArrayList<Integer> tandasProduciendo = new ArrayList<Integer>(),
+                       tandasTransportando = new ArrayList<Integer>(); // Almacena los id de las tandas
+
 
     public Controlador(Vista v, ManejoDatos m){
         this.v = v;
@@ -61,13 +64,19 @@ public class Controlador implements ActionListener{
         actualizarOpciones();
         cargarDatosTandas();
         cargarInformeTandas();
+
         v.addWindowListener(new WindowAdapter() {
             @Override
             public void windowClosing(WindowEvent e) {
-                m.cerrarConexion();
-                super.windowClosing(e);
-            }
-        });
+                if(hayProduccion()){
+                    JOptionPane.showMessageDialog(v,"NO PUEDE ABANDONAR, HAY MEZCALES PRODUCIENDOSE");
+                    v.setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
+                    return;
+                }else{
+                    m.cerrarConexion();
+                    System.exit(0);
+                }
+            }});
     }
 
     /**
@@ -75,10 +84,11 @@ public class Controlador implements ActionListener{
      *
      * */
     private void actualizarOpciones(){
-        ArrayList<String> porcentajes = m.conexionConsultarPorcentajeOTipo("select * from mezcal.gradoalcohol");
-        ArrayList<String> tipos = m.conexionConsultarPorcentajeOTipo("select * from mezcal.tipomezcal");
-        ArrayList<String> mezcales = m.conexionConsultarPorcentajeOTipo("select * from mezcal.maguey");
-        v.llenarOpciones(mezcales, porcentajes, tipos);
+        ArrayList<String> porcentajes = m.conexionConsultarNombre("select * from mezcal.gradoalcohol"),
+                          tipos = m.conexionConsultarNombre("select * from mezcal.tipomezcal"),
+                          mezcales = m.conexionConsultarNombre("select * from mezcal.maguey"),
+                          clientes = m.conexionConsultarNombre("select * from mezcal.cliente");
+        v.llenarOpciones(mezcales, porcentajes, tipos, clientes);
     }
 
     @Override
@@ -86,7 +96,7 @@ public class Controlador implements ActionListener{
         Tanda t;
         Object datos[] = null;
         String o = ae.getActionCommand();
-        if(o.length() == 1){
+        if(o.matches("[0-9]*")){
             datos = m.selectMaguey(Integer.parseInt(o));
             System.out.println("Seleccionó el maguey " + (String) datos[1]);
             id_Maguey = (int) datos[0];
@@ -96,9 +106,10 @@ public class Controlador implements ActionListener{
         }
         switch(o){
             case "registrar":
-                /** Reajustamos los tamaños y hacemos visibles las demás ventanas*/
                 v.reajustarVistas();
                 if(id_Maguey > 0 && cantPinias > 0){
+                    /** Reajustamos los tamaños y hacemos visibles las demás ventanas*/
+                    v.reajustarVistas();
                     // Aqui debe ir lo de arriba
                     id_tipoMezcal = v.vProducir.tipo.getSelectedIndex() + 1;
                      id_alcohol = v.vProducir.alcohol.getSelectedIndex() + 1;
@@ -115,6 +126,12 @@ public class Controlador implements ActionListener{
                 break;
             case "atrasProducir":
                 v.iniciarVistas();
+                if (hayProduccion()){
+                    v.principal.setEnabledAt(2,true);
+                }if(!tandasTransportando.isEmpty()){
+                    v.principal.setEnabledAt(3,true);
+                }
+
                 // Habilitar produccion y transporte si tenemos a una tanda en produccion
                 break;
             /** Elimina el registro de la tabla de tandas*/
@@ -164,6 +181,10 @@ public class Controlador implements ActionListener{
                         .forEach(Thread::start);
                 break;
             case "salir":
+                if(hayProduccion()){
+                    JOptionPane.showMessageDialog(v,"NO PUEDE ABANDONAR, HAY MEZCALES PRODUCIENDOSE");
+                    return;
+                }
                 m.cerrarConexion();
                 System.exit(0);
                 break;
@@ -222,7 +243,25 @@ public class Controlador implements ActionListener{
         }
         return cantidad;
     }
-    
+
+    /***/
+    private boolean hayProduccion(){
+        /*long v1 = cortes.stream().filter(CORTE -> !CORTE.disponible()).count(),
+                v2 = hornos.stream().filter(HORNO -> !HORNO.disponible()).count(),
+                v3 = molinos.stream().filter(MOLINO -> !MOLINO.disponible()).count(),
+                v4 = fermentadores.stream().filter(FERMENTADOR -> !FERMENTADOR.disponible()).count(),
+                v5 = destiladores.stream().filter(DESTILADOR -> !DESTILADOR.disponible()).count(),
+                v6 = enbotelladores.stream().filter(ENBOTELLADORA -> !ENBOTELLADORA.disponible()).count();
+        System.out.println(v1 + "\n" + v2 + "\n" + v3 +  "\n" + v4 +  "\n" + v5 +  "\n" + v6);;
+        boolean op = false;
+        if(v1 > 0 || v2 > 0 || v3 > 0 || v4 > 0 || v5 > 0 || v6 > 0){
+            v.principal.setEnabledAt(2,true);
+            v.principal.setEnabledAt(3,true);
+            op = true;
+        }*/
+        return !tandasProduciendo.isEmpty() && !tandasTransportando.isEmpty();
+    }
+
     /**
      * Prepara todos los equipos 
      * Deben estar listos desde el inicio
@@ -267,24 +306,29 @@ public class Controlador implements ActionListener{
             destiladores.get(i).setTandasActualizar(TANDAS_ACTUALIZAR);
             enbotelladores.get(i).setTandasActualizar(TANDAS_ACTUALIZAR);
             transportistas.get(i).setTandasActualizar(TANDAS_ACTUALIZAR);
+            transportistas.get(i).setTandasTransportadas(tandasTransportando);
         }
     }
     
     /** Clase Hilo que permite hacer la actualización en tiempo real de la tabla */
     class MiHilo extends Thread{
     
-        private BufferTandas tandas_actualziar;
+        private BufferTandas tandas_actualizar;
         
         public MiHilo(BufferTandas tandas_actualizar){
-            this.tandas_actualziar = tandas_actualizar;
+            this.tandas_actualizar = tandas_actualizar;
         }
         
         public void run(){
             for(;;) {                
-                Tanda t = this.tandas_actualziar.remove();
+                Tanda t = this.tandas_actualizar.remove();
                 if(t != null){
                     m.updateEstadoTanda(t);
                     cargarDatosTandas();
+                    if (t.getEstado().equals("Enbarrilada")){
+                        tandasProduciendo.remove(new Integer(t.getId()));
+                        System.out.println(tandasProduciendo.toString());
+                    }
                     if(t.getEstado().equals("Entregada")){
                         cargarInformeTandas();
                         //m.deleteTanda(t);

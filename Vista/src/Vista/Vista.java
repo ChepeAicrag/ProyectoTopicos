@@ -24,7 +24,7 @@ public class Vista extends JFrame{
     public VistaRegistro vRegistro;
     public VistaRegistroFinal vInforme;
     public JTabbedPane principal;
-    
+
     public Vista(){
         super("MEZCALERA CHAHUE");
         try {
@@ -33,7 +33,7 @@ public class Vista extends JFrame{
         //setSize(1020, 725);
         setSize(780,670);
         setVisible(true);
-        setDefaultCloseOperation(EXIT_ON_CLOSE);
+        setResizable(false);
         setLocationRelativeTo(null);
         colocar();
         revalidate();
@@ -81,8 +81,9 @@ public class Vista extends JFrame{
        vTraslado.conectarControlador(c);
     }
     
-    public void llenarOpciones(ArrayList<String> mezcales, ArrayList<String> porcentajes,ArrayList<String> tipos){
-        vProducir.llenarOpciones(mezcales, porcentajes, tipos);
+    public void llenarOpciones(ArrayList<String>... opcion){//mezcales, ArrayList<String> porcentajes,ArrayList<String> tipos){
+        vProducir.llenarOpciones(opcion[0], opcion[1],opcion[2]);
+        vTraslado.llenarClientes(opcion[3]);
     }
 
     /** Reajusta la vista de cada panel */

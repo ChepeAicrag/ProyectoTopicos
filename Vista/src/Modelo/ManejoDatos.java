@@ -160,7 +160,7 @@ public class ManejoDatos {
         }
     }
 
-    public ArrayList<String> conexionConsultarPorcentajeOTipo(String sql) {
+    public ArrayList<String> conexionConsultarNombre(String sql) {
         ArrayList<String> datos = new ArrayList<>();
         try {
             Statement ps = conexion.createStatement();
