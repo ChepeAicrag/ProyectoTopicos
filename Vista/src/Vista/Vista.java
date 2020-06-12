@@ -68,9 +68,6 @@ public class Vista extends JFrame{
         principal.addTab("Traslado", vTraslado);
         vInforme = new VistaRegistroFinal();
         principal.add("Informe",vInforme);
-        principal.setEnabledAt(1, false);
-        principal.setEnabledAt(2, false);
-        principal.setEnabledAt(3, false);
         add(principal);
     }
     

@@ -62,7 +62,7 @@ public class Transportista extends Thread {
         tanda.setId_Transportador(id);
         tanda.setId_Cliente(cliente);
         tandasActualizar.put(tanda); // La manda a actualizar
-        tandasTransportadas.add(tanda.getId()); // La guarda para indicar que la ha transportado
+        //tandasTransportadas.add(tanda.getId()); // La guarda para indicar que la ha transportado
         System.out.println("Termine transporte\n" + tanda);
     }
 

@@ -125,8 +125,10 @@ public class Controlador implements ActionListener{
                 }
                 break;
             case "atrasProducir":
+                if(5 < 10)
+                    return;
                 v.iniciarVistas();
-                if (hayProduccion()){
+                if (!tandasProduciendo.isEmpty()){
                     v.principal.setEnabledAt(2,true);
                 }if(!tandasTransportando.isEmpty()){
                     v.principal.setEnabledAt(3,true);
@@ -154,6 +156,7 @@ public class Controlador implements ActionListener{
             case "producir":
                 filaPulsada = v.vRegistro.tabla.getSelectedRow();      
                 if (filaPulsada >= 0) {
+                    v.principal.setEnabledAt(2,true);
                     id_tanda = Integer.parseInt((String) v.vRegistro.mtt.getValueAt(filaPulsada, 0));
                     t = new Tanda();
                     t.setId(id_tanda);
@@ -246,19 +249,6 @@ public class Controlador implements ActionListener{
 
     /***/
     private boolean hayProduccion(){
-        /*long v1 = cortes.stream().filter(CORTE -> !CORTE.disponible()).count(),
-                v2 = hornos.stream().filter(HORNO -> !HORNO.disponible()).count(),
-                v3 = molinos.stream().filter(MOLINO -> !MOLINO.disponible()).count(),
-                v4 = fermentadores.stream().filter(FERMENTADOR -> !FERMENTADOR.disponible()).count(),
-                v5 = destiladores.stream().filter(DESTILADOR -> !DESTILADOR.disponible()).count(),
-                v6 = enbotelladores.stream().filter(ENBOTELLADORA -> !ENBOTELLADORA.disponible()).count();
-        System.out.println(v1 + "\n" + v2 + "\n" + v3 +  "\n" + v4 +  "\n" + v5 +  "\n" + v6);;
-        boolean op = false;
-        if(v1 > 0 || v2 > 0 || v3 > 0 || v4 > 0 || v5 > 0 || v6 > 0){
-            v.principal.setEnabledAt(2,true);
-            v.principal.setEnabledAt(3,true);
-            op = true;
-        }*/
         return !tandasProduciendo.isEmpty() && !tandasTransportando.isEmpty();
     }
 
@@ -276,6 +266,7 @@ public class Controlador implements ActionListener{
             ejecutador.submit(enbotelladores.get(i));
         }
         new MiHilo(TANDAS_ACTUALIZAR).start();
+        new HiloVista().start();
     }
 
     /**
@@ -305,6 +296,7 @@ public class Controlador implements ActionListener{
             fermentadores.get(i).setTandasActualizar(TANDAS_ACTUALIZAR);
             destiladores.get(i).setTandasActualizar(TANDAS_ACTUALIZAR);
             enbotelladores.get(i).setTandasActualizar(TANDAS_ACTUALIZAR);
+            enbotelladores.get(i).setTandasTransportar(tandasTransportando); // Para saber si hay tandas por transportar
             transportistas.get(i).setTandasActualizar(TANDAS_ACTUALIZAR);
             transportistas.get(i).setTandasTransportadas(tandasTransportando);
         }
@@ -320,7 +312,7 @@ public class Controlador implements ActionListener{
         }
         
         public void run(){
-            for(;;) {                
+            for(;;) {
                 Tanda t = this.tandas_actualizar.remove();
                 if(t != null){
                     m.updateEstadoTanda(t);
@@ -328,12 +320,33 @@ public class Controlador implements ActionListener{
                     if (t.getEstado().equals("Enbarrilada")){
                         tandasProduciendo.remove(new Integer(t.getId()));
                         System.out.println(tandasProduciendo.toString());
-                    }
-                    if(t.getEstado().equals("Entregada")){
+                    }if(t.getEstado().equals("Entregada")) {
                         cargarInformeTandas();
                         //m.deleteTanda(t);
                         cargarDatosTandas();
+                        }
                     }
+             }
+        }
+    }
+
+    /** Hilo que nos permitira ajustar el tamaño de las ventanas*/
+    class HiloVista extends  Thread{
+
+
+        public void run(){
+            for(;;){
+                System.out.print(v.principal.getSelectedIndex());
+                int op = v.principal.getSelectedIndex();
+                if(op == 1 || op == 2 || op == 3 || op == 4){
+                    v.setSize(1020,725);
+                    v.setLocationRelativeTo(null);
+                    if (op == 4)
+                       v.vInforme.reajustarVista();
+                }
+                if(op == 0 && (!tandasProduciendo.isEmpty() || v.principal.isEnabledAt(1))){
+                    v.setSize(780,670);
+                    v.setLocationRelativeTo(null);
                 }
             }
         }

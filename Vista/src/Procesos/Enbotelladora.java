@@ -23,6 +23,7 @@ public class Enbotelladora extends Thread implements Productor, Consumidor {
     private BufferTandas tandasActualizar, bufferMezcalDestilado, bufferBarriles;
     //private BufferMezcalDestilado bufferMezcalDestilado; // Consume
     //private BufferBarriles bufferBarriles; // Produce
+    private ArrayList<Integer> tandasTransportar;
     private JProgressBar barra;
     private Color color;
     private Controlador c;
@@ -55,6 +56,7 @@ public class Enbotelladora extends Thread implements Productor, Consumidor {
         tanda.setEstado("Enbarrilada");
         tanda.setFechaFinal(new Timestamp(System.currentTimeMillis()));
         tandasActualizar.put(tanda);
+        tandasTransportar.add(tanda.getId()); // La guarda para indicar que la ha transportado
         System.out.println("Tanda terminada lista >>>> \n " + tanda + " \n Fecha >> " + tanda.getFechaFinal());
         bufferBarriles.put(tanda); // Las produce
     }
@@ -147,6 +149,9 @@ public class Enbotelladora extends Thread implements Productor, Consumidor {
         this.barra = this.etqBarra.getBarra();
     }
 
+    public void setTandasTransportar(ArrayList<Integer> tandasTransportar){
+        this.tandasTransportar = tandasTransportar;
+    }
     public boolean disponible(){return isAvailable;}
 
     public void setTandasActualizar(BufferTandas tandasActualizar){
