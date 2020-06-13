@@ -249,7 +249,8 @@ public class Controlador implements ActionListener{
 
     /***/
     private boolean hayProduccion(){
-        return !tandasProduciendo.isEmpty() && !tandasTransportando.isEmpty();
+
+        return !tandasProduciendo.isEmpty() || !tandasTransportando.isEmpty();
     }
 
     /**
@@ -266,7 +267,7 @@ public class Controlador implements ActionListener{
             ejecutador.submit(enbotelladores.get(i));
         }
         new MiHilo(TANDAS_ACTUALIZAR).start();
-        new HiloVista().start();
+        ejecutador.submit(new HiloVista());
     }
 
     /**
@@ -317,10 +318,13 @@ public class Controlador implements ActionListener{
                 if(t != null){
                     m.updateEstadoTanda(t);
                     cargarDatosTandas();
-                    if (t.getEstado().equals("Enbarrilada")){
+                    //if (t.getEstado().equals("Entregada")){
+
+                //    }
+                    if(t.getEstado().equals("Entregada")) {
                         tandasProduciendo.remove(new Integer(t.getId()));
+                        tandasTransportando.remove(new Integer(t.getId()));
                         System.out.println(tandasProduciendo.toString());
-                    }if(t.getEstado().equals("Entregada")) {
                         cargarInformeTandas();
                         //m.deleteTanda(t);
                         cargarDatosTandas();
@@ -330,24 +334,38 @@ public class Controlador implements ActionListener{
         }
     }
 
-    /** Hilo que nos permitira ajustar el tamaño de las ventanas*/
+    /** Hilo que nos permitira ajustar el tamaño de las ventanas
+     * Ya funciona correctamente o en lo esprado.
+     */
     class HiloVista extends  Thread{
 
+        private boolean aquiYa = false;
 
         public void run(){
-            for(;;){
-                System.out.print(v.principal.getSelectedIndex());
-                int op = v.principal.getSelectedIndex();
-                if(op == 1 || op == 2 || op == 3 || op == 4){
-                    v.setSize(1020,725);
+            int op = 0, aux = 0;
+            while (true) {
+                op = v.principal.getSelectedIndex();
+                if ((op == 1 || op == 2 || op == 3 || op == 4) && !aquiYa) {
+                    v.setSize(1020, 725);
                     v.setLocationRelativeTo(null);
                     if (op == 4)
-                       v.vInforme.reajustarVista();
-                }
-                if(op == 0 && (!tandasProduciendo.isEmpty() || v.principal.isEnabledAt(1))){
-                    v.setSize(780,670);
+                        v.vInforme.reajustarVista();
+                    System.out.println(aquiYa);
+                } else if (op == 0 && !aquiYa) {
+                    v.setSize(780, 670);
                     v.setLocationRelativeTo(null);
+                    System.out.println(aquiYa);
                 }
+                /** Una forma de hacer un wait */
+                while(aux == op){
+                    aquiYa = true;
+                    aux = v.principal.getSelectedIndex();
+                    System.out.print("");
+                }
+                aquiYa = false;
+                /** Para que al llegar aquí sea unicamente cuando se cambia de ventana */
+                System.out.println(aquiYa);
+                aux = op;
             }
         }
     }
