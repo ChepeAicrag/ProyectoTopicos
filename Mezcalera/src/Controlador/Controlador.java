@@ -4,19 +4,19 @@
 
 package Controlador;
 
+import Componentes.BarraProceso;
 import Modelo.ColorearFilas;
-import Modelo.Conexion;
 import Modelo.ManejoDatos;
 import Procesos.*;
 import Vista.Vista;
-
-import java.awt.event.*;
-import java.sql.Struct;
+import javax.swing.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.util.ArrayList;
-import java.util.Queue;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
-import javax.swing.*;
 
 /**
  * 
@@ -310,9 +310,7 @@ public class Controlador implements ActionListener{
                 if(t != null){
                     m.updateEstadoTanda(t);
                     cargarDatosTandas();
-                    //if (t.getEstado().equals("Entregada")){
-
-                //    }
+                    //v.vProduccion.barras.stream().forEach(BarraProceso::actualizarEstado);
                     if(t.getEstado().equals("Entregada")) {
                         tandasProduciendo.remove(Integer.valueOf(t.getId()));
                         tandasTransportando.remove(Integer.valueOf(t.getId()));

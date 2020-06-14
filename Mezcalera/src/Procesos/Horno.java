@@ -1,27 +1,10 @@
 package Procesos;
 
-import java.awt.*;
-
 public class Horno extends Equipo{
 
     public Horno(int id, BufferTandas bufferPiniasCortadas, BufferTandas bufferPiniasHorneadas){
         super(id, bufferPiniasCortadas, bufferPiniasHorneadas);
-    }
-
-    @Override
-    public synchronized void run(){
-        while (true) {
-            try {
-                setAvailable(true);
-                Color color = getBarra().getBackground();
-                consumir();
-                System.out.println("Horno consumió");
-                actualizarBarra(0);
-                ajustarBarra(color);
-            } catch (InterruptedException ex) {
-                System.err.println(ex.getCause());
-            }
-        }
+        setTexto("Horno consumió");
     }
 
     @Override
@@ -41,7 +24,6 @@ public class Horno extends Equipo{
         setAvailable(true);
     }
 
-    /** Produce la pinia horneada*/
     private synchronized void hornear(Tanda tanda) throws InterruptedException{
         int total = tanda.getCantidadPinias(),
                 cont = 0;

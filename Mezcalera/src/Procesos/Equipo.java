@@ -9,6 +9,7 @@ public abstract class Equipo extends Thread implements Consumidor, Productor{
 
     private int id;
     private boolean isAvailable;
+    private String texto;
     private JProgressBar barra;
     private Color color = Color.RED;
     private ECP etqBarra;
@@ -19,6 +20,22 @@ public abstract class Equipo extends Thread implements Consumidor, Productor{
         setBufferTandasTomar(bufferTandasTomar);
         setBufferTandasColocar(bufferTandasColocar);
         setAvailable(true);
+    }
+
+    @Override
+    public void run() {
+        while (true) {
+            try {
+                setAvailable(true);
+                Color color = getBarra().getBackground();
+                consumir();
+                System.out.println(texto);
+                actualizarBarra(0);
+                ajustarBarra(color);
+            } catch (InterruptedException ex) {
+                System.err.println(ex.getCause());
+            }
+        }
     }
 
     public int getIdentificador() {
@@ -35,6 +52,14 @@ public abstract class Equipo extends Thread implements Consumidor, Productor{
 
     public void setAvailable(boolean available) {
         isAvailable = available;
+    }
+
+    public String getTexto() {
+        return texto;
+    }
+
+    public void setTexto(String texto) {
+        this.texto = texto;
     }
 
     public JProgressBar getBarra() {

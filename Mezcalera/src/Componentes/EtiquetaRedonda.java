@@ -1,7 +1,3 @@
-/*
- * Clase de una etiqueta con imagen redonda
- */
-
 package Componentes;
 
 import java.awt.BasicStroke;
@@ -15,35 +11,52 @@ import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 
 /**
- * 
- * @author García García José Ángel
+ * Clase de un componente que tiene una etiqueta circular y una barra de proceso.
+ * @author Garcíaa García José Ángel
+ * @author Sánchez Chávez Kevin Edilberto
+ * @version 1.0 14/06/2020
  */
+
 public class EtiquetaRedonda extends JLabel{
-    
-    private Image imagen;
-    private ImageIcon icono = new ImageIcon("Botella.jpg");
-   
+
+    // Variable de instancia - Imagen de la etiqueta.
+    private Image imagen = new ImageIcon("Botella.jpg").getImage();
+
+    /**
+     * Constructor para objetos de EtiquetaRedonda.
+     *
+     * @param text Texto que tendrá la etiqueta.
+     */
     public EtiquetaRedonda(String text){
         super(text);
-        this.imagen = icono.getImage();
         this.repaint();
     }
 
+    /**
+     * Método que te permite pintar el componente en forma de circulo.
+     *
+     * @param g Graphics para pintar.
+     */
+
     @Override
     public void paintComponent(Graphics g){
-        int ancho = getWidth(),
-            alto = getHeight();
+        int ancho = getWidth(), alto = getHeight();
         Graphics2D g2 = (Graphics2D) g.create();
         g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-        g2.setClip(new Ellipse2D.Float(3, 3, ancho - 6, alto - 6));/** Limitamos la imagen a pintar, area de recorte */
-        g2.drawImage(imagen  , 3, 3, ancho - 6, alto - 6, this); // Pinta la imagen en todo la etiqueta
+        g2.setClip(new Ellipse2D.Float(3, 3, ancho - 6, alto - 6));
+        g2.drawImage(imagen  , 3, 3, ancho - 6, alto - 6, this);
         g2.dispose();
-    }   
-    
+    }
+
+    /**
+     * Método que te permite pintar el borde del componente.
+     *
+     * @param g Graphics para pintar.
+     */
+
     @Override
     public void paintBorder(Graphics g){
-        int ancho = getWidth(),
-            alto = getHeight();
+        int ancho = getWidth(), alto = getHeight();
         Graphics2D g2 = (Graphics2D) g.create();
         g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
         g2.setStroke(new BasicStroke(2F));
@@ -52,13 +65,23 @@ public class EtiquetaRedonda extends JLabel{
         g2.dispose(); // Libera recursos en cada pintada
     }
     
-    
+    /**
+     * Retorna la imágen actual de la etiqueta.
+     *
+     * @return imágen que tiene la etiqueta.
+     */
+
     public Image getImagen() {
         return imagen;
     }
 
+    /**
+     * Establece la imágen que tendrá la etiqueta.
+     *
+     * @param imagen Imágen a establecer.
+     */
+
     public void setImagen(ImageIcon imagen) {
-        if (imagen == null) return;
         this.imagen = imagen.getImage();
     }
     

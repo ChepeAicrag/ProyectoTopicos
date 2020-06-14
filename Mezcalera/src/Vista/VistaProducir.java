@@ -1,6 +1,6 @@
 package Vista;
 
-import Componentes.BCE2;
+import Componentes.BCE;
 import Componentes.BarraEleccion;
 import Controlador.Controlador;
 
@@ -75,7 +75,7 @@ public class VistaProducir extends JPanel{
     
     public void conectarControlador(Controlador c){
         int i = 1;
-        for(BCE2 b : eleccion.getBotones()){
+        for(BCE b : eleccion.getBotones()){
             b.getBoton().setActionCommand("" + i++);
             b.getBoton().addActionListener(c);
         }

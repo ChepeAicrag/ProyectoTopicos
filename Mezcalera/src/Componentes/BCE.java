@@ -1,9 +1,3 @@
-/*
- * Componente boton circular con imagen y texto
- * Personalizado:
- *  Solo usamos el componente boton redondo, evitamos la etiqueta 
- */
-
 package Componentes;
 
 import java.awt.Color;
@@ -13,25 +7,34 @@ import javax.swing.JComponent;
 import javax.swing.SpringLayout;
 
 /**
- * 
- * @author García García José Ángel
+ * Clase de un componente que tiene un bóton redondo y una etiqueta abajo.
+ * @author Garcíaa García José Ángel
+ * @author Sánchez Chávez Kevin Edilberto
+ * @version 1.0 14/06/2020
  */
-public class BCE2 extends JComponent{
+
+public class BCE extends JComponent{
         
-    /* Variables de instacia */
+    // Variable de instacia - Bóton redondo con imágen.
     private BotonRedondo btn;
-    
-    public BCE2(){
+
+    /**
+     * Constructor para objetos de BCE.
+     */
+
+    public BCE(){
         btn = new BotonRedondo();
         colocar();
     }
     
     /**
-     * Constructor con imagen y texto
-     * @param img Imagen que tendrá
-     * @param text Texto de la etiqueta
+     * Constructor para objetos de BCE con imagen y texto.
+     *
+     * @param img Imagen que tendrá.
+     * @param text Texto de la etiqueta.
      */
-    public BCE2(ImageIcon img, String text){
+
+    public BCE(ImageIcon img, String text){
         btn = new BotonRedondo();
         setImagen(img);
         setTexto(text);
@@ -39,18 +42,21 @@ public class BCE2 extends JComponent{
     }
     
     /**
-     * Constructor con texto y fondo circular
+     * Constructor para obetos BCE con texto y fondo circular.
+     *
      * @param text Texto de la etiqueta
      */
-    public BCE2(String text){
+
+    public BCE(String text){
         btn = new BotonRedondo();
         setTexto(text);
         colocar();
     }
     
     /**
-     * Coloca el boton en el componente
+     * Coloca el bóton redondo en el componente.
      */
+
     private void colocar(){
         SpringLayout s = new SpringLayout();
         setLayout(s);
@@ -62,47 +68,57 @@ public class BCE2 extends JComponent{
     }
 
     /**
-     * @param  text texto que tendrá la etiqueta
+     * Coloca el texto dado a la etiqueta del componente.
+     *
+     * @param text Texto que tendrá la etiqueta.
      */
+
     public void setTexto(String text){
         btn.setText(text);
         repaint();
     }
     
     /**
-     * @return Texto que tiene la etiqueta
+     * @return texto que tiene la etiqueta.
      */
+
     public String getText(){
         return btn.getText();
     }
     
     /**
-     * Establece la imagen que contendrá el boton
-     * @param img Imagen a colocar
+     * Establece la imagen que contendrá el bóton.
+     *
+     * @param img Imagen a colocar.
      */
+
     public void setImagen(ImageIcon img){
         btn.setImagen(img);
     }
     
     /**
-     * Indicar color del texto 
-     * @param color color a usar
+     * Establece el color del texto de la etiqueta.
+     *
+     * @param color Color a usar.
      */
     public void setColorText(Color color){
         btn.setColorText(color);
     }
     
     /**
-     * @return Imagen contenida en el boton
+     * @return imágen contenida en el bóton redondo.
      */
+
     public ImageIcon getImagen(){
         return new ImageIcon(btn.getImagen());
     }
      
     /**
-     * Para agregar eventos a nuestro boton
-     * @return El boton que contiene
+     * Retorna el bóton redondo.
+     *
+     * @return el boton que contiene.
      */
+
     public JButton getBoton(){
        return btn; 
     }

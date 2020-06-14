@@ -1,9 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 package Componentes;
 
 import java.awt.Color;
@@ -16,175 +10,220 @@ import javax.swing.ImageIcon;
 import javax.swing.JPanel;
 
 /**
- * 
- * @author García García José Ángel
+ * Clase de un componente tipo JPanel que representa una Barra de elección (Botones).
+ * @author Garcíaa García José Ángel
+ * @author Sánchez Chávez Kevin Edilberto
+ * @version 1.0 14/06/2020
  */
+
 public class BarraEleccion extends JPanel{
-    
-    /* Array de Botones para los tipos de magueys*/
-    private ArrayList<BCE2> magueys;
-    /* Cantidad de magueys*/
-    private int nMagueys;
-    
+
+    // Variable de instancia - Array de Botones para los tipos de magueyes.
+    private ArrayList<BCE> magueyes;
+
+    // Variable de instancia - Cantidad de magueyes.
+    private int numeroMagueyes;
+
+    // Variable de instancia - Imagen de fondo.
+    private Image imagen;
+
     /**
-     * Constructor simple
+     * Constructor para objetos de BarraEleccion.
      */
+
     public BarraEleccion(){
-        magueys = new ArrayList<>();
+        magueyes = new ArrayList<>();
     }
     
     /**
-     * @param nMagueys Cantidad de botones
+     * Constructor para objetos de BarraEleccion con una cantidad
+     * de botones dada.
+     *
+     * @param numeroMagueyes Cantidad de botones.
      */
-    public BarraEleccion(int nMagueys) {
-        setCantidadMagueys(nMagueys);
+
+    public BarraEleccion(int numeroMagueyes) {
+        setCantidadmagueyes(numeroMagueyes);
         agregarElemetos();
     }
     
     /**
-     * Constructor Barra de botones con imagenes y textos dados 
+     * Constructor para objetos de BarraEleccion con los elementos
+     * de imagenes y textos dados.
+     * Si son de diferente tamaño, se colocan unicamente las imagenes.
+     *
+     * @param imagenes Arreglo de imagenes que tendrán los botones.
+     * @param textos Arreglo de textos que tendrán los botones.
      */
+
     public BarraEleccion(ImageIcon[] imagenes, String[] textos) {
         if(validarCantidad(imagenes, textos)){
-            setCantidadMagueys(imagenes.length); 
+            setCantidadmagueyes(imagenes.length); 
             agregarElementos(imagenes, textos); 
         }else{
-            setCantidadMagueys(imagenes.length);
+            setCantidadmagueyes(imagenes.length);
             agregarElemetos();
             setImagenes(imagenes);
         }
     }
     
     /**
-     * Agrega los elementos con su imagen y texto correspondiete
-     * @param imagenes Arrelgo de imagenes a establecer
-     * @param textos Arreglo de textos a establecer
+     * Agrega los elementos con su imagen y texto correspondiente.
+     *
+     * @param imagenes Arrelgo de imagenes a establecer.
+     * @param textos Arreglo de textos a establecer.
      */
+
     private void agregarElementos(ImageIcon[] imagenes, String[] textos){
-        // Ya estamos seguro de que son igual tamaño
-        
         setLayout(new GridLayout(1, 0));
-        for (int i = 0; i < nMagueys; i++){ 
-            BCE2 e = new BCE2(imagenes[i], textos[i]); 
-            magueys.add(e);
+        for (int i = 0; i < numeroMagueyes; i++){ 
+            BCE e = new BCE(imagenes[i], textos[i]); 
+            magueyes.add(e);
             add(e);
         }
     }
     
     /**
-     * Agrega los elementos al arreglo
+     * Agrega los elementos al array de botones y al panel.
      */
+
     private void agregarElemetos(){
         setLayout(new GridLayout(1, 0));     
-        for (int i = 0; i < nMagueys; i++) {
-            BCE2 e = new BCE2();
-            magueys.add(e);
+        for (int i = 0; i < numeroMagueyes; i++) {
+            BCE e = new BCE();
+            magueyes.add(e);
             add(e);
         }
     }
     
     
     /**
-     * Valida que el numero de imagene y textos sea el correcto
+     * Valida que el numero de imagenes y textos sea el correcto.
      *
-     * @return true si son iguales y false de lo contrario
+     * @return true si son iguales y false de lo contrario.
      */
+
     private boolean validarCantidad(ImageIcon[] imagenes, String[] textos) {
-        if (imagenes == null || textos == null) {
-            return false;
-        }
-        return (imagenes.length == textos.length);
+        return (imagenes == null || textos == null) ? false : imagenes.length == textos.length;
     }
     
     /**
+     * Método que indica si hay o no botones.
+     *
      * @return true si no tiene botones y false de lo contrario.
      */
+
     public boolean vacio(){
-        return nMagueys == 0;
+        return numeroMagueyes == 0;
     }
     
     /**
-     * Retorna el botón en una posición dada, en un rango de 0 a n
+     * Retorna el botón en una posición dada, en un rango de 0 a n.
      *
-     * @param pos Posición dada
-     * @return Botón de la posición dada si está vacía retorna un null
+     * @param pos Posición dada.
+     * @return Botón de la posición dada, si está vacía retorna un null.
      */
-    public BCE2 getPos(int pos) {
-        return (vacio()) ? null : magueys.get(pos);
+
+    public BCE getPos(int pos) {
+        return (vacio()) ? null : magueyes.get(pos);
     }
     
     /**
-     * Coloca las imagenes y porcentajes dados
-     * @param imagenes Arrelgo de imagenes a colocar
-     * @param textos Arreglo de textos a colocar
+     * Coloca las imagenes y textos dados a los botones.
+     * Si son de tamaños diferentes no se colocan.
+     * Si no hay botones, tampoco se colocan los elementos dados.
+     *
+     * @param imagenes Arreglo de imagenes a colocar.
+     * @param textos Arreglo de textos a colocar.
      */
+
     public void setImagenesYPorcentajes(ImageIcon[] imagenes, String[] textos) {
         if (validarCantidad(imagenes,textos) && !vacio()) {
             setTextos(textos);
             setImagenes(imagenes);
         }
-        // else y no coloca nada
     }
     
     /**
-     * Coloca las imagenes a los botones
-     * @param imagenes Arreglo de imagenes a colorcar
+     * Coloca las imagenes a los botones.
+     * Si está vacia o la cantidad de imagenes suepera la de los botones,
+     * no se establecen las imagenes dadas.
+     *
+     * @param imagenes Arreglo de imagenes a colorcar.
      */
+
     public void setImagenes(ImageIcon[] imagenes) {
-        if (!vacio() && imagenes.length == nMagueys) {
-            for (int i = 0; i < nMagueys; i++) {
-                magueys.get(i).setImagen(imagenes[i]);
-            }
-        }
+        if (!vacio() && imagenes.length == numeroMagueyes)
+            for (int i = 0; i < numeroMagueyes; i++)
+                magueyes.get(i).setImagen(imagenes[i]);
     }
     
     /**
-     * Coloca los texos a los botones
-     * @param textos Arreglo de textos a colorcar
+     * Coloca los texos a los botones.
+     * Si está vacia o la cantidad de textos suepera la de los botones,
+     * no se establecen los textos dados.
+     *
+     * @param textos Arreglo de textos a colorcar.
      */
+
     public void setTextos(String[] textos){
-        if (!vacio() && textos.length == nMagueys) {
-            for (int i = 0; i < nMagueys; i++) {
-                magueys.get(i).setTexto(textos[i].toUpperCase());
-                magueys.get(i).setFont(new Font("Arial", Font.BOLD, 14));
-                magueys.get(i).setColorText(Color.WHITE);
+        if (!vacio() && textos.length == numeroMagueyes)
+            for (int i = 0; i < numeroMagueyes; i++) {
+                magueyes.get(i).setTexto(textos[i].toUpperCase());
+                magueyes.get(i).setFont(new Font("Arial", Font.BOLD, 14));
+                magueyes.get(i).setColorText(Color.WHITE);
             }
-        }
     }
     
     /**
-     * Establece la cantidad de magueys que hay
-     * @param nMagueys Cantidad de magueys
+     * Establece la cantidad de magueyes que tendrá la barra.
+     * 
+     * @param numeroMagueyes Cantidad de magueyes.
      */
-    public void setCantidadMagueys(int nMagueys){
-        this.nMagueys = (nMagueys > 0 ) ? nMagueys : 0;
-        this.magueys = (magueys == null) ? new ArrayList<>(nMagueys) : new ArrayList<>();
+
+    public void setCantidadmagueyes(int numeroMagueyes){
+        this.numeroMagueyes = (numeroMagueyes > 0 ) ? numeroMagueyes : 0;
+        this.magueyes = (magueyes == null) ? new ArrayList<>(numeroMagueyes) : new ArrayList<>();
     }
     
     /**
-     * Devuelve la cantidad de botones que tiene  
-     * @return La cantidad de magueys que hay
+     * Retorna la cantidad de botones que tiene la barra.
+     *
+     * @return La cantidad de magueyes que hay.
      */
-    public int getCantidadMagueys(){
-        return nMagueys;
+
+    public int getCantidadmagueyes(){
+        return numeroMagueyes;
     }
     
-    /***/
-    public ArrayList<BCE2> getBotones(){
-        return magueys;
+    /**
+     * Retorna el array que contiene a los botones.
+     *
+     * @return magueyes ArrayList de botones.
+     */
+
+    public ArrayList<BCE> getBotones(){
+        return magueyes;
     }
-    
-    private Image imagen;
-    
+
+    /**
+     * Método para colocar una imágen de fondo.
+     *
+     * @param imagen Imagen a colocar de fondo.
+     */
+
     public void setFondoImagen(ImageIcon imagen){
         this.imagen = imagen.getImage();
     }
-    
+
+    /**
+     * Método para pintar la imágen de fondo.
+     * @param g Graphics para pintar.
+     */
+
     @Override
     public void paint(Graphics g) {
-        g.drawImage(imagen, 0, 0, getWidth(), getHeight(),
-                        this);
- 
+        g.drawImage(imagen, 0, 0, getWidth(), getHeight(), this);
         setOpaque(false);
         super.paint(g);
     }

@@ -1,29 +1,13 @@
 /** Renombara como Cortador */
 package Procesos;
 
-import java.awt.*;
 import java.sql.Timestamp;
 
 public class Cortador  extends Equipo{
 
     public Cortador(int id, BufferTandas bufferTandas, BufferTandas bufferPiniasCortadas){
         super(id, bufferTandas, bufferPiniasCortadas);
-    }
-
-    @Override
-    public void run() {
-        while(true){
-            try {
-                setAvailable(false);
-                Color color = getBarra().getBackground();
-                consumir();
-                System.out.println("Corte terminado");
-                actualizarBarra(0);
-                ajustarBarra(color);
-            } catch (InterruptedException ex) {
-                System.err.println(ex.getCause());
-            }
-        }
+        setTexto("Cortador terminó");
     }
 
     @Override
@@ -31,7 +15,6 @@ public class Cortador  extends Equipo{
         Tanda tanda = getBufferTandasTomar().remove();
         tanda.setId_Cortador(getIdentificador());
         tanda.setFechaInicio(new Timestamp(System.currentTimeMillis()));
-        getEtqBarra().setForeground(Color.WHITE);
         getEtqBarra().setDatoBarra("Tanda: " + tanda.getId());
         cortar(tanda);
     }
@@ -46,8 +29,7 @@ public class Cortador  extends Equipo{
     }
 
     private synchronized void cortar(Tanda tanda) throws InterruptedException{
-        int total = tanda.getCantidadPinias(), // Este es el 100
-                cont = 0;
+        int total = tanda.getCantidadPinias(), cont = 0;
         ajustarBarra(tanda.getColor());
         for (Object pinia : tanda.getPinias()) {
             sleep(2000);

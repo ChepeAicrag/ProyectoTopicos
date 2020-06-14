@@ -1,27 +1,10 @@
 package Procesos;
 
-import java.awt.*;
-
 public class Fermentador extends Equipo{
 
     public Fermentador(int id, BufferTandas bufferPiniasMolidas, BufferTandas bufferPiniasFermentadas){
         super(id, bufferPiniasMolidas, bufferPiniasFermentadas);
-    }
-
-    @Override
-    public void run() {
-        while (true) {
-            try {
-                setAvailable(false);
-                Color color = getBarra().getBackground();
-                consumir();
-                System.out.println("Fermentador terminado");
-                actualizarBarra(0);
-                ajustarBarra(color);
-            } catch (InterruptedException ex) {
-                System.err.println(ex.getCause());
-            }
-        }
+        setTexto("Fermentador terminó");
     }
 
     @Override
@@ -46,9 +29,9 @@ public class Fermentador extends Equipo{
         int total = tanda.getCantidadPinias(), cont = 0;
         ajustarBarra(tanda.getColor());
         for (Object pinia : tanda.getPinias()) {
-            sleep(2000); // Tiempo por estimar
+            sleep(2000);
             System.out.println(pinia);
-            ((Pinia)(pinia)).setEstatus('F'); // Triturada o molida
+            ((Pinia)(pinia)).setEstatus('F');
             System.out.println(pinia);
             cont++;
             actualizarBarra(cont * 100 / total);

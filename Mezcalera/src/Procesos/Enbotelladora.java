@@ -10,21 +10,7 @@ public class Enbotelladora extends Equipo{
 
     public Enbotelladora(int id, BufferTandas bufferMezcalDestilado, BufferTandas bufferBarriles){
         super(id, bufferMezcalDestilado, bufferBarriles);
-    }
-
-    @Override
-    public void run() {
-        while (true) {
-            try {
-                setAvailable(false);
-                Color color = getBarra().getBackground();
-                consumir();
-                actualizarBarra(0);
-                ajustarBarra(color);
-            } catch (InterruptedException ex) {
-                System.err.println(ex.getCause());
-            }
-        }
+        setTexto("Enbotelladora terminó");
     }
 
     @Override

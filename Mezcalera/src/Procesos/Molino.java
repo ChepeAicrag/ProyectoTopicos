@@ -1,27 +1,10 @@
 package Procesos;
 
-import java.awt.*;
-
 public class Molino extends Equipo{
 
     public Molino(int id,BufferTandas bufferPiniasHorneadas, BufferTandas bufferPiniasMolidas){
         super(id, bufferPiniasHorneadas, bufferPiniasMolidas);
-    }
-
-    @Override
-    public void run() {
-        while (true) {
-            try {
-                setAvailable(false);
-                Color color = getBarra().getBackground();
-                consumir();
-                System.out.println("Molino trabajó");
-                actualizarBarra(0);
-                ajustarBarra(color);
-            } catch (InterruptedException ex) {
-                System.err.println(ex.getCause());
-            }
-        }
+        setTexto("Molino trabajó");
     }
 
     @Override

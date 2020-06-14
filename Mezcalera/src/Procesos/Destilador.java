@@ -1,28 +1,12 @@
 package Procesos;
 
-import java.awt.*;
 import java.util.ArrayList;
 
 public class Destilador extends Equipo{
 
     public Destilador(int id, BufferTandas bufferPiniasFermentadas, BufferTandas bufferMezcalDestilado){
         super(id, bufferPiniasFermentadas, bufferMezcalDestilado);
-    }
-
-    @Override
-    public void run() {
-        while (true) {
-            try {
-                setAvailable(false);
-                Color color = getBarra().getBackground();
-                consumir();
-                System.out.println("Destilador terminó");
-                actualizarBarra(0);
-                ajustarBarra(color);
-            } catch (InterruptedException ex) {
-                System.err.println(ex.getCause());
-            }
-        }
+        setTexto("Destilador terminó");
     }
 
     @Override

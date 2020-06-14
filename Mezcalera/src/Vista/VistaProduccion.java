@@ -84,9 +84,7 @@ public class VistaProduccion extends JPanel{
     
     @Override
     public void paint(Graphics g) {
-        g.drawImage(imagenFondo, 0, 0, getWidth(), getHeight(),
-                        this);
- 
+        g.drawImage(imagenFondo, 0, 0, getWidth(), getHeight(),this);
         setOpaque(false);
         super.paint(g);
     }
