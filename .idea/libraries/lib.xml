@@ -1,8 +1,8 @@
 <component name="libraryTable">
   <library name="lib">
     <CLASSES>
-      <root url="jar://$PROJECT_DIR$/Vista/dist/lib/postgresql-9.2-1002.jdbc4.jar!/" />
-      <root url="jar://$PROJECT_DIR$/Vista/dist/lib/JTattoo-1.6.13.jar!/" />
+      <root url="jar://$PROJECT_DIR$/Mezcalera/dist/lib/JTattoo-1.6.13.jar!/" />
+      <root url="jar://$PROJECT_DIR$/Mezcalera/dist/lib/postgresql-9.2-1002.jdbc4.jar!/" />
     </CLASSES>
     <JAVADOC />
     <SOURCES />

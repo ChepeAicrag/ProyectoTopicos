@@ -1,8 +1,6 @@
 <component name="libraryTable">
   <library name="Vista">
-    <CLASSES>
-      <root url="jar://$PROJECT_DIR$/Vista/dist/Vista.jar!/" />
-    </CLASSES>
+    <CLASSES />
     <JAVADOC />
     <SOURCES />
   </library>

@@ -2,10 +2,10 @@
   <artifact type="jar" name="Vista:jar">
     <output-path>$PROJECT_DIR$/out/artifacts/Vista_jar</output-path>
     <root id="archive" name="Vista.jar">
-      <element id="module-output" name="Vista" />
-      <element id="extracted-dir" path="$PROJECT_DIR$/Vista/dist/Vista.jar" path-in-jar="/" />
-      <element id="extracted-dir" path="$PROJECT_DIR$/Vista/dist/lib/postgresql-9.2-1002.jdbc4.jar" path-in-jar="/" />
-      <element id="extracted-dir" path="$PROJECT_DIR$/Vista/dist/lib/JTattoo-1.6.13.jar" path-in-jar="/" />
+      <element id="module-output" name="Mezcalera" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/Mezcalera/dist/Vista.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/Mezcalera/dist/lib/postgresql-9.2-1002.jdbc4.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/Mezcalera/dist/lib/JTattoo-1.6.13.jar" path-in-jar="/" />
     </root>
   </artifact>
 </component>
