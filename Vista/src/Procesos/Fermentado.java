@@ -79,9 +79,6 @@ public class Fermentado extends Thread implements Productor, Consumidor{
         etqBarra.setDatoBarra("Tanda " + tanda.getId());
         fermentar(tanda); // Las consume para hornear
     }
-    
-    @Override
-    public void producir() throws InterruptedException {}
 
     public void setBarra(JProgressBar barra){
         this.barra = barra;

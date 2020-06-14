@@ -7,18 +7,11 @@ package Controlador;
 import Modelo.ColorearFilas;
 import Modelo.Conexion;
 import Modelo.ManejoDatos;
-import Procesos.BufferTandas;
-import Procesos.Corte;
-import Procesos.Destilador;
-import Procesos.Enbotelladora;
-import Procesos.Fermentado;
-import Procesos.Horno;
-import Procesos.Molino;
-import Procesos.Tanda;
-import Procesos.Transportista;
+import Procesos.*;
 import Vista.Vista;
 
 import java.awt.event.*;
+import java.sql.Struct;
 import java.util.ArrayList;
 import java.util.Queue;
 import java.util.concurrent.ExecutorService;
@@ -43,11 +36,11 @@ public class Controlador implements ActionListener{
                  bb  = new BufferTandas(),
                 TANDAS_TRANSPORTAR = new BufferTandas(),
                 TANDAS_ACTUALIZAR = new BufferTandas();
-    ArrayList<Corte> cortes = new ArrayList<>();
-    ArrayList<Horno> hornos = new ArrayList<>();
-    ArrayList<Molino> molinos = new ArrayList<>();
-    ArrayList<Fermentado> fermentadores = new ArrayList<>();
-    ArrayList<Destilador> destiladores = new ArrayList<>();
+    ArrayList<Corte2> cortes = new ArrayList<>();
+    ArrayList<Horno2> hornos = new ArrayList<>();
+    ArrayList<Molino2> molinos = new ArrayList<>();
+    ArrayList<Fermentador> fermentadores = new ArrayList<>();
+    ArrayList<Destilador2> destiladores = new ArrayList<>();
     ArrayList<Enbotelladora> enbotelladores = new  ArrayList<>();
     ArrayList<Transportista> transportistas = new ArrayList<>();
     private ExecutorService ejecutador = Executors.newCachedThreadPool();
@@ -102,16 +95,13 @@ public class Controlador implements ActionListener{
             id_Maguey = (int) datos[0];
             limite = (int) datos[2];
             System.out.println(limite);
-            cantPinias = cantidadPinas(limite);
+            cantPinias = cantidadPinas(limite, (String) datos[1]);
         }
         switch(o){
             case "registrar":
-                v.reajustarVistas();
                 if(id_Maguey > 0 && cantPinias > 0){
-                    /** Reajustamos los tamaños y hacemos visibles las demás ventanas*/
-                    v.reajustarVistas();
-                    // Aqui debe ir lo de arriba
-                    id_tipoMezcal = v.vProducir.tipo.getSelectedIndex() + 1;
+                     v.principal.setSelectedIndex(1);
+                     id_tipoMezcal = v.vProducir.tipo.getSelectedIndex() + 1;
                      id_alcohol = v.vProducir.alcohol.getSelectedIndex() + 1;
                      t = new Tanda(id_Maguey,id_alcohol,id_tipoMezcal, cantPinias);
                      System.out.println(t);
@@ -221,15 +211,16 @@ public class Controlador implements ActionListener{
     }
       
     /** 
-     * Solicita la cantidad de piñas y las valida
+     * Solicita la cantidad de piñas y las valida para el maguey dado
      * @param limite Cantidad maxima de piñas a usar
+     * @param nombreMaguey Nombre del maguey
      */
-    private int cantidadPinas(int limite){
+    private int cantidadPinas(int limite, String nombreMaguey){
         int cantidad = 0;
         boolean op = false;
         while (!op) {            
             try{
-                String msj = JOptionPane.showInputDialog(v, "Introduce la cantidad de piñas a usar");
+                String msj = JOptionPane.showInputDialog(v, "Introduce la cantidad de piñas a usar del maguey " +nombreMaguey);
                 if(msj != null){
                     if (msj.isEmpty())
                         msj = "0";
@@ -249,7 +240,6 @@ public class Controlador implements ActionListener{
 
     /***/
     private boolean hayProduccion(){
-
         return !tandasProduciendo.isEmpty() || !tandasTransportando.isEmpty();
     }
 
@@ -278,18 +268,18 @@ public class Controlador implements ActionListener{
         int id_Equipo = 0;
         for (int i = 0; i < 3; i++) {
             id_Equipo = i + 1;
-            cortes.add(new Corte(id_Equipo, bft, bpc));
-            hornos.add(new Horno(id_Equipo, bpc, bph));
-            molinos.add(new Molino(id_Equipo , bph, bpm));
-            fermentadores.add(new Fermentado(id_Equipo, bpm, bpf));
-            destiladores.add(new Destilador(id_Equipo, bpf, bmd));
+            cortes.add(new Corte2(id_Equipo, bft, bpc));
+            hornos.add(new Horno2(id_Equipo, bpc, bph));
+            molinos.add(new Molino2(id_Equipo , bph, bpm));
+            fermentadores.add(new Fermentador(id_Equipo, bpm, bpf));
+            destiladores.add(new Destilador2(id_Equipo, bpf, bmd));
             enbotelladores.add(new Enbotelladora(id_Equipo, bmd, bb));
             transportistas.add(new Transportista(id_Equipo, bb, v.vTraslado));
-            cortes.get(i).setIdentificador(v.vProduccion.getBarra(i).getPos(0));
-            hornos.get(i).setIdentificador(v.vProduccion.getBarra(i).getPos(1));
-            molinos.get(i).setIdentificador(v.vProduccion.getBarra(i).getPos(2));
-            fermentadores.get(i).setIdentificador(v.vProduccion.getBarra(i).getPos(3));
-            destiladores.get(i).setIdentificador(v.vProduccion.getBarra(i).getPos(4));
+            cortes.get(i).setBarraIdentificador(v.vProduccion.getBarra(i).getPos(0));
+            hornos.get(i).setBarraIdentificador(v.vProduccion.getBarra(i).getPos(1));
+            molinos.get(i).setBarraIdentificador(v.vProduccion.getBarra(i).getPos(2));
+            fermentadores.get(i).setBarraIdentificador(v.vProduccion.getBarra(i).getPos(3));
+            destiladores.get(i).setBarraIdentificador(v.vProduccion.getBarra(i).getPos(4));
             enbotelladores.get(i).setIdentificador(v.vProduccion.getBarra(i).getPos(5));
             cortes.get(i).setTandasActualizar(TANDAS_ACTUALIZAR);
             hornos.get(i).setTandasActualizar(TANDAS_ACTUALIZAR);

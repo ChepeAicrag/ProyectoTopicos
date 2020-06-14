@@ -127,10 +127,6 @@ public class Enbotelladora extends Thread implements Productor, Consumidor {
             barra.setBorder(BorderFactory.createLineBorder(Color.black));
     }
 
-    @Override
-    public void producir() throws InterruptedException {
-    }
-
     private int numAnejamiento(Tanda t) {
         int numAnejamientos = 1;
         /** Blanco 2 meses * Resposado 12 meses * Añejo 24 meses * Madurado 10 meses*/

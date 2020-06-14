@@ -14,7 +14,7 @@ import javax.swing.JProgressBar;
  * 
  * @author García García José Ángel
  */
-public class Corte extends Thread implements Productor{
+public class Corte extends Thread implements Consumidor, Productor{
     
     private int id;
     private boolean isAvailable;
@@ -38,7 +38,7 @@ public class Corte extends Thread implements Productor{
             try {
                         isAvailable = false;
                         color = barra.getBackground();
-                        producir();
+                        consumir();
                         System.out.println("Corte terminado");
                         actualizarBarra(0);
                         ajustarBarra(color);
@@ -67,20 +67,7 @@ public class Corte extends Thread implements Productor{
         etqBarra.setDatoBarra("---");
         isAvailable = true;
     }
-    
-    @Override
-    public synchronized void producir() throws InterruptedException {
-      Tanda tanda = bufferTandas.remove();
-      System.out.println(" Yo hilo: " + Thread.currentThread().getName()
-              + "\nTome la tanda: " + tanda);
-      tanda.setId_Cortador(id);
-      /** Aquí le inserta el id a tanda para identificar que el trabajó la tanda*/
-      tanda.setFechaInicio(new Timestamp(System.currentTimeMillis()));
-      etqBarra.setForeground(Color.WHITE);
-      etqBarra.setDatoBarra("Tanda: " + tanda.getId());
-      cortar(tanda);
-    }
-    
+
     @Override
     public void producir(Tanda tanda) throws InterruptedException {}
    
@@ -116,5 +103,18 @@ public class Corte extends Thread implements Productor{
     
     public void setTandasActualizar(BufferTandas tandasActualizar){
         this.tandasActualizar = tandasActualizar;
+    }
+
+    @Override
+    public void consumir() throws InterruptedException {
+        Tanda tanda = bufferTandas.remove();
+        System.out.println(" Yo hilo: " + Thread.currentThread().getName()
+                + "\nTome la tanda: " + tanda);
+        tanda.setId_Cortador(id);
+        /** Aquí le inserta el id a tanda para identificar que el trabajó la tanda*/
+        tanda.setFechaInicio(new Timestamp(System.currentTimeMillis()));
+        etqBarra.setForeground(Color.WHITE);
+        etqBarra.setDatoBarra("Tanda: " + tanda.getId());
+        cortar(tanda);
     }
 }

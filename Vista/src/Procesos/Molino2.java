@@ -1,23 +1,21 @@
-/** Renombara como Cortador */
 package Procesos;
 
 import java.awt.*;
-import java.sql.Timestamp;
 
-public class Corte2  extends Equipo{
+public class Molino2 extends Equipo{
 
-    public Corte2(int id, BufferTandas bufferTandas, BufferTandas bufferPiniasCortadas){
-        super(id, bufferTandas, bufferPiniasCortadas);
+    public Molino2(int id,BufferTandas bufferPiniasHorneadas, BufferTandas bufferPiniasMolidas){
+        super(id, bufferPiniasHorneadas, bufferPiniasMolidas);
     }
 
     @Override
     public void run() {
-        while(true){
+        while (true) {
             try {
                 setAvailable(false);
                 Color color = getBarra().getBackground();
                 consumir();
-                System.out.println("Corte terminado");
+                System.out.println("Molino trabajó");
                 actualizarBarra(0);
                 ajustarBarra(color);
             } catch (InterruptedException ex) {
@@ -28,36 +26,34 @@ public class Corte2  extends Equipo{
 
     @Override
     public void consumir() throws InterruptedException {
-        Tanda tanda = getBufferTandasTomar().remove();
-        tanda.setId_Cortador(getIdentificador());
-        tanda.setFechaInicio(new Timestamp(System.currentTimeMillis()));
-        getEtqBarra().setForeground(Color.WHITE);
-        getEtqBarra().setDatoBarra("Tanda: " + tanda.getId());
-        cortar(tanda);
+        Tanda tanda = getBufferTandasTomar().remove(); // Quita de las horneadas
+        tanda.setId_Triturador(getIdentificador());
+        getEtqBarra().setDatoBarra("Tanda " + tanda.getId());
+        moler(tanda); // Las consume para hornear
     }
 
     @Override
     public void producir(Tanda tanda) throws InterruptedException {
-        tanda.setEstado("Cortado");
+        tanda.setEstado("Trituarada");
         getTandasActualizar().put(tanda);
-        getBufferTandasColocar().put(tanda);
+        getBufferTandasColocar().put(tanda); // Las produce
         getEtqBarra().setDatoBarra("---");
         setAvailable(true);
     }
 
-    private synchronized void cortar(Tanda tanda) throws InterruptedException{
-        int total = tanda.getCantidadPinias(), // Este es el 100
+    /** Produce la pinia molida*/
+    private synchronized void moler(Tanda tanda) throws InterruptedException{
+        int total = tanda.getCantidadPinias(),
                 cont = 0;
         ajustarBarra(tanda.getColor());
         for (Object pinia : tanda.getPinias()) {
-            sleep(2000);
+            sleep(2000); // Tiempo por estimar
             System.out.println(pinia);
-            ((Pinia)(pinia)).setEstatus('C');
+            ((Pinia)(pinia)).setEstatus('T');
             System.out.println(pinia);
             cont++;
             actualizarBarra(cont * 100 / total);
         }
         producir(tanda);
     }
-
 }

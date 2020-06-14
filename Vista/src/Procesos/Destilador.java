@@ -97,9 +97,6 @@ public class Destilador extends Thread implements Productor, Consumidor{
         etqBarra.setDatoBarra("Tanda " + tanda.getId());
         destilar(tanda); // Las consume para hornear
     }
-
-    @Override
-    public void producir() throws InterruptedException {}
     
     public void setBarra(JProgressBar barra){
         this.barra = barra;

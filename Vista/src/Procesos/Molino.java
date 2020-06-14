@@ -45,7 +45,6 @@ public class Molino extends Thread implements Productor, Consumidor{
                 } catch (InterruptedException ex) {
                     System.err.println(ex.getCause());
                 }
-            
         }
     }
     
@@ -85,9 +84,6 @@ public class Molino extends Thread implements Productor, Consumidor{
         etqBarra.setDatoBarra("Tanda " + tanda.getId());
         moler(tanda); // Las consume para hornear
     }
-    
-    @Override
-    public void producir() throws InterruptedException {}
 
     public void setBarra(JProgressBar barra){
         this.barra = barra;
