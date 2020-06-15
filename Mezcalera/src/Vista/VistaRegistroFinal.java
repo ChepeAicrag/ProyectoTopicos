@@ -152,6 +152,19 @@ public class VistaRegistroFinal extends JPanel{
         remove(titulo);
         add(titulo);
         s.putConstraint(SpringLayout.NORTH, titulo, 32, SpringLayout.NORTH, this);
+        s.putConstraint(SpringLayout.WEST, titulo,300, SpringLayout.WEST, this);
+        remove(btnSalir);
+        add(btnSalir);
+        s.putConstraint(SpringLayout.NORTH, btnSalir, 30, SpringLayout.SOUTH, scroll);
+        s.putConstraint(SpringLayout.WEST, btnSalir, 870, SpringLayout.WEST, this);
+        remove(scroll);
+        add(scroll);
+        s.putConstraint(SpringLayout.NORTH, scroll, 32, SpringLayout.SOUTH, titulo);
+        s.putConstraint(SpringLayout.WEST, scroll, 60, SpringLayout.WEST, this);
+        s.putConstraint(SpringLayout.EAST, scroll, -60, SpringLayout.EAST, this);
+        /*remove(titulo);
+        add(titulo);
+        s.putConstraint(SpringLayout.NORTH, titulo, 32, SpringLayout.NORTH, this);
         s.putConstraint(SpringLayout.WEST, titulo,180, SpringLayout.WEST, this);
         remove(scroll);
         add(scroll);
@@ -162,7 +175,7 @@ public class VistaRegistroFinal extends JPanel{
         remove(btnSalir);
         add(btnSalir);
         s.putConstraint(SpringLayout.NORTH, btnSalir, 100, SpringLayout.SOUTH, scroll);
-        s.putConstraint(SpringLayout.WEST, btnSalir, 625, SpringLayout.WEST, this);
-        //s.putConstraint(SpringLayout.EAST, btnSalir, -30, SpringLayout.EAST, this);
+        s.putConstraint(SpringLayout.WEST, btnSalir, 725, SpringLayout.WEST, this);
+        //s.putConstraint(SpringLayout.EAST, btnSalir, -30, SpringLayout.EAST, this);*/
     }
 }

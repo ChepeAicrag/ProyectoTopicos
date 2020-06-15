@@ -55,13 +55,16 @@ public class Vista extends JFrame{
         mEspadín = new ImageIcon(getClass().getResource("/Imagenes/Maguey_Espadín.png")),
         mMexicano = new ImageIcon(getClass().getResource("/Imagenes/Maguey_Mexicano.png")),
         mPapalote = new ImageIcon(getClass().getResource("/Imagenes/Maguey_Papalote.png")),
-        mTobala = new ImageIcon(getClass().getResource("/Imagenes/Maguey_Tobalá.png"));
+        mTobala = new ImageIcon(getClass().getResource("/Imagenes/Maguey_Tobalá.png")),
+        mArroquenio = new ImageIcon(getClass().getResource("/Imagenes/Maguey_Arroqueño.png")),
+        mJabali = new ImageIcon(getClass().getResource("/Imagenes/Maguey_Jabalí.png")),
+        mMadreCuish = new ImageIcon(getClass().getResource("/Imagenes/Maguey_MadreCuish.png")),
+        mTepextate = new ImageIcon(getClass().getResource("/Imagenes/Maguey_Tepextate.png"));
                 
         String[] txts = {"Tobalá","Cuishe","Coyote","Tepeztate","Papalote","Cenizo",
                         "Estoquillo","Mexicano","Tobalá","Cuishe","Coyote","Tepeztate"};
-        ImageIcon[] imagenes = {mCoyote,img,mPapalote,mCenizo,
-                                img,mMexicano,mTobala,mCuishe,
-                                mAzul,img,img,img};
+        ImageIcon[] imagenes = {mAzul, mCenizo, mCoyote, mCuishe, mEspadín, mMexicano, mPapalote, mTobala,
+                                mArroquenio, mJabali, mMadreCuish, mTepextate};
         
         principal = new JTabbedPane();
         vProducir = new VistaProducir(imagenes, txts);

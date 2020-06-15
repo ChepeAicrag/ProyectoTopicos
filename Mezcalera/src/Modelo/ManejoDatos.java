@@ -126,7 +126,7 @@ public class ManejoDatos {
         ResultSet rs;
         List<Object[]> datos = new ArrayList<Object[]>();
         try {
-            ps = conexion.prepareStatement("select * from mezcal.tanda");
+            ps = conexion.prepareStatement("select * from mezcal.tanda where status = 'Entregada'");
             rs = ps.executeQuery();
             while (rs.next()) {
                 String dat[] = new String[15];
@@ -145,7 +145,7 @@ public class ManejoDatos {
                 SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss");
                 dat[13] = (rs.getTimestamp(14) == null) ? "Null" : sdf.format(rs.getTimestamp(14));
                 dat[14] = (rs.getTimestamp(15) == null) ? "Null" : sdf.format(rs.getTimestamp(15));
-                dat[11] = String.valueOf(rs.getInt(16));
+                dat[11] = (String) selectValueDe("select nombre from mezcal.transportista where id_transportista = " + rs.getInt(16));
                 datos.add(dat);
             }
         } catch (SQLException e) {
@@ -163,7 +163,7 @@ public class ManejoDatos {
      */
     public boolean insertTanda(Tanda t) {
         PreparedStatement ps;
-        String sqlInsertTanda = "insert into mezcal.tanda (tipomaguey,gradoalcohol,tipoMezcal,cantidadPinias"
+        String sqlInsertTanda = "insert into mezcal.tanda (tipomaguey,gradoAlcohol,tipoMezcal,cantidadPinias"
                 + ",status,fecha_inicio) values (?,?,?,?,?,?);";
         try {
             ps = conexion.prepareStatement(sqlInsertTanda);
@@ -196,6 +196,7 @@ public class ManejoDatos {
                 datos.add(rs.getString(2));
             }
         } catch (SQLException e) {
+            System.out.println("ERROR AL OBTENER NOMBRE: " + e.getCause());
         }
         return datos;
     }
@@ -265,10 +266,10 @@ public class ManejoDatos {
      */
     public boolean updatePinias(Tanda t){
         PreparedStatement ps;
-        String sqlUpdateMaguey = "update mezcal.maguey set \"cantidadPinia\" = ? where id_maguey = " + t.getTipoMaguey() + ";";
+        String sqlUpdateMaguey = "update mezcal.maguey set cantidadPinia = ? where id_maguey = " + t.getTipoMaguey() + ";";
         try{
             ps  = conexion.prepareStatement(sqlUpdateMaguey);
-            int valor = (int) selectValueDe("select \"cantidadPinia\" from mezcal.maguey where id_maguey = " + t.getTipoMaguey())
+            int valor = (int) selectValueDe("select cantidadPinia from mezcal.maguey where id_maguey = " + t.getTipoMaguey())
                     - t.getCantidadPinias();
             ps.setInt(1,valor);
             ps.executeUpdate();
@@ -294,7 +295,7 @@ public class ManejoDatos {
             sqlUpdateTanda = "update mezcal.tanda set "
                 + "status = ?, id_Cortador = ?, id_Horno = ?, id_Molino = ?,"
                 + "id_Fermentador = ?, id_Destilador = ?, id_Enbotelladora = ?"
-                + ",id_Cliente = ?, \"id_Transportista\" = ?, fecha_inicio = ?, fecha_final = ? where id_tanda = ?;";
+                + ",id_Cliente = ?, id_Transportista = ?, fecha_inicio = ?, fecha_final = ? where id_tanda = ?;";
             completa = true;
         }
         else

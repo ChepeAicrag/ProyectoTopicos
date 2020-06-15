@@ -107,7 +107,7 @@ public class VistaRegistro extends JPanel{
         btnEliminar.revalidate();
         add(btnEliminar);
         s.putConstraint(SpringLayout.NORTH, btnEliminar, 600, SpringLayout.NORTH, this);
-        s.putConstraint(SpringLayout.WEST, btnEliminar, 570, SpringLayout.WEST, this);
+        s.putConstraint(SpringLayout.WEST, btnEliminar, 640, SpringLayout.WEST, this);
         //s.putConstraint(SpringLayout.EAST, btnEliminar, -100, SpringLayout.EAST, this);
         btnProducir = new JButton("PRODUCIR");
         btnProducir.setActionCommand("producir");

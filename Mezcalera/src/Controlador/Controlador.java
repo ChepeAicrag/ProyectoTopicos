@@ -97,9 +97,9 @@ public class Controlador implements ActionListener{
     /**
      * Método que controla las acciones de los botones de cada vista.
      */
+    int filaPulsada = 0, id_tanda = 0, limite = 0,id_Maguey = 0, id_alcohol = 0, id_tipoMezcal = 0, cantPinias = 0;
     @Override
     public void actionPerformed(ActionEvent ae) {
-        int filaPulsada = 0, id_tanda = 0, limite = 0,id_Maguey = 0, id_alcohol = 0, id_tipoMezcal = 0, cantPinias = 0;
         Tanda t;
         Object datos[] = null;
         String o = ae.getActionCommand();
@@ -114,6 +114,7 @@ public class Controlador implements ActionListener{
         switch(o){
             /** Registra la tanda de acuerdo a los campos rellenados */
             case "registrar":
+                System.out.println(id_Maguey + " <<<<->>> " + cantPinias);
                 if(id_Maguey > 0 && cantPinias > 0){
                      v.principal.setSelectedIndex(1);
                      id_tipoMezcal = v.vProducir.tipo.getSelectedIndex() + 1;
