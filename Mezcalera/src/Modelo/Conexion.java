@@ -6,20 +6,33 @@ import java.sql.SQLException;
 import java.util.logging.Level;
 
 /**
- * @author Garcia Garcia Jose Angel
+ * Clase Conexion para conectar con la BD utilizando el patrón de diseño Singleton.
+ * @author García García José Ángel
+ * @author Sánchez Chávez Kevin Edilberto
+ * @version 1.0 14/06/2020
  */
+
 public class Conexion {
 
-    private static Connection coneccion = null; // Contenida en el pquete SQL
-    private static Conexion conexion = null; // instancia a utilizar
-    private static  int numConexiones = 0; // controla el numero de veces que sucedio
-    
+    // Variable de clase - Contenida en el pquete SQL.
+    private static Connection coneccion = null; //
+
+    // Variable de calse - Instancia a utilizar.
+    private static Conexion conexion = null;
+
+    // Variable de clase - Número de conexiones.
+    private static  int numConexiones = 0;
+
+    /**
+     * Constructor para un único objeto de la clase
+     * @param password Contraseña de la BD
+     * @param url Dirreción de la BD
+     * @param usuario Usuario de la BD
+     */
+
     private Conexion(String url, String usuario, String password){
         try {
-            // Clase usada para una conexion con Derby
             Class.forName("org.postgresql.Driver");
-            // Para MySql : "com.mysql.jdbc.Driver"
-            // Para Postgres : "org.postgresql.Driver"
             coneccion = DriverManager.getConnection(url,usuario, password);
         } catch (SQLException e) {
             java.util.logging.Logger.getLogger(Conexion.class.getName()).log(Level.SEVERE,null,e);
@@ -27,18 +40,40 @@ public class Conexion {
             java.util.logging.Logger.getLogger(Conexion.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    
-    public static Conexion getConexion(String url, String Usuario, String password){
+
+    /**
+     * Método de la clase para retornar una instancia de la misma.
+     * @param password Contraseña de la BD
+     * @param url Dirreción de la BD
+     * @param usuario Usuario de la BD
+     *
+     * @return instancia de la clase.
+     */
+
+    public static Conexion getConexion(String url, String usuario, String password){
         numConexiones++;
         if(conexion == null)
-            return conexion = new Conexion(url, Usuario, password);
+            return conexion = new Conexion(url, usuario, password);
         return conexion;
      }
-     
+
+     /**
+      * Retorna un objeto de Coneccction.
+      *
+      * @return instancia de Conecction.
+      */
+
      public static Connection getConeccion(){
          return coneccion;
      }
      
+     /**
+      * Método para cerrar la conexión con la BD
+      *
+      * return true si fue cerrada correctamente y
+      *        false de lo contrario.
+     */
+
      public boolean CerrarConexion(){
         try {
             if (coneccion != null) 
@@ -54,5 +89,4 @@ public class Conexion {
        }
         return false;
     }
-    
 }

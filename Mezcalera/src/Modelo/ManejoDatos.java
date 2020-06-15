@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package Modelo;
 
 import Procesos.Tanda;
@@ -18,18 +13,30 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- *
+ * Clase que controla las consultas requeridas para el proyecto.
  * @author García García José Ángel
+ * @author Sánchez Chávez Kevin Edilberto
+ * @version 1.0 14/06/2020
  */
+
 public class ManejoDatos {
 
-    private Connection conexion; // Acceso a conexion
-    private Conexion crearConexion;// Crea conexion
+    // Variable de instancia - Acceso a conexion.
+    private Connection conexion;
+
+    // Variable de instancia - Crear conexion a la BD.
+    private Conexion crearConexion;
+
+    // Variables de instancia - Atributos de la BD
     private String host = "localhost";
     private String usuario = "postgres";
     private final String clave = "Dexter1998";
     private int puerto = 5432;
     private String baseDatos = "Mezcalera";
+
+    /**
+     * Constructor para objetos de ManejoDatos
+     */
 
     public ManejoDatos() {
         try {
@@ -38,26 +45,35 @@ public class ManejoDatos {
             conexion = crearConexion.getConeccion();
         } catch (Exception e) {
             System.out.println(e.getCause());
-
         }
         System.out.println("Conectado a " + baseDatos);
     }
 
-    public Object selectValueDe(String sql){
+    /**
+     * Consulta un campo especifico de una tabla.
+     *
+     * @param sql Instrucción sql a ejecutar.
+     */
+
+    private Object selectValueDe(String sql){
         PreparedStatement ps;
         Object dato = null;
         try {
             Statement st = conexion.createStatement();
             ResultSet rs = st.executeQuery(sql);
-            if(rs.next()){
-                dato = rs.getObject(1);
-            }
+            dato =  (rs.next()) ? rs.getObject(1) : new SQLException();
         } catch (SQLException e) {
             System.out.println("Error al obtener dato \n " + e);
         }
         return dato;
     }
-    
+
+    /**
+     * Retorna los datos de un maguey.
+     *
+     * @param id Id del maguey.
+     */
+
     public Object[] selectMaguey(int id) {
         PreparedStatement ps;
         Object datos[] = new Object[3];
@@ -75,7 +91,13 @@ public class ManejoDatos {
         return datos;
     }
 
-    //Método que regresa en una  lista, los clientes registrados en la bd
+    /**
+     * Retorna campos especificos de la tabla tanda.
+     *
+     * @param sql Instrucción sql a ejecutar.
+     * @return Datos especificos de la tanda.
+     */
+
     public List<Object[]> conexionConsultaTanda(String sql) {
         PreparedStatement ps;
         ResultSet rs;
@@ -85,10 +107,6 @@ public class ManejoDatos {
             rs = ps.executeQuery();
             while (rs.next()) {
                 String dat[] = new String[6];
-                /**
-                 * id_tanda, tipoMaguey, gradoAlcohol,
-                 * tipoMezcal,cantidadPinias, status
-                 */
                 dat[0] = String.valueOf((Integer) rs.getInt(1));
                 dat[1] = (String) selectValueDe("select nombre from mezcal.maguey where id_maguey = " + rs.getString(2));
                 dat[2] = String.valueOf((Double)selectValueDe("select valor from mezcal.gradoalcohol where id_grado = " + rs.getInt(3)));
@@ -102,13 +120,19 @@ public class ManejoDatos {
         }
         return datos;
     }
-     
-     public List<Object[]> conexionConsultaInformeTanda(String sql) {
+
+     /**
+      * Método par aobtener todos los campos de la tanda.
+      *
+      * return Lista con los datos de las tandas.
+      */
+
+     public List<Object[]> conexionConsultaInformeTanda() {
         PreparedStatement ps;
         ResultSet rs;
         List<Object[]> datos = new ArrayList<Object[]>();
         try {
-            ps = conexion.prepareStatement(sql);
+            ps = conexion.prepareStatement("select * from mezcal.tanda");
             rs = ps.executeQuery();
             while (rs.next()) {
                 String dat[] = new String[15];
@@ -117,7 +141,6 @@ public class ManejoDatos {
                 dat[2] = String.valueOf((Double)selectValueDe("select valor from mezcal.gradoalcohol where id_grado = " + rs.getInt(3)));
                 dat[3] = (String) selectValueDe("select nombre from mezcal.tipomezcal where id_tipo = " + rs.getInt(4));
                 dat[4] = String.valueOf((Integer) rs.getInt(5));
-               // dat[5] = rs.getString(6);
                 dat[5] = (String) selectValueDe("select nombre from mezcal.cortador where id_cortador = " + rs.getInt(7));
                 dat[6] = (String) selectValueDe("select nombre from mezcal.horno where id_horno = " + rs.getInt(8));
                 dat[7] = (String) selectValueDe("select nombre from mezcal.molino where id_molino = " + rs.getInt(9));
@@ -132,12 +155,18 @@ public class ManejoDatos {
                 datos.add(dat);
             }
         } catch (SQLException e) {
-           System.err.println("Error al CARGAR DATOS " + e.getCause());
+           System.err.println("ERROR AL CARGAR DATOS DE INFORME " + e.getCause());
         }
         return datos;
     }
-    
-    
+
+    /**
+     * Insertar un registro de tanda.
+     *
+     * @param t Tnada a insertar
+     * @return true si se insertó correctamente y
+     *         false de lo contrario.
+     */
 
     public boolean insertTanda(Tanda t) {
         PreparedStatement ps;
@@ -145,7 +174,6 @@ public class ManejoDatos {
                 + ",status,fecha_inicio) values (?,?,?,?,?,?);";
         try {
             ps = conexion.prepareStatement(sqlInsertTanda);
-            //ps.setInt(1, t.getId());
             ps.setInt(1, t.getTipoMaguey());
             ps.setInt(2, t.getPorcentajeAlcohol());
             ps.setInt(3, t.getTipoMezcal());
@@ -160,18 +188,33 @@ public class ManejoDatos {
         }
     }
 
+    /**
+     * Consulta el nombre de una de las tablas maguey, cliente.
+     *
+     * @param sql Instrucción a ejecutar.
+     * @return Array con los datos los registros.
+     */
+
     public ArrayList<String> conexionConsultarNombre(String sql) {
         ArrayList<String> datos = new ArrayList<>();
         try {
             Statement ps = conexion.createStatement();
             ResultSet rs = ps.executeQuery(sql);
             while (rs.next()) {
-                datos.add(rs.getString(2)); // La segunda columna en ambos
+                datos.add(rs.getString(2));
             }
         } catch (SQLException e) {
         }
         return datos;
     }
+
+    /**
+     *  Eliminar una tanda con id dado.
+     *
+     * @param t Tanda con ID dado
+     * @return true si se eliminó correctamente y
+     *         false de lo contrario.
+     */
 
     public boolean deleteTanda(Tanda t) {
         PreparedStatement ps;
@@ -186,7 +229,14 @@ public class ManejoDatos {
             return false;
         }
     }
-    
+
+    /**
+     * Retorna la tanda seleccionada.
+     *
+     * @param t Tanda seleccionada.
+     * @return Tanda con los datos de la seleccionada.
+     */
+
     public Tanda selectTanda(Tanda t){
         PreparedStatement ps;
         ResultSet rs;
@@ -215,7 +265,15 @@ public class ManejoDatos {
         }
         return tandaEncontrada;
     }
-    
+
+    /**
+     * Método para la modifiación de la cantidad de piñas.
+     *
+     * @param t Tanda que modifica la piñas.
+     * @return true si se modificó correctemente y
+     *         false de lo contrario.
+     */
+
     public boolean updatePinias(Tanda t){
         PreparedStatement ps;
         String sqlUpdateMaguey = "update mezcal.maguey set \"cantidadPinia\" = ? where id_maguey = " + t.getTipoMaguey() + ";";
@@ -232,14 +290,19 @@ public class ManejoDatos {
         }
     }
     
-    // Actualiza el id de la tanda 
+    /**
+     * Método para actualizar la BD
+     *
+     * @param t Tanda a actualizar.
+     * @return true si se modificó correctamente
+     *         false de lo contrario.
+     */
+
     public boolean updateEstadoTanda(Tanda t){
         PreparedStatement ps;
         String sqlUpdateTanda = "";
         boolean completa = false;
         if (t.getEstado().equals("Entregada")) {
-        //if(t.getId_Cortador() != 0 && t.getId_Horneador() != 0 && t.getId_Triturador() != 0 && t.getId_Fermentador() != 0 
-        //            && t.getId_Destilador() != 0 && t.getId_Enbotelladora() != 0 && t.getId_Cliente() != 0){
             sqlUpdateTanda = "update mezcal.tanda set "
                 + "status = ?, id_Cortador = ?, id_Horno = ?, id_Molino = ?,"
                 + "id_Fermentador = ?, id_Destilador = ?, id_Enbotelladora = ?"
@@ -267,7 +330,6 @@ public class ManejoDatos {
                 System.out.println("La fecha de inicio es : " + d1 + "\nLA final es :"+ d2);
                 ps.setTimestamp(11, d2);
                 ps.setInt(12,t.getId());
-                /** Falta mostrar que trailer transportó la tanda*/
             }else
                 ps.setInt(2, t.getId());
             ps.executeUpdate();
@@ -277,7 +339,12 @@ public class ManejoDatos {
             return false;
         }
     }
-    
+
+    /**
+     * Método para cerrar la conexión con la BD
+     *
+     */
+
     public void cerrarConexion(){
         crearConexion.CerrarConexion();
     }

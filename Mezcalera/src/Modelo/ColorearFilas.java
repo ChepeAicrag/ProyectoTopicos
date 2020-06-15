@@ -1,4 +1,3 @@
-/** Clase creada para poner de colores la tabla */
 
 package Modelo;
 
@@ -6,19 +5,29 @@ import java.awt.*;
 import javax.swing.*;
 import javax.swing.table.*;
 
+/**
+ * Clase para hacer la personalización de las tablas.
+ * @author García García José Ángel
+ * @author Sánchez Chávez Kevin Edilberto
+ * @version 1.0 14/06/2020
+ */
+
 public class ColorearFilas extends DefaultTableCellRenderer {
 
-    private final int columna_patron;
-    private boolean op;
+    // Constante de clase - Columna a modificar.
+    private final int columna_modificar;
+
+    /**
+     * Constructor para objetos de la clase ColorearFilas.
+     */
 
     public ColorearFilas(int Colpatron) {
-        this.columna_patron = Colpatron;
+        this.columna_modificar = Colpatron;
     }
-
-    public ColorearFilas(int Colpatron, boolean op) {
-        this.columna_patron = Colpatron;
-        this.op = op;
-    }
+    /**
+     * Método para realizar la modificación de la tabla
+     * de acuerdo a nuestra necesidad.
+     */
 
     @Override
     public Component getTableCellRendererComponent(JTable table, Object value, boolean Selected, boolean hasFocus, int row, int col) {
@@ -27,11 +36,10 @@ public class ColorearFilas extends DefaultTableCellRenderer {
         table.setForeground(Color.BLACK);
         table.setFont(font); // Colocar la fuente de mi gusto
         table.setGridColor(Color.BLACK);
-        if(table.getValueAt(row, columna_patron).toString().equals("Registrada")) {
+        if(table.getValueAt(row, columna_modificar).toString().equals("Registrada"))
             setForeground(Color.RED);
-        }else{
+        else
                 setForeground(Color.BLUE);
-        }
         setHorizontalAlignment(SwingConstants.CENTER);
         if (Selected)
             table.setSelectionBackground(Color.LIGHT_GRAY);
