@@ -42,11 +42,15 @@ public class VistaProduccion extends JPanel{
      */
     public void colocar(){
         BarraProceso barra1, barra2, barra3;
-        ImageIcon img = new ImageIcon(
-                getClass().getResource("/Imagenes/maguey.png"));
+        ImageIcon imgCorte = new ImageIcon(getClass().getResource("/Imagenes/Cosecha.png")),
+                  imgHorno = new ImageIcon(getClass().getResource("/Imagenes/Horneada.jpg")),
+                  imgMolino = new ImageIcon(getClass().getResource("/Imagenes/Molienda.png")),
+                  imgFermentador = new ImageIcon(getClass().getResource("/Imagenes/Fermentacion.png")),
+                  imgDestilador = new ImageIcon(getClass().getResource("/Imagenes/Destilacion.png")),
+                  imgEnbotellado = new ImageIcon(getClass().getResource("/Imagenes/EnvasadoEtiquetado.png"));
         int[] porcentajes = {0,0,0,0,0,0};
         
-        ImageIcon[] imagenes = {img,img,img,img,img,img};
+        ImageIcon[] imagenes = {imgCorte,imgHorno,imgMolino,imgFermentador,imgDestilador,imgEnbotellado};
         SpringLayout s = new SpringLayout();
         setLayout(s);
         barra1 = new BarraProceso(imagenes, porcentajes);
@@ -63,24 +67,24 @@ public class VistaProduccion extends JPanel{
                 border,"PALENQUE 3",TitledBorder.CENTER,TitledBorder.TOP,
                 new Font("Helvetica",Font.BOLD,15),Color.WHITE));
         add(barra1);
-        s.putConstraint(SpringLayout.NORTH, barra1,2, SpringLayout.NORTH, this);
+        s.putConstraint(SpringLayout.NORTH, barra1,10, SpringLayout.NORTH, this);
         s.putConstraint(SpringLayout.WEST, barra1,12, SpringLayout.WEST, this);
         s.putConstraint(SpringLayout.EAST, barra1,-12, SpringLayout.EAST, this);
-        s.putConstraint(SpringLayout.SOUTH, barra1,-440, SpringLayout.SOUTH, this);
+        s.putConstraint(SpringLayout.SOUTH, barra1,-450, SpringLayout.SOUTH, this);
         add(barra2);
-        s.putConstraint(SpringLayout.NORTH, barra2,15, SpringLayout.SOUTH, barra1);
+        s.putConstraint(SpringLayout.NORTH, barra2,220, SpringLayout.NORTH, this);
         s.putConstraint(SpringLayout.WEST, barra2,12, SpringLayout.WEST, this);
         s.putConstraint(SpringLayout.EAST, barra2,-12, SpringLayout.EAST, this);
-        s.putConstraint(SpringLayout.SOUTH, barra2,-220, SpringLayout.SOUTH, this);
+        s.putConstraint(SpringLayout.SOUTH, barra2,-230, SpringLayout.SOUTH, this);
         add(barra3);
-        s.putConstraint(SpringLayout.NORTH, barra3,15, SpringLayout.SOUTH, barra2);
+        s.putConstraint(SpringLayout.NORTH, barra3,440, SpringLayout.NORTH, this);
         s.putConstraint(SpringLayout.WEST, barra3,12, SpringLayout.WEST, this);
         s.putConstraint(SpringLayout.EAST, barra3,-12, SpringLayout.EAST, this);
         s.putConstraint(SpringLayout.SOUTH, barra3,-10, SpringLayout.SOUTH, this);
         barras.add(barra1);
         barras.add(barra2);
         barras.add(barra3);
-        
+        System.out.println("x:" + getHeight() + "y:" + getWidth());
     }
 
     /**

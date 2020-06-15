@@ -66,9 +66,9 @@ public class VistaProducir extends JPanel{
         setLayout(s);
         eleccion = new BarraEleccion(imagenes,textos);
         eleccion.setLayout(new GridLayout(4,4));
-        //eleccion.setBackground(Color.yellow);
         eleccion.setBorder(BorderFactory.createTitledBorder(
-                BorderFactory.createBevelBorder(5), "SELECCIONA EL MAGUEY", TitledBorder.CENTER, TitledBorder.TOP));
+                BorderFactory.createBevelBorder(5), "SELECCIONA EL MAGUEY",
+                TitledBorder.CENTER, TitledBorder.TOP,new Font("Helvetica",Font.BOLD,15),Color.WHITE));
         eleccion.setFondoImagen(imgFond);
         etqAlcohol = new JLabel("SELECCIONA EL GRADO DE ALCOHOL");
         etqAlcohol.setFont(new Font("Helvetica", Font.BOLD, 14));
@@ -128,8 +128,8 @@ public class VistaProducir extends JPanel{
         for (String t : tipos) {
             tipo.addItem(t);
         }
-        String nombreMezcales[] = new String[mezcales.size()-1];
-        for (int i = 0; i < mezcales.size() - 1; i++) {
+        String nombreMezcales[] = new String[mezcales.size()];
+        for (int i = 0; i < mezcales.size(); i++) {
             nombreMezcales[i] = mezcales.get(i);
         }
         eleccion.setTextos(nombreMezcales);

@@ -192,9 +192,8 @@ public class ManejoDatos {
         try {
             Statement ps = conexion.createStatement();
             ResultSet rs = ps.executeQuery(sql);
-            while (rs.next()) {
+            while (rs.next())
                 datos.add(rs.getString(2));
-            }
         } catch (SQLException e) {
             System.out.println("ERROR AL OBTENER NOMBRE: " + e.getCause());
         }

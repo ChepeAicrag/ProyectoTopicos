@@ -2,6 +2,7 @@ package Vista;
 
 import Controlador.Controlador;
 import java.awt.Image;
+import java.awt.Color;
 import java.util.ArrayList;
 import javax.swing.*;
 
@@ -52,47 +53,39 @@ public class VistaTraslado extends JPanel {
         trailer1 = new Trailer();
         trailer1.setLocation(10, y_Trailer);
         trailer1.setSize(200, 150);
-        trailer1.setOpaque(true);
         add(trailer1);
         trailer2 = new Trailer();
         trailer2.setLocation(10, y_Trailer + 200);
         trailer2.setSize(200, 200);
-        trailer2.setOpaque(true);
         add(trailer2);
         trailer3 = new Trailer();
         trailer3.setLocation(10, y_Trailer + 400);
         trailer3.setSize(200, 200);
-        trailer3.setOpaque(true);
         add(trailer3);
         consumidor1 = new JLabel("1", ICONO_CONSUMIDOR, SwingUtilities.CENTER);
         consumidor1.setLocation(consumer_posX, y_Consumidor);
         consumidor1.setSize(120, 125);
-        consumidor1.setOpaque(true);
         add(consumidor1);
         consumidor2 = new JLabel("2", ICONO_CONSUMIDOR, JLabel.CENTER);
         consumidor2.setLocation(consumer_posX, y_Consumidor + 110);
         consumidor2.setSize(120, 125);
-        consumidor2.setOpaque(true);
         add(consumidor2);
         consumidor3 = new JLabel("3", ICONO_CONSUMIDOR, JLabel.CENTER);
         consumidor3.setLocation(consumer_posX, y_Consumidor + 220);
         consumidor3.setSize(120, 125);
-        consumidor3.setOpaque(true);
         add(consumidor3);
         consumidor4 = new JLabel("4", ICONO_CONSUMIDOR, JLabel.CENTER);
         consumidor4.setLocation(consumer_posX, y_Consumidor + 330);
         consumidor4.setSize(120, 135);
-        consumidor4.setOpaque(true);
         add(consumidor4);
         consumidor5 = new JLabel("5", ICONO_CONSUMIDOR, JLabel.CENTER);
         consumidor5.setLocation(consumer_posX, y_Consumidor + 445);
         consumidor5.setSize(120, 130);
-        consumidor5.setOpaque(true);
         add(consumidor5);
         btnTransportar = new JButton("TRANSPORTAR");
         btnTransportar.setActionCommand("transportar");
         btnTransportar.setSize(140, 30);
-        btnTransportar.setLocation(420, 590);
+        btnTransportar.setLocation(450, 590);
         add(btnTransportar);
         JLabel fondo = new JLabel(ICONO_FONDO);
         fondo.setSize(1020, 680);
@@ -122,8 +115,10 @@ public class VistaTraslado extends JPanel {
     private void escribirVertical(JLabel etq, String texto){
         String escribir = "<html>";
         for (char a : texto.toCharArray())
-            escribir += String.format("<p>%c</p>",a);
-        etq.setText(escribir += "</html>");
+            escribir += String.format("<p> %c</p>",a);
+        escribir += "</html>";
+        etq.setText(escribir.toUpperCase());
+        etq.setForeground(Color.WHITE);
     }
 
     /**
@@ -169,5 +164,4 @@ public class VistaTraslado extends JPanel {
         trailer.setLocation(trailer.getLocation().x, trailer.getLocation().y - 10);
         invalidate();
     }
-    
 }

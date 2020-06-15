@@ -19,7 +19,6 @@ import java.util.concurrent.Executors;
  * @author Sánchez Chávez Kevin Edilberto
  * @version 1.0 14/06/2020
  */
-
 public class Controlador implements ActionListener{
 
     // Variable de instancia - Vista del proyecto.
@@ -53,7 +52,10 @@ public class Controlador implements ActionListener{
 
     // Variable de instancia - Array de los ID de Tandas en proceso.
     ArrayList<Integer>   tandasProduciendo  = new ArrayList<Integer>(),
-                       tandasTransportando  = new ArrayList<Integer>(); // Almacena los id de las tandas
+                       tandasTransportando  = new ArrayList<Integer>();
+
+    // Variables para las acciones de los botones.
+    private int filaPulsada = 0, id_tanda = 0, limite = 0,id_Maguey = 0, id_alcohol = 0, id_tipoMezcal = 0, cantPinias = 0;
 
     /**
      * Constructor para objetos de Controlador
@@ -89,7 +91,7 @@ public class Controlador implements ActionListener{
     private void actualizarOpciones(){
         ArrayList<String> porcentajes = m.conexionConsultarNombre("select * from mezcal.gradoalcohol"),
                           tipos       = m.conexionConsultarNombre("select * from mezcal.tipomezcal"),
-                          mezcales    = m.conexionConsultarNombre("select * from mezcal.maguey"),
+                          mezcales    = m.conexionConsultarNombre("select * from mezcal.maguey order by id_maguey"),
                           clientes    = m.conexionConsultarNombre("select * from mezcal.cliente");
         v.llenarOpciones(mezcales, porcentajes, tipos, clientes);
     }
@@ -97,7 +99,6 @@ public class Controlador implements ActionListener{
     /**
      * Método que controla las acciones de los botones de cada vista.
      */
-    int filaPulsada = 0, id_tanda = 0, limite = 0,id_Maguey = 0, id_alcohol = 0, id_tipoMezcal = 0, cantPinias = 0;
     @Override
     public void actionPerformed(ActionEvent ae) {
         Tanda t;
@@ -181,6 +182,7 @@ public class Controlador implements ActionListener{
                     return;
                 }
                 m.cerrarConexion();
+                ejecutador.shutdown();
                 System.exit(0);
                 break;
         } 
@@ -189,7 +191,6 @@ public class Controlador implements ActionListener{
     /**
      * Carga información a la tabla de TANDAS DISPONIBLES.
      */
-
     public void cargarDatosTandas(){
         ColorearFilas c = new ColorearFilas(5);
         String consultaTandas = "select * from mezcal.tanda where status != 'Entregada'";
@@ -209,7 +210,6 @@ public class Controlador implements ActionListener{
      * Carga la informacion de las tandas a la ultima tabla.
      *
      */
-
     private void cargarInformeTandas() {
         v.vInforme.mti.setDatos(m.conexionConsultaInformeTanda());
         v.vInforme.tabla.updateUI();
@@ -221,7 +221,6 @@ public class Controlador implements ActionListener{
      * @param limite Cantidad maxima de piñas a usar.
      * @param nombreMaguey Nombre del maguey.
      */
-
     private int cantidadPinas(int limite, String nombreMaguey){
         int cantidad = 0;
         boolean op = false;
@@ -249,7 +248,6 @@ public class Controlador implements ActionListener{
      * Valida si hay tandas pendientes en producción o traslado.
      *
      */
-
     private boolean hayProduccion(){
         return !tandasProduciendo.isEmpty() || !tandasTransportando.isEmpty();
     }
@@ -257,7 +255,6 @@ public class Controlador implements ActionListener{
     /**
      * Inicia todos los equipos (Hilos)
      */
-
     public void IniciarEquipos(){
         for (int i = 0; i < 3; i++) {
             ejecutador.submit(cortes.get(i));
@@ -267,14 +264,13 @@ public class Controlador implements ActionListener{
             ejecutador.submit(destiladores.get(i));
             ejecutador.submit(enbotelladores.get(i));
         }
-        new MiHilo(TANDAS_ACTUALIZAR).start();
+        ejecutador.submit(new MiHilo(TANDAS_ACTUALIZAR));
         ejecutador.submit(new HiloVista());
     }
 
     /**
      * Método que permite preparar los equipos
      */
-
     private void prepararEquipos(){
         int id_Equipo = 0;
         for (int i = 0; i < 3; i++) {
@@ -305,10 +301,8 @@ public class Controlador implements ActionListener{
     }
     
     /**
-     * Clase que te permite hacer la actualización de las tablas
-     * cada que cambien de estado la tanda dada.
+     * Clase que te permite hacer la actualización de las tablas cada que cambien de estado la tanda dada.
      */
-
     class MiHilo extends Thread{
     
         private BufferTandas tandas_actualizar;
@@ -323,7 +317,6 @@ public class Controlador implements ActionListener{
                 if(t != null){
                     m.updateEstadoTanda(t);
                     cargarDatosTandas();
-                    //v.vProduccion.barras.stream().forEach(BarraProceso::actualizarEstado);
                     if(t.getEstado().equals("Entregada")) {
                         tandasProduciendo.remove(Integer.valueOf(t.getId()));
                         tandasTransportando.remove(Integer.valueOf(t.getId()));
@@ -337,10 +330,9 @@ public class Controlador implements ActionListener{
     }
 
     /**
-     * Clase que nos permitira ajustar el tamaño de las ventanas
+     * Clase que nos permitirá ajustar el tamaño de las ventanas.
      * al instante.
      */
-
     class HiloVista extends  Thread{
 
         private boolean aquiYa = false;
@@ -352,18 +344,15 @@ public class Controlador implements ActionListener{
                 if ((op == 1 || op == 2 || op == 3 || op == 4) && !aquiYa) {
                     v.setSize(1020, 725);
                     v.setLocationRelativeTo(null);
-                    System.out.println(aquiYa);
                 }else if (op == 0 && !aquiYa) {
-                    v.setSize(780, 670);
+                    v.setSize(770, 700);
                     v.setLocationRelativeTo(null);
-                    System.out.println(aquiYa);
                 }while(aux == op){
                     aquiYa = true;
                     aux = v.principal.getSelectedIndex();
                     System.out.print("");
                 }
                 aquiYa = false;
-                System.out.println(aquiYa);
                 aux = op;
             }
         }

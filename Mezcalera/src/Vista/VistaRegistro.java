@@ -1,9 +1,3 @@
-/**
- * Mostrará las tandas existentes
- * Una tabla con todos los registros almacenados en la BD
- * Simulará una bitacora de produciones a realizar
- */
-
 package Vista;
 
 import Controlador.Controlador;
@@ -119,8 +113,6 @@ public class VistaRegistro extends JPanel{
         s.putConstraint(SpringLayout.NORTH, scroll, 32, SpringLayout.SOUTH, titulo);
         s.putConstraint(SpringLayout.WEST, scroll, 150, SpringLayout.WEST, this);
         s.putConstraint(SpringLayout.EAST, scroll, -150, SpringLayout.EAST, this);
-        
-        
     }
 
     /**
