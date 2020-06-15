@@ -1,8 +1,3 @@
-/*
- * Vista de todo el proyecto, usando ventanas
- *
- */
-
 package Vista;
 
 import Controlador.Controlador;
@@ -13,18 +8,26 @@ import javax.swing.JTabbedPane;
 import javax.swing.UIManager;
 
 /**
- * 
+ * Clase para la vista principal del proyecto.
  * @author García García José Ángel
+ * @author Sánchez Chávez Kevin Edilberto
+ * @version 1.0 14/06/2020
  */
 public class Vista extends JFrame{
-    
+
+    // Variables de instancia - Vistas internas.
     public VistaProducir vProducir;
     public VistaProduccion vProduccion;
     public VistaTraslado vTraslado;
     public VistaRegistro vRegistro;
     public VistaRegistroFinal vInforme;
+
+    // Variable de instancia - Contenedor de vistas.
     public JTabbedPane principal;
 
+    /**
+     * Constructor de objetos de Vista.
+     */
     public Vista(){
         super("MEZCALERA CHAHUE");
         try {
@@ -38,7 +41,10 @@ public class Vista extends JFrame{
         colocar();
         revalidate();
     }
-    
+
+    /**
+     * Coloca los componentes al panel principal.
+     */
     public void colocar(){
         ImageIcon img = new ImageIcon(
                 getClass().getResource("/Imagenes/maguey.png")),
@@ -70,40 +76,26 @@ public class Vista extends JFrame{
         principal.add("Informe",vInforme);
         add(principal);
     }
-    
+
+    /**
+     * Conecta la vista con el controlador.
+     *
+     * @param c Controlador a utilizar.
+     */
     public void conectarControlador(Controlador c){
        vProducir.conectarControlador(c);
        vRegistro.conectarControlador(c);
        vInforme.conectarControlador(c);
        vTraslado.conectarControlador(c);
     }
-    
+
+    /**
+     * Rellena las opciones de las respectivas vistas.
+     *
+     * @param opcion Arrays con información a colocar.
+     */
     public void llenarOpciones(ArrayList<String>... opcion){//mezcales, ArrayList<String> porcentajes,ArrayList<String> tipos){
         vProducir.llenarOpciones(opcion[0], opcion[1],opcion[2]);
         vTraslado.llenarClientes(opcion[3]);
-    }
-
-    /** Reajusta la vista de cada panel */
-    public void reajustarVistas(){
-        setSize(1020, 725);
-        setLocationRelativeTo(null);
-        principal.setEnabledAt(0,false);
-        principal.setSelectedIndex(1);
-        principal.setEnabledAt(1, true);
-        principal.setEnabledAt(2, true);
-        principal.setEnabledAt(3, true);
-        vInforme.reajustarVista();
-    }
-
-    public void iniciarVistas(){
-        setSize(780,670);
-        setLocationRelativeTo(null);
-        vInforme.iniciarVistas();
-        vProducir.iniciarVistas();
-        principal.setEnabledAt(0,true);
-        principal.setSelectedIndex(0);
-        principal.setEnabledAt(1, false);
-        principal.setEnabledAt(2, false);
-        principal.setEnabledAt(3, false);
     }
 }

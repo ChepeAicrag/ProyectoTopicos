@@ -14,7 +14,6 @@ import javax.swing.SwingUtilities;
  * @author Sánchez Chávez Kevin Edilberto
  * @version 1.0 14/06/2020
  */
-
 public class ECP extends JComponent {
 
     // Variable de instancia - Barra de proceso.
@@ -42,7 +41,6 @@ public class ECP extends JComponent {
      * @param img Imagen que tendrá la etiqueta
      * @param val Valor del ProgressBar
      */
-
     public ECP(ImageIcon img, int val) {
         barra = new JProgressBar();
         etq = new EtiquetaRedonda("Texto Ejemplo");
@@ -55,7 +53,6 @@ public class ECP extends JComponent {
     /**
      * Coloca los componentes adecuadamente.
      */
-
     private void colocar(){
         setPreferredSize(new Dimension(100, 200));
         setSize(100, 200);
@@ -82,7 +79,6 @@ public class ECP extends JComponent {
      *
      * @param img Imágen a colocar.
      */
-
     public void setImagen(ImageIcon img) {
         etq.setImagen(img);
     }
@@ -92,7 +88,6 @@ public class ECP extends JComponent {
      *
      * @param val Valor a establecer.
      */
-
     public void setValor(int val) {
         barra.setValue((val < 100 && val > 0) ? val : 0);
         barra.setString(val + "%");
@@ -106,7 +101,6 @@ public class ECP extends JComponent {
      *
      * @return porcentaje actual de la barra.
      */
-
     public int getValor(){
         return (barra.getString().contains("100")) ? 100 : barra.getValue();
     }
@@ -116,7 +110,6 @@ public class ECP extends JComponent {
      *
      * @return la barra de progreso contenida.
      */
-
     public JProgressBar getBarra() {
         return barra;
     }
@@ -126,7 +119,6 @@ public class ECP extends JComponent {
      *
      * @return la etiqueta colocada.
      */
-
     public JLabel getEtiqueta() {
         return etq;
     }
@@ -136,7 +128,6 @@ public class ECP extends JComponent {
      *
      * @param texto Texto a colocar.
      */
-
     public void setDatoBarra(String texto){
         datoBarra.setForeground(Color.WHITE);
         datoBarra.setText(texto);

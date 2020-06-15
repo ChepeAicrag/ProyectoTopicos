@@ -11,7 +11,6 @@ import java.util.logging.Level;
  * @author Sánchez Chávez Kevin Edilberto
  * @version 1.0 14/06/2020
  */
-
 public class Conexion {
 
     // Variable de clase - Contenida en el pquete SQL.
@@ -29,7 +28,6 @@ public class Conexion {
      * @param url Dirreción de la BD
      * @param usuario Usuario de la BD
      */
-
     private Conexion(String url, String usuario, String password){
         try {
             Class.forName("org.postgresql.Driver");
@@ -49,7 +47,6 @@ public class Conexion {
      *
      * @return instancia de la clase.
      */
-
     public static Conexion getConexion(String url, String usuario, String password){
         numConexiones++;
         if(conexion == null)
@@ -62,7 +59,6 @@ public class Conexion {
       *
       * @return instancia de Conecction.
       */
-
      public static Connection getConeccion(){
          return coneccion;
      }
@@ -73,7 +69,6 @@ public class Conexion {
       * return true si fue cerrada correctamente y
       *        false de lo contrario.
      */
-
      public boolean CerrarConexion(){
         try {
             if (coneccion != null) 

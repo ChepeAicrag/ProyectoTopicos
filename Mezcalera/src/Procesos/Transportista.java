@@ -1,47 +1,65 @@
-/*
-            //SwingUtilities.invokeLater(() -> {
-            //});
- */
 package Procesos;
 
 import Vista.Trailer;
 import Vista.VistaTraslado;
 import java.awt.Point;
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Random;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
- *
+ * Clase para representar al transportador de la tanda.
  * @author García García José Ángel
+ * @author Sánchez Chávez Kevin Edilberto
+ * @version 1.0 14/06/2020
  */
 public class Transportista extends Thread {
 
+    // Variable de instancia - Identificador.
     private int id;
-    private boolean isAvaliable;
+
+    // Variable de instancia - Disponibilidad.
+    private boolean isAvailable;
+
+    // Variables de instancia - Buffers de tandas para consumir y colocar.
     private BufferTandas tandasActualizar, bufferBarriles;
+
+    // Variable de instancia - Array de indetificadores de tandas completadas.
     ArrayList<Integer> tandasTransportadas;
+
+    // Variable de instancia - Vista que acualiza.
     private VistaTraslado v;
+
+    // Constante de clase - Limite de proyección.
     private final int limite = 660;
 
+    /**
+     * Constructor para objetos de Transportista.
+     * @param id Identificador del trasnportista.
+     * @param bufferBarriles Buffer del que se consume las tandas.
+     * @param v Vista que actualizará.
+     */
     public Transportista(int id, BufferTandas bufferBarriles, VistaTraslado v) {
         this.id = id;
         this.v = v;
         this.bufferBarriles = bufferBarriles;
     }
 
+    /**
+     * Método para ejecutar las acciones de transporte.
+     */
     public synchronized void run() {
         while (true) {
             try {
                 transporte();
             }catch (Exception e){
-                System.out.println("Error trasnportistada : " + e);
+                System.out.println("Error trasnportista : " + e);
             }
         }
     }
 
+    /**
+     * Método que determina que ruta se sigue.
+     */
     private synchronized void transporte() {
         Tanda tanda = bufferBarriles.remove();
         if(tanda == null){
@@ -62,10 +80,15 @@ public class Transportista extends Thread {
         tanda.setId_Transportador(id);
         tanda.setId_Cliente(cliente);
         tandasActualizar.put(tanda); // La manda a actualizar
-        //tandasTransportadas.add(tanda.getId()); // La guarda para indicar que la ha transportado
+        tandasTransportadas.add(tanda.getId()); // La guarda para indicar que la ha transportado
         System.out.println("Termine transporte\n" + tanda);
     }
 
+    /**
+     * Realiza la ruta del trailer 1.
+     *
+     * @param cliente Identificador del cliente al que se le entrega.
+     */
     private synchronized void rutaTrailer1(int cliente) {
         Point p = v.trailer1.getLocation();
         switch (cliente) {
@@ -88,6 +111,11 @@ public class Transportista extends Thread {
         v.trailer1.setLocation(p);
     }
 
+    /**
+     * Realiza la ruta del trailer 2.
+     *
+     * @param cliente Identificador del cliente al que se le entrega.
+     */
     private synchronized void rutaTrailer2(int cliente) {
         Point p = v.trailer2.getLocation();
         switch (cliente) {
@@ -110,6 +138,11 @@ public class Transportista extends Thread {
         v.trailer2.setLocation(p);
     }
 
+    /**
+     * Realiza la ruta del trailer 2.
+     *
+     * @param cliente Identificador del cliente al que se le entrega.
+     */
     private synchronized void rutaTrailer3(int cliente) {
         Point p = v.trailer3.getLocation();
         switch (cliente) {
@@ -132,6 +165,11 @@ public class Transportista extends Thread {
         v.trailer3.setLocation(p);
     }
 
+    /**
+     * Realiza el movimiento avanzar en una recta.
+     * @param t Trailer que ejecuta el movimiento.
+     * @param maximo Distancia máxima a avanzar.
+     */
     private synchronized void entregaRecta(Trailer t, int maximo) {
         try {
             while (t.getLocation().x <= maximo) {
@@ -145,7 +183,10 @@ public class Transportista extends Thread {
     }
 
     /**
-     * Va recto, gira hacia abajo
+     * Simula un giro a la derecha.
+     *
+     * @param t Trailer que ejecuta la acción.
+     * @param distanciaMaxima Distancia máxima para continuar despues del giro.
      */
     private synchronized void entregaGiroDerecha(Trailer t, int distanciaMaxima) {
         t.rotar(Math.toRadians(90));
@@ -159,6 +200,10 @@ public class Transportista extends Thread {
         }
     }
 
+    /**
+     * Entrega del trailer 1 a cualquier cliente
+     * @param bajar Cantidad máxima para bajar.
+     */
     private synchronized void Trailer1_ClienteN(int bajar) {
         entregaRecta(v.trailer1, 330);
         entregaGiroDerecha(v.trailer1, bajar);
@@ -166,6 +211,12 @@ public class Transportista extends Thread {
         entregaRecta(v.trailer1, limite);
     }
 
+    /**
+     * Simula un giro a la izquierda.
+     *
+     * @param t Trailer que ejecuta la acción.
+     * @param distanciaMaxima Distancia máxima a recorrer despues del giro.
+     */
     private synchronized void entregaGiroIzquierda(Trailer t, int distanciaMaxima) {
         t.rotar(Math.toRadians(-90));
         while (t.getLocation().y >= distanciaMaxima) {
@@ -178,6 +229,11 @@ public class Transportista extends Thread {
         }
     }
 
+    /**
+     * Simula la ruta del trailer 2 al cliente 1 o 2.
+     *
+     * @param arriba Cantidad máxima para subir.
+     */
     private synchronized void Trailer2_ClienteArriba(int arriba) {
         entregaRecta(v.trailer2, 220);
         entregaGiroIzquierda(v.trailer2, arriba);
@@ -185,6 +241,10 @@ public class Transportista extends Thread {
         entregaRecta(v.trailer2, limite);
     }
 
+    /**
+     * Simula la ruta del trailer 2 al cliente 4 o 5.
+     * @param bajar Cantidad máxima a bajar.
+     */
     private synchronized void Trailer2_ClienteAbajo(int bajar) {
         entregaRecta(v.trailer2, 220);
         entregaGiroDerecha(v.trailer2, bajar);
@@ -192,6 +252,11 @@ public class Transportista extends Thread {
         entregaRecta(v.trailer2, limite);
     }
 
+    /**
+     * Simula la ruta del trailer 3 a cualquier cliente.
+     *
+     * @param arriba Cantidad máxima a subir.
+     */
     private synchronized void Trailer3_ClienteN(int arriba) {
         entregaRecta(v.trailer3, 300);
         entregaGiroIzquierda(v.trailer3, arriba);
@@ -199,9 +264,20 @@ public class Transportista extends Thread {
         entregaRecta(v.trailer3, limite);
     }
 
+    /**
+     * Establece el array de identificadores de tandas por transportar.
+     *
+     * @param tandasTransportar Array a establecer.
+     */
     public void setTandasTransportadas(ArrayList<Integer> tandasTransportar){
         this.tandasTransportadas = tandasTransportadas;
     }
+
+    /**
+     * Establece el buffer de tandas a actualizar.
+     *
+     * @param tandasActualizar Buffer a establecer.
+     */
     public void setTandasActualizar(BufferTandas tandasActualizar) {
         this.tandasActualizar = tandasActualizar;
     }

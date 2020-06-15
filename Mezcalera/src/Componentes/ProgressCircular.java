@@ -19,7 +19,6 @@ import javax.swing.ImageIcon;
  * @author Sánchez Chávez Kevin Edilberto
  * @version 1.0 14/06/2020
  */
-
 public class ProgressCircular extends Canvas{
 
     // Constante de clase - Pincel para bordes.
@@ -42,7 +41,6 @@ public class ProgressCircular extends Canvas{
      *
      * @param porcentaje  Porcentaje inicial.
      */
-
     public ProgressCircular(double porcentaje){
         this.porcentaje = porcentaje;
         this.arc = new Arc2D.Double();
@@ -55,7 +53,6 @@ public class ProgressCircular extends Canvas{
      * @param porcentaje  Valor del porcentaje inicial.
      * @param img Imagen de fondo.
      */
-
     public ProgressCircular(double porcentaje, Image img){
         this.porcentaje = porcentaje;
         this.arc = new Arc2D.Double();
@@ -67,7 +64,6 @@ public class ProgressCircular extends Canvas{
      * Método para pintar de forma circular el progress.
      * @param g Graphics para pintar.
      */
-
     @Override
     public void paint(Graphics g){
         int ancho = this.getWidth()
@@ -89,7 +85,6 @@ public class ProgressCircular extends Canvas{
      * @param alto Alto de la dimensión del componente.
      * @param ancho Ancho de la dimensión del componente.
      */
-
     private void drawContorno(double ancho, double alto, Graphics2D g){
         double diametro = (ancho > alto) ? alto : ancho 
                ,radio = diametro / 2
@@ -109,7 +104,6 @@ public class ProgressCircular extends Canvas{
      * @param g Graphics2D para pintar.
      * @param val Valor a pintar.
      */
-
     public void drawString(String val, Graphics2D g){
         Rectangle2D rec = getFont().getStringBounds(val,g.getFontRenderContext());
         double x = -rec.getWidth() / 2
@@ -122,7 +116,6 @@ public class ProgressCircular extends Canvas{
      *
      * @param g Graphics para pintar.
      */
-
     @Override
     public void update(Graphics g){
         this.paint(g);
@@ -133,7 +126,6 @@ public class ProgressCircular extends Canvas{
      *
      * @return valor del porcentaje actual.
      */
-
     public double getPorcentaje() {
         return porcentaje;
     }
@@ -144,7 +136,6 @@ public class ProgressCircular extends Canvas{
      *
      * @param porcentaje Valor a establecer.
      */
-
     public void setPorcentaje(double porcentaje) {
         if (porcentaje > 100 || porcentaje < 0) {
             porcentaje = 0;
@@ -157,7 +148,6 @@ public class ProgressCircular extends Canvas{
      *
      * @return el color utilizado para pintar.
      */
-
     public Color getColorBar() {
         return colorBar;
     }
@@ -167,7 +157,6 @@ public class ProgressCircular extends Canvas{
      *
      * @param colorBar Color a utilizar para pintar en la barra.
      */
-
     public void setColorBar(Color colorBar) {
         this.colorBar = colorBar;
     }

@@ -6,29 +6,36 @@ import java.util.ArrayList;
 import javax.swing.*;
 
 /**
- *
+ * Clase para vista de traslador de la tanda.
  * @author García García José Ángel
+ * @author Sánchez Chávez Kevin Edilberto
+ * @version 1.0 14/06/2020
  */
 public class VistaTraslado extends JPanel {
 
-    private JProgressBar barrilesAnejo55, barrilesAnejo48, barrilesAnejo37,
-            barrilesJoven55, barrilesJoven48, barrilesJoven37,
-            barrilesReposado55, barrilesReposado48, barrilesReposado37,
-            barrilesMaduro55, barrilesMaduro48, barrilesMaduro37;
-
+    // Variable de instancia - Panel para el escenario.
     private JPanel escenario;
+
+    // Variable de instancia - Botón para transportar.
     private JButton btnTransportar;
+
+    // Variable de instancia - Transportadores.
     public Trailer trailer1, trailer2, trailer3;
+
+    // Variable de instancia - Consumidores.
     private JLabel consumidor1, consumidor2, consumidor3, consumidor4, consumidor5;
+
+    // Variables de instancia - Imagenes de transportadores, consumidores y fondo.
     private ImageIcon imgTrailer = new ImageIcon(getClass().getResource("/Imagenes/trailer.png")),
             imgFond = new ImageIcon(getClass().getResource("/Imagenes/fondo_carretera.jpg")),
             imgConsumidor = new ImageIcon(getClass().getResource("/Imagenes/comprador.png"));
     private ImageIcon ICONO_TRAILER = new ImageIcon(imgTrailer.getImage().getScaledInstance(200, 200, Image.SCALE_DEFAULT)),
             ICONO_CONSUMIDOR = new ImageIcon(imgConsumidor.getImage().getScaledInstance(100, 100, Image.SCALE_DEFAULT)),
             ICONO_FONDO = new ImageIcon(imgFond.getImage().getScaledInstance(1020, 680, Image.SCALE_DEFAULT));
-            
-    private int i = 0;
 
+    /**
+     * Constructor de objetos VistaTraslado.
+     */
     public VistaTraslado() {
         setSize(1020, 680);
         setVisible(true);
@@ -36,9 +43,10 @@ public class VistaTraslado extends JPanel {
         revalidate();
     }
 
+    /**
+     * Coloca los elementos en el panel.
+     */
     private void colocar() {
-        //SpringLayout sp = new SpringLayout(), s = new SpringLayout();
-        //escenario = new JPanel(s);
         int y_Trailer = -18, consumer_posX = 850, y_Consumidor = 10;
         setLayout(null);
         trailer1 = new Trailer();
@@ -92,7 +100,11 @@ public class VistaTraslado extends JPanel {
 
     }
 
-    /** Rellenar el texto de los clientes con los de la base de datos*/
+    /**
+     * Establece el nombre de los clientes.
+     *
+     * @param nombreClientes Array con los nombres de los clientes.
+     */
     public void llenarClientes(ArrayList<String> nombreClientes) {
         escribirVertical(consumidor1, nombreClientes.get(0));
         escribirVertical(consumidor2, nombreClientes.get(1));
@@ -101,6 +113,12 @@ public class VistaTraslado extends JPanel {
         escribirVertical(consumidor5, nombreClientes.get(4));
     }
 
+    /**
+     * Escribe en vertical el texto en un JLabel.
+     *
+     * @param etq Etiqueta en la que se escribe.
+     * @param texto Texto que se escribe.
+     */
     private void escribirVertical(JLabel etq, String texto){
         String escribir = "<html>";
         for (char a : texto.toCharArray())
@@ -108,13 +126,32 @@ public class VistaTraslado extends JPanel {
         etq.setText(escribir += "</html>");
     }
 
+    /**
+     * Rota la imágen de un trailer.
+     *
+     * @param t Trailera a rotar.
+     * @param val Valor de la rotación en radianes.
+     */
     public void rotar(Trailer t, double val){
         t.rotar(val);
     }
+
+    /**
+     * Conecta con el controlador.
+     *
+     * @param c Controlador a utilizar.
+     */
     public void conectarControlador(Controlador c) {
         btnTransportar.addActionListener(c);
     }
 
+    /**
+     * Mueve el trailer de acuerdo a la indicación.
+     *
+     * @param trailer Trailer a mover.
+     * @param op Opción de movimiento, true para mover en horizontal y false
+     *           para mover en vertical.
+     */
     public void mover(Trailer trailer, boolean op) {
         if (op) 
         trailer.setLocation(trailer.getLocation().x + 20, trailer.getLocation().y);
@@ -122,7 +159,12 @@ public class VistaTraslado extends JPanel {
         trailer.setLocation(trailer.getLocation().x, trailer.getLocation().y + 10);
         invalidate();
     }
-    
+
+    /**
+     * Mueve el trailer de abajo hacia arriba.
+     *
+     * @param trailer Trailer a mover.
+     */
     public void moverArriba(Trailer trailer){
         trailer.setLocation(trailer.getLocation().x, trailer.getLocation().y - 10);
         invalidate();

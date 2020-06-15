@@ -12,7 +12,6 @@ import javax.swing.SpringLayout;
  * @author Sánchez Chávez Kevin Edilberto
  * @version 1.0 14/06/2020
  */
-
 public class BCE extends JComponent{
         
     // Variable de instacia - Bóton redondo con imágen.
@@ -21,7 +20,6 @@ public class BCE extends JComponent{
     /**
      * Constructor para objetos de BCE.
      */
-
     public BCE(){
         btn = new BotonRedondo();
         colocar();
@@ -33,7 +31,6 @@ public class BCE extends JComponent{
      * @param img Imagen que tendrá.
      * @param text Texto de la etiqueta.
      */
-
     public BCE(ImageIcon img, String text){
         btn = new BotonRedondo();
         setImagen(img);
@@ -46,7 +43,6 @@ public class BCE extends JComponent{
      *
      * @param text Texto de la etiqueta
      */
-
     public BCE(String text){
         btn = new BotonRedondo();
         setTexto(text);
@@ -56,7 +52,6 @@ public class BCE extends JComponent{
     /**
      * Coloca el bóton redondo en el componente.
      */
-
     private void colocar(){
         SpringLayout s = new SpringLayout();
         setLayout(s);
@@ -72,7 +67,6 @@ public class BCE extends JComponent{
      *
      * @param text Texto que tendrá la etiqueta.
      */
-
     public void setTexto(String text){
         btn.setText(text);
         repaint();
@@ -81,7 +75,6 @@ public class BCE extends JComponent{
     /**
      * @return texto que tiene la etiqueta.
      */
-
     public String getText(){
         return btn.getText();
     }
@@ -91,7 +84,6 @@ public class BCE extends JComponent{
      *
      * @param img Imagen a colocar.
      */
-
     public void setImagen(ImageIcon img){
         btn.setImagen(img);
     }
@@ -108,7 +100,6 @@ public class BCE extends JComponent{
     /**
      * @return imágen contenida en el bóton redondo.
      */
-
     public ImageIcon getImagen(){
         return new ImageIcon(btn.getImagen());
     }
@@ -118,7 +109,6 @@ public class BCE extends JComponent{
      *
      * @return el boton que contiene.
      */
-
     public JButton getBoton(){
        return btn; 
     }

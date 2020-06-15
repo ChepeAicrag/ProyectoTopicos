@@ -16,7 +16,6 @@ import javax.swing.JLabel;
  * @author Sánchez Chávez Kevin Edilberto
  * @version 1.0 14/06/2020
  */
-
 public class EtiquetaRedonda extends JLabel{
 
     // Variable de instancia - Imagen de la etiqueta.
@@ -37,7 +36,6 @@ public class EtiquetaRedonda extends JLabel{
      *
      * @param g Graphics para pintar.
      */
-
     @Override
     public void paintComponent(Graphics g){
         int ancho = getWidth(), alto = getHeight();
@@ -53,7 +51,6 @@ public class EtiquetaRedonda extends JLabel{
      *
      * @param g Graphics para pintar.
      */
-
     @Override
     public void paintBorder(Graphics g){
         int ancho = getWidth(), alto = getHeight();
@@ -70,7 +67,6 @@ public class EtiquetaRedonda extends JLabel{
      *
      * @return imágen que tiene la etiqueta.
      */
-
     public Image getImagen() {
         return imagen;
     }
@@ -80,7 +76,6 @@ public class EtiquetaRedonda extends JLabel{
      *
      * @param imagen Imágen a establecer.
      */
-
     public void setImagen(ImageIcon imagen) {
         this.imagen = imagen.getImage();
     }

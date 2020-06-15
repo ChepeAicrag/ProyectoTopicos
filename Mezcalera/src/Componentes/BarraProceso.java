@@ -13,7 +13,6 @@ import javax.swing.JPanel;
  * @author Sánchez Chávez Kevin Edilberto
  * @version 1.0 14/06/2020
  */
-
 public class BarraProceso extends JPanel {
 
     // Variable de instancia - La cantidad de etiquetas que tendrá.
@@ -31,7 +30,6 @@ public class BarraProceso extends JPanel {
     /**
      * Constructor para objetos de BarraProceso.
      */
-
     public BarraProceso() {
         etiquetas = new ArrayList<>();
         estado = new ProgressCircular(0);
@@ -43,7 +41,6 @@ public class BarraProceso extends JPanel {
      *
      * @param numeroProcesos Cantidad de ECP.
      */
-
     public BarraProceso(int numeroProcesos) {
         estado = new ProgressCircular(0);
         setCantidadProcesos(numeroProcesos);
@@ -58,7 +55,6 @@ public class BarraProceso extends JPanel {
      *
      * @param imagenes Arreglo de imagenes que tendrá las etiquetas.
      */
-
     public BarraProceso(ImageIcon[] imagenes, int[] porcentajes) {
         estado = new ProgressCircular(0);
         if(validarCantidad(imagenes, porcentajes)){
@@ -93,7 +89,6 @@ public class BarraProceso extends JPanel {
     /**
      * Agrega los elementos al array y al panel.
      */
-
     private void agregarElemetos(){
         setLayout(new GridLayout(1, 0));
         for (int i = 0; i < numeroProcesos; i++) {
@@ -109,7 +104,6 @@ public class BarraProceso extends JPanel {
      *
      * @return true si son iguales y false de lo contrario
      */
-
     private boolean validarCantidad(ImageIcon[] imagenes, int[] porcentajes) {
         return  (imagenes == null || porcentajes == null) ? false :(imagenes.length == porcentajes.length);
     }
@@ -121,7 +115,6 @@ public class BarraProceso extends JPanel {
      * @param imagenes Arreglo de imagenes a colocar.
      * @param porcentajes Arreglo de porcentajes a colocar.
      */
-
     public void setImagenesYPorcentajes(ImageIcon[] imagenes, int[] porcentajes) {
         if (validarCantidad(imagenes, porcentajes) && !vacio()) {
             setPorcentajes(porcentajes);
@@ -145,7 +138,6 @@ public class BarraProceso extends JPanel {
      *
      * @param imagenes Arreglo de imagenes a colocar.
      */
-
     public void setImagenes(ImageIcon[] imagenes) {
         if (!vacio() && imagenes.length == numeroProcesos)
             for (int i = 0; i < numeroProcesos; i++)
@@ -155,7 +147,6 @@ public class BarraProceso extends JPanel {
     /**
      * @return true si no tiene etiquetas y false de lo contrario.
      */
-
     private boolean vacio() {
         return numeroProcesos == 0;
     }
@@ -166,7 +157,6 @@ public class BarraProceso extends JPanel {
      * @param pos Posición dada.
      * @return ECP componente de la posición dada, si está vacía retorna un null.
      */
-
     public ECP getPos(int pos) {
         return (vacio()) ? null : etiquetas.get(pos);
     }
@@ -186,7 +176,6 @@ public class BarraProceso extends JPanel {
      *
      * @return Cantidad de etiquetas que tiene.
      */
-
     public int getCantidadProcesos() {
         return numeroProcesos;
     }
@@ -194,7 +183,6 @@ public class BarraProceso extends JPanel {
     /**
      * Actualiza el estado de la barra de procesos.
      */
-
     public void actualizarEstado(){
         double promedio = 0;
         for (ECP e : etiquetas)
@@ -207,7 +195,6 @@ public class BarraProceso extends JPanel {
      * Método para pintar la imágen de fondo.
      * @param g Graphics para pintar.
      */
-
      @Override
     public void paint(Graphics g) {
         g.drawImage(imagenFondo, 0, 0, getWidth(), getHeight(),this);

@@ -11,16 +11,14 @@ import javax.swing.table.*;
  * @author Sánchez Chávez Kevin Edilberto
  * @version 1.0 14/06/2020
  */
-
 public class ColorearFilas extends DefaultTableCellRenderer {
 
-    // Constante de clase - Columna a modificar.
+    // Constante de instancia - Columna a modificar.
     private final int columna_modificar;
 
     /**
      * Constructor para objetos de la clase ColorearFilas.
      */
-
     public ColorearFilas(int Colpatron) {
         this.columna_modificar = Colpatron;
     }
@@ -28,7 +26,6 @@ public class ColorearFilas extends DefaultTableCellRenderer {
      * Método para realizar la modificación de la tabla
      * de acuerdo a nuestra necesidad.
      */
-
     @Override
     public Component getTableCellRendererComponent(JTable table, Object value, boolean Selected, boolean hasFocus, int row, int col) {
         super.getTableCellRendererComponent(table, value, Selected, hasFocus, row, col);

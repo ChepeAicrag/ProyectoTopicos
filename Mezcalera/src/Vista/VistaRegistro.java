@@ -18,28 +18,50 @@ import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.JTableHeader;
 
 /**
- * 
+ * Clase para vista de registro de la tanda.
  * @author García García José Ángel
+ * @author Sánchez Chávez Kevin Edilberto
+ * @version 1.0 14/06/2020
  */
 public class VistaRegistro extends JPanel{
-    
+
+    // Variable de instancia - Modelo para la tabla.
     public ModeloTablaTandas mtt;
+
+    // Variable de instancia - Tabla para el registro.
     public JTable tabla;
+
+    // Variable de instancia - Scroll para la tabla.
     private JScrollPane scroll;
+
+    // Variable de instancia - Titúlo de la tabla.
     private JLabel titulo;
-    public JButton btnEliminar, btnProducir, btnAtras;
+
+    // Variable de instancia - Botones para eliminar y producir.
+    public JButton btnEliminar, btnProducir;
+
+    // Variable de instancia - Modificador de tabla.
     private DefaultTableCellRenderer dtcr;
+
+    // Variable de instancia - Encabezado de la tabla.
     private JTableHeader hTab ;
-    private ImageIcon img = new ImageIcon(getClass().getResource("/Imagenes/prod.jpg"));
-    private Image imagenFondo = img.getImage();
-    
+
+    // Variable de instancia - Imagen de fondo.
+    private Image imagenFondo = new ImageIcon(getClass().getResource("/Imagenes/prod.jpg")).getImage();
+
+    /**
+     * Constructor para objetos de VistaRegistro.
+     */
     public VistaRegistro(){
         setSize(1020, 680);
         setVisible(true);
         colocar();
         revalidate();
     }
-    
+
+    /**
+     * Coloca los elementos al panel.
+     */
     public void colocar(){
         SpringLayout s = new SpringLayout();
         setLayout(s);
@@ -80,17 +102,12 @@ public class VistaRegistro extends JPanel{
         scroll.setBackground(Color.BLACK);
         scroll.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
         scroll.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
-        btnAtras = new JButton("ATRAS");
-        btnAtras.setActionCommand("atrasProducir");
-        add(btnAtras);
-        s.putConstraint(SpringLayout.NORTH, btnAtras, 600, SpringLayout.NORTH, this);
-        s.putConstraint(SpringLayout.WEST, btnAtras, 550, SpringLayout.WEST, this);
         btnEliminar = new JButton("ELIMINAR");
         btnEliminar.setActionCommand("eliminar");
         btnEliminar.revalidate();
         add(btnEliminar);
         s.putConstraint(SpringLayout.NORTH, btnEliminar, 600, SpringLayout.NORTH, this);
-        s.putConstraint(SpringLayout.WEST, btnEliminar, 20, SpringLayout.EAST, btnAtras);
+        s.putConstraint(SpringLayout.WEST, btnEliminar, 570, SpringLayout.WEST, this);
         //s.putConstraint(SpringLayout.EAST, btnEliminar, -100, SpringLayout.EAST, this);
         btnProducir = new JButton("PRODUCIR");
         btnProducir.setActionCommand("producir");
@@ -105,13 +122,22 @@ public class VistaRegistro extends JPanel{
         
         
     }
-    
+
+    /**
+     * Conecta la vista con el controlador.
+     *
+     * @param c Controlador a utilizar.
+     */
     public void conectarControlador(Controlador c){
-        btnAtras.addActionListener(c);
         btnEliminar.addActionListener(c);
         btnProducir.addActionListener(c);
     }
-    
+
+    /**
+     * Pinta el fondo de la vista.
+     *
+     * @param g Graphocs para pintar.
+     */
     @Override
     public void paint(Graphics g) {
         g.drawImage(imagenFondo, 0, 0, getWidth(), getHeight(),this);

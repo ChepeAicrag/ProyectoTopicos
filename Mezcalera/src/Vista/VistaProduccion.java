@@ -1,11 +1,7 @@
-/*
- * Vista de la parte de producción
- *
- */
-
 package Vista;
 
 import Componentes.BarraProceso;
+
 
 import java.awt.*;
 import java.util.ArrayList;
@@ -17,15 +13,22 @@ import javax.swing.border.Border;
 import javax.swing.border.TitledBorder;
 
 /**
- * 
+ * Clase para la vista de producción de la tanda.
  * @author García García José Ángel
+ * @author Sánchez Chávez Kevin Edilberto
+ * @version 1.0 14/06/2020
  */
 public class VistaProduccion extends JPanel{
-    
+
+    // Variable de instancia - Array de barras de proceso.
     public ArrayList<BarraProceso> barras;
-    private ImageIcon img = new ImageIcon(getClass().getResource("/Imagenes/Mezcal_desenfocado.png"));
-    private Image imagenFondo = img.getImage();
-    
+
+    // Variable de instancia - Imagen de fondo.
+    private Image imagenFondo = new ImageIcon(getClass().getResource("/Imagenes/Mezcal_desenfocado.png")).getImage();
+
+    /**
+     * Constructor de objetos de VistaProduccion.
+     */
     public VistaProduccion(){
         barras = new ArrayList<>();
         setSize(1020, 680);
@@ -33,9 +36,11 @@ public class VistaProduccion extends JPanel{
         colocar();
         revalidate();
     }
-    
+
+    /**
+     * Coloca los elementos al panel.
+     */
     public void colocar(){
-            /** Creaer las imagenes de cada procesos */
         BarraProceso barra1, barra2, barra3;
         ImageIcon img = new ImageIcon(
                 getClass().getResource("/Imagenes/maguey.png"));
@@ -77,11 +82,20 @@ public class VistaProduccion extends JPanel{
         barras.add(barra3);
         
     }
-    
+
+    /**
+     * Retorna la barra de la posición dada.
+     * @param i Posición de la barra, deber ser de 0 a 2
+     * @return La barra de proceso en dicha posición.
+     */
     public BarraProceso getBarra(int i){
         return barras.get(i);
     }
-    
+
+    /**
+     * Pinta el fondo de la vista.
+     * @param g Graphocs para pintar.
+     */
     @Override
     public void paint(Graphics g) {
         g.drawImage(imagenFondo, 0, 0, getWidth(), getHeight(),this);

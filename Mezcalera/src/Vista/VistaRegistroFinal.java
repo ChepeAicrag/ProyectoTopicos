@@ -1,8 +1,3 @@
-/*
- * Para la informacion final de las tandas
- * Quitar las FK de las tandas, ya que se repiten 
- */
-
 package Vista;
 
 import Controlador.Controlador;
@@ -23,27 +18,54 @@ import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.JTableHeader;
 
 /**
- * 
+ * Clase para vista de informe final.
  * @author García García José Ángel
+ * @author Sánchez Chávez Kevin Edilberto
+ * @version 1.0 14/06/2020
  */
 public class VistaRegistroFinal extends JPanel{
-    
+
+    // Variable de instancia - Modelo para la tabla.
     public ModeloTablaInforme mti;
+
+    // Variable de instancia - Tabla para el informe.
     public JTable tabla;
+
+    // Variable de instancia - Scroll para la tabla.
     private JScrollPane scroll;
+
+    // Variable de instancia - Titúlo del informe.
     private JLabel titulo;
-    public JButton btnSalir; // Solo para cerrar la BD
+
+    // Variable de instancia - Botón para salir del programa en general.
+
+    public JButton btnSalir;
+
+    // Variable de instancia - Modificador de tabla.
     private DefaultTableCellRenderer dtcr;
+
+    // Variable de instancia - Encabezado de la tabla.
     private JTableHeader hTab ;
+
+    // Variable de instancia - Imagen de fondo.
     private Image imagenFondo = new ImageIcon(getClass().getResource("/Imagenes/silueta-maguey.jpg")).getImage();
+
+    // Variable de instancia - Layout manager.
     private SpringLayout s = new SpringLayout();
+
+    /**
+     * Constructor para objetos de VistaRegistroFinal.
+     */
     public VistaRegistroFinal(){
         setSize(1020, 680);
         setVisible(true);
         colocar();
         revalidate();
     }
-    
+
+    /**
+     * Coloca los elementos al panel.
+     */
     private void colocar(){
         setLayout(s);
         titulo = new JLabel("REGISTRO DE LAS TANDAS PRODUCIDAS");
@@ -101,11 +123,21 @@ public class VistaRegistroFinal extends JPanel{
         add(btnSalir);
         iniciarVistas();
     }
-    
+
+    /**
+     * Conecta la vista con el controlador.
+     *
+     * @param c Controlador a utilizar.
+     */
     public void conectarControlador(Controlador c){
         btnSalir.addActionListener(c);
     }
-    
+
+    /**
+     * Pinta el fondo de la vista.
+     *
+     * @param g Graphocs para pintar.
+     */
     @Override
     public void paint(Graphics g) {
         g.drawImage(imagenFondo, 0, 0, getWidth(), getHeight(),this);
@@ -113,22 +145,9 @@ public class VistaRegistroFinal extends JPanel{
         super.paint(g);
     }
 
-    /** Ajusta el panel para un tamaño de (1020),*/
-    public void reajustarVista(){
-        remove(titulo);
-        add(titulo);
-        s.putConstraint(SpringLayout.NORTH, titulo, 32, SpringLayout.NORTH, this);
-        s.putConstraint(SpringLayout.WEST, titulo,300, SpringLayout.WEST, this);
-        remove(btnSalir);
-        add(btnSalir);
-        s.putConstraint(SpringLayout.NORTH, btnSalir, 30, SpringLayout.SOUTH, scroll);
-        s.putConstraint(SpringLayout.WEST, btnSalir, 870, SpringLayout.WEST, this);
-        remove(scroll);
-        add(scroll);
-        s.putConstraint(SpringLayout.NORTH, scroll, 32, SpringLayout.SOUTH, titulo);
-        s.putConstraint(SpringLayout.WEST, scroll, 60, SpringLayout.WEST, this);
-        s.putConstraint(SpringLayout.EAST, scroll, -60, SpringLayout.EAST, this);
-    }
+    /**
+     * Coloca los elementos adecuadamente al panel.
+     */
     public void iniciarVistas(){
         remove(titulo);
         add(titulo);

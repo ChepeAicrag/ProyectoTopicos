@@ -18,7 +18,6 @@ import java.util.List;
  * @author Sánchez Chávez Kevin Edilberto
  * @version 1.0 14/06/2020
  */
-
 public class ManejoDatos {
 
     // Variable de instancia - Acceso a conexion.
@@ -37,7 +36,6 @@ public class ManejoDatos {
     /**
      * Constructor para objetos de ManejoDatos
      */
-
     public ManejoDatos() {
         try {
             crearConexion = crearConexion.getConexion("jdbc:postgresql://" + host + ":" + puerto
@@ -54,14 +52,13 @@ public class ManejoDatos {
      *
      * @param sql Instrucción sql a ejecutar.
      */
-
     private Object selectValueDe(String sql){
         PreparedStatement ps;
         Object dato = null;
         try {
             Statement st = conexion.createStatement();
             ResultSet rs = st.executeQuery(sql);
-            dato =  (rs.next()) ? rs.getObject(1) : new SQLException();
+            dato =  (rs.next()) ? rs.getObject(1) : null;
         } catch (SQLException e) {
             System.out.println("Error al obtener dato \n " + e);
         }
@@ -73,7 +70,6 @@ public class ManejoDatos {
      *
      * @param id Id del maguey.
      */
-
     public Object[] selectMaguey(int id) {
         PreparedStatement ps;
         Object datos[] = new Object[3];
@@ -97,7 +93,6 @@ public class ManejoDatos {
      * @param sql Instrucción sql a ejecutar.
      * @return Datos especificos de la tanda.
      */
-
     public List<Object[]> conexionConsultaTanda(String sql) {
         PreparedStatement ps;
         ResultSet rs;
@@ -126,7 +121,6 @@ public class ManejoDatos {
       *
       * return Lista con los datos de las tandas.
       */
-
      public List<Object[]> conexionConsultaInformeTanda() {
         PreparedStatement ps;
         ResultSet rs;
@@ -167,7 +161,6 @@ public class ManejoDatos {
      * @return true si se insertó correctamente y
      *         false de lo contrario.
      */
-
     public boolean insertTanda(Tanda t) {
         PreparedStatement ps;
         String sqlInsertTanda = "insert into mezcal.tanda (tipomaguey,gradoalcohol,tipoMezcal,cantidadPinias"
@@ -194,7 +187,6 @@ public class ManejoDatos {
      * @param sql Instrucción a ejecutar.
      * @return Array con los datos los registros.
      */
-
     public ArrayList<String> conexionConsultarNombre(String sql) {
         ArrayList<String> datos = new ArrayList<>();
         try {
@@ -215,7 +207,6 @@ public class ManejoDatos {
      * @return true si se eliminó correctamente y
      *         false de lo contrario.
      */
-
     public boolean deleteTanda(Tanda t) {
         PreparedStatement ps;
         String sqlDeleteCliente = "delete from mezcal.tanda where id_tanda = ?;";
@@ -236,7 +227,6 @@ public class ManejoDatos {
      * @param t Tanda seleccionada.
      * @return Tanda con los datos de la seleccionada.
      */
-
     public Tanda selectTanda(Tanda t){
         PreparedStatement ps;
         ResultSet rs;
@@ -273,7 +263,6 @@ public class ManejoDatos {
      * @return true si se modificó correctemente y
      *         false de lo contrario.
      */
-
     public boolean updatePinias(Tanda t){
         PreparedStatement ps;
         String sqlUpdateMaguey = "update mezcal.maguey set \"cantidadPinia\" = ? where id_maguey = " + t.getTipoMaguey() + ";";
@@ -297,7 +286,6 @@ public class ManejoDatos {
      * @return true si se modificó correctamente
      *         false de lo contrario.
      */
-
     public boolean updateEstadoTanda(Tanda t){
         PreparedStatement ps;
         String sqlUpdateTanda = "";
@@ -342,9 +330,7 @@ public class ManejoDatos {
 
     /**
      * Método para cerrar la conexión con la BD
-     *
      */
-
     public void cerrarConexion(){
         crearConexion.CerrarConexion();
     }

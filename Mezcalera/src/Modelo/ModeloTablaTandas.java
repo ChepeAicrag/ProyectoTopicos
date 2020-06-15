@@ -9,7 +9,6 @@ import javax.swing.table.AbstractTableModel;
  * @author Sánchez Chávez Kevin Edilberto
  * @version 1.0 14/06/2020
  */
-
 public class ModeloTablaTandas extends AbstractTableModel{
 
     // Variable de clase - Lista contenedora de los datos.
@@ -26,7 +25,6 @@ public class ModeloTablaTandas extends AbstractTableModel{
      *
      * @param d Datos a colocar
      */
-
     public void setDatos(List<Object[]> d) {
         dato = d;
     }
@@ -37,7 +35,6 @@ public class ModeloTablaTandas extends AbstractTableModel{
      * @param c Múmero de columna en un rango de 0 a n.
      * @return Clase de la columna en dicha posición.
      */
-
     @Override
     public Class getColumnClass(int c){
         return tipos[c];
@@ -48,7 +45,6 @@ public class ModeloTablaTandas extends AbstractTableModel{
      *
      * @return Número de filas en la tabla.
      */
-
     @Override
     public int getRowCount() {
         try{
@@ -63,7 +59,6 @@ public class ModeloTablaTandas extends AbstractTableModel{
      *
      * @return Número de columnas en la tabla.
      */
-
     @Override
     public int getColumnCount() {
         return encabezado.length;
@@ -76,7 +71,6 @@ public class ModeloTablaTandas extends AbstractTableModel{
      * @param r Posición de la fila.
      * @return Objeto en la posición indicada.
      */
-
     @Override
     public Object getValueAt(int r, int c) {
         return dato.get(r)[c];
@@ -88,7 +82,6 @@ public class ModeloTablaTandas extends AbstractTableModel{
      * @param col Poisición de la columna.
      * @return Nombre de la columna.
      */
-
     @Override
     public String getColumnName(int col){
         return encabezado[col];

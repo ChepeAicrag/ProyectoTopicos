@@ -16,9 +16,7 @@ import javax.swing.JButton;
  * @author Sánchez Chávez Kevin Edilberto
  * @version 1.0 14/06/2020
  */
-
 public class BotonRedondo extends JButton{
-
 
     // Variable de instancia - Icóno de fondo por default que tiene.
     private Image image = new ImageIcon("Botella.jpg").getImage();
@@ -35,7 +33,6 @@ public class BotonRedondo extends JButton{
     /**
      * Constructor para objetosd e BotonRedondo
      */
-
     public BotonRedondo() {
         super();
         this.setContentAreaFilled(false); // Evitar pintar el fondo original
@@ -48,7 +45,6 @@ public class BotonRedondo extends JButton{
      * Método que te permite pintar el componente en forma de circulo.
      * @param g Graphics para pintar.
      */
-
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
@@ -82,7 +78,6 @@ public class BotonRedondo extends JButton{
      * Método para pintar el borde del círculo.
      * @param g Graphics para pintar.
      */
-
     @Override
     protected void paintBorder(Graphics g) {
         super.paintBorder(g);
@@ -100,7 +95,6 @@ public class BotonRedondo extends JButton{
     /**
      * Método para pintar el texto dado.
      */
-
     protected void drawString(Graphics2D g){
        float quit = this.txt.length() * 4;
        g.setColor(txtColor);
@@ -113,7 +107,6 @@ public class BotonRedondo extends JButton{
      *
      * @param icono Imagen a colocar no escalada.
      */
-
     public void setImagen(ImageIcon icono) {
         if(icono == null) return;
         this.image = ((ImageIcon) icono).getImage();
@@ -124,7 +117,6 @@ public class BotonRedondo extends JButton{
      *
      *  @return imágen que tiene el boton.
      */
-
     public Image getImagen() {
         return this.image;
     }
@@ -134,7 +126,6 @@ public class BotonRedondo extends JButton{
      *
      * @param texto Texto que tendrá el bóton.
      */
-
     @Override
     public void setText(String texto){
         this.txt = (texto != null ) ? texto : "null";
@@ -145,7 +136,6 @@ public class BotonRedondo extends JButton{
      *
      * @param color Color que tendrá el texto.
      */
-
     public void setColorText(Color color){
         this.txtColor = (color != null) ? color : Color.decode("#2a6478");
     }
