@@ -12,7 +12,7 @@ import javax.swing.JLabel;
 
 /**
  * Clase de un componente que tiene una etiqueta circular y una barra de proceso.
- * @author Garcíaa García José Ángel
+ * @author García García José Ángel
  * @author Sánchez Chávez Kevin Edilberto
  * @version 1.0 14/06/2020
  */

@@ -33,6 +33,8 @@ public class Cortador extends Equipo{
         tanda.setId_Cortador(getIdentificador());
         tanda.setFechaInicio(new Timestamp(System.currentTimeMillis()));
         getEtqBarra().setDatoBarra("Tanda: " + tanda.getId());
+        tanda.setEstado("Cortando");
+        getTandasActualizar().put(tanda);
         cortar(tanda);
     }
 

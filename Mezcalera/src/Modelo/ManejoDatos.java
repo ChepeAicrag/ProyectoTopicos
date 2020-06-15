@@ -176,7 +176,7 @@ public class ManejoDatos {
             ps.executeUpdate();
             return true;
         } catch (SQLException e) {
-            System.err.println("Error en la INSERCIÓN " + e);
+            System.err.println("Error en la INSERCIÓN " + e.getMessage());
             return false;
         }
     }

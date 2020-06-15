@@ -29,6 +29,8 @@ public class Fermentador extends Equipo{
         Tanda tanda = getBufferTandasTomar().remove();
         tanda.setId_Fermentador(getIdentificador());
         getEtqBarra().setDatoBarra("Tanda " + tanda.getId());
+        tanda.setEstado("Fermentando");
+        getTandasActualizar().put(tanda);
         fermentar(tanda);
     }
 

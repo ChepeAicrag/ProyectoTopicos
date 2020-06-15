@@ -32,6 +32,8 @@ public class Destilador extends Equipo{
         Tanda tanda = getBufferTandasTomar().remove();
         tanda.setId_Destilador(getIdentificador());
         getEtqBarra().setDatoBarra("Tanda " + tanda.getId());
+        tanda.setEstado("Destilando");
+        getTandasActualizar().put(tanda);
         destilar(tanda);
     }
 

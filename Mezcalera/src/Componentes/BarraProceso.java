@@ -9,7 +9,7 @@ import javax.swing.JPanel;
 
 /**
  * Clase de un componente tipo JPanel que representa una Barra de procesos (Etiquetas).
- * @author Garcíaa García José Ángel
+ * @author García García José Ángel
  * @author Sánchez Chávez Kevin Edilberto
  * @version 1.0 14/06/2020
  */

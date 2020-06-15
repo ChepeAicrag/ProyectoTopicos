@@ -12,7 +12,7 @@ import javax.swing.JButton;
 
 /**
  * Clase de un componente que tiene un bóton redondo y una etiqueta abajo.
- * @author Garcíaa García José Ángel
+ * @author García García José Ángel
  * @author Sánchez Chávez Kevin Edilberto
  * @version 1.0 14/06/2020
  */

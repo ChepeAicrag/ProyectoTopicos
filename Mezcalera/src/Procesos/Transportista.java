@@ -67,6 +67,8 @@ public class Transportista extends Thread {
             return;
         }
         System.out.println("Yo auto " + id + " transpoto a la tanda \n " + tanda);
+        tanda.setEstado("Transportando");
+        tandasActualizar.put(tanda);
         int cliente = new Random().nextInt(4) + 1;
         if (id == 1) {
             rutaTrailer1(cliente);
@@ -76,7 +78,6 @@ public class Transportista extends Thread {
             rutaTrailer3(cliente);
         }
         tanda.setEstado("Entregada");
-        // Falta modificar la base de datos para asignarle quien lo entregó
         tanda.setId_Transportador(id);
         tanda.setId_Cliente(cliente);
         tandasActualizar.put(tanda); // La manda a actualizar

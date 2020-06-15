@@ -29,6 +29,8 @@ public class Horno extends Equipo{
         Tanda tanda = getBufferTandasTomar().remove();
         tanda.setId_Horneador(getIdentificador());
         getEtqBarra().setDatoBarra("Tanda " + tanda.getId());
+        tanda.setEstado("Horneando");
+        getTandasActualizar().put(tanda);
         hornear(tanda);
     }
 

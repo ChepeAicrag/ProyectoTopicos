@@ -36,6 +36,8 @@ public class Enbotelladora extends Equipo{
         Tanda tanda = getBufferTandasTomar().remove();
         tanda.setId_Enbotelladora(getIdentificador());
         getEtqBarra().setDatoBarra("Tanda " + tanda.getId());
+        tanda.setEstado("Enbotellando");
+        getTandasActualizar().put(tanda);
         enbotellar(tanda);
     }
 

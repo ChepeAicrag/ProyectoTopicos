@@ -36,7 +36,7 @@ public class Vista extends JFrame{
         //setSize(1020, 725);
         setSize(780,670);
         setVisible(true);
-        //setResizable(false);
+        setResizable(false);
         setLocationRelativeTo(null);
         colocar();
         revalidate();

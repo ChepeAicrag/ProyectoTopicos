@@ -11,7 +11,7 @@ import javax.swing.JPanel;
 
 /**
  * Clase de un componente tipo JPanel que representa una Barra de elección (Botones).
- * @author Garcíaa García José Ángel
+ * @author García García José Ángel
  * @author Sánchez Chávez Kevin Edilberto
  * @version 1.0 14/06/2020
  */
@@ -40,7 +40,7 @@ public class BarraEleccion extends JPanel{
      * @param numeroMagueyes Cantidad de botones.
      */
     public BarraEleccion(int numeroMagueyes) {
-        setCantidadmagueyes(numeroMagueyes);
+        setCantidadMagueyes(numeroMagueyes);
         agregarElemetos();
     }
     
@@ -54,10 +54,10 @@ public class BarraEleccion extends JPanel{
      */
     public BarraEleccion(ImageIcon[] imagenes, String[] textos) {
         if(validarCantidad(imagenes, textos)){
-            setCantidadmagueyes(imagenes.length); 
+            setCantidadMagueyes(imagenes.length);
             agregarElementos(imagenes, textos); 
         }else{
-            setCantidadmagueyes(imagenes.length);
+            setCantidadMagueyes(imagenes.length);
             agregarElemetos();
             setImagenes(imagenes);
         }
@@ -127,7 +127,7 @@ public class BarraEleccion extends JPanel{
      * @param imagenes Arreglo de imagenes a colocar.
      * @param textos Arreglo de textos a colocar.
      */
-    public void setImagenesYPorcentajes(ImageIcon[] imagenes, String[] textos) {
+    public void setImagenesYTextos(ImageIcon[] imagenes, String[] textos) {
         if (validarCantidad(imagenes,textos) && !vacio()) {
             setTextos(textos);
             setImagenes(imagenes);
@@ -168,7 +168,7 @@ public class BarraEleccion extends JPanel{
      * 
      * @param numeroMagueyes Cantidad de magueyes.
      */
-    public void setCantidadmagueyes(int numeroMagueyes){
+    public void setCantidadMagueyes(int numeroMagueyes){
         this.numeroMagueyes = (numeroMagueyes > 0 ) ? numeroMagueyes : 0;
         this.magueyes = (magueyes == null) ? new ArrayList<>(numeroMagueyes) : new ArrayList<>();
     }
@@ -178,7 +178,7 @@ public class BarraEleccion extends JPanel{
      *
      * @return La cantidad de magueyes que hay.
      */
-    public int getCantidadmagueyes(){
+    public int getCantidadMagueyes(){
         return numeroMagueyes;
     }
     

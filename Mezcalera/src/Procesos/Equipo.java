@@ -14,25 +14,25 @@ import java.awt.Color;
 public abstract class Equipo extends Thread implements Consumidor, Productor{
 
     // Variable de instancia - Identificador.
-    private int id;
+    protected int id;
 
     // Variable de instancia - Disponibilidad.
-    private boolean isAvailable;
+    protected boolean isAvailable;
 
     // Variable de instancia - Texto para identificar equipo.
-    private String texto;
+    protected String texto;
 
     // Variable de instancia - Barra de progreso.
-    private JProgressBar barra;
+    protected JProgressBar barra;
 
     // Variable de instancia - Color de texto.
-    private Color color = Color.RED;
+    protected Color color = Color.RED;
 
     // Variable de instancia - Etiqueta redonda de la barra.
-    private ECP etqBarra;
+    protected ECP etqBarra;
 
     // Variables de instancia - Buffers de donde tomar, actualizar y colocar respectivamente una tanda.
-    private BufferTandas bufferTandasTomar, tandasActualizar, bufferTandasColocar;
+    protected BufferTandas bufferTandasTomar, tandasActualizar, bufferTandasColocar;
 
     /**
      * Constructor para objetos de Equipo

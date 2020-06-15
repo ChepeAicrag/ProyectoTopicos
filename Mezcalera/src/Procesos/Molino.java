@@ -29,7 +29,9 @@ public class Molino extends Equipo{
         Tanda tanda = getBufferTandasTomar().remove(); // Quita de las horneadas
         tanda.setId_Triturador(getIdentificador());
         getEtqBarra().setDatoBarra("Tanda " + tanda.getId());
-        triturar(tanda); // Las consume para hornear
+        tanda.setEstado("Moliendo");
+        getTandasActualizar().put(tanda);
+        triturar(tanda);
     }
 
     /**

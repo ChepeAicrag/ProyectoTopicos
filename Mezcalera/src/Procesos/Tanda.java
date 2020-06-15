@@ -54,7 +54,7 @@ public class Tanda {
         this.porcentajeAlcohol = porcentajeAlcohol;
         this.tipoMezcal = tipoMezcal;
         this.cantidadPinias = cantidadPinias;
-        id = id_Contador++;
+        //id = id_Contador++;
         generarColor();
         generarPinias();
         estado = "Registrada";
@@ -214,8 +214,32 @@ public class Tanda {
      */
     @Override
     public String toString() {
-        return "Tanda{" + "tipoMaguey=" + tipoMaguey + ", porcentajeAlcohol=" + porcentajeAlcohol + ", tipoMezcal=" + tipoMezcal + ", cantidadPinias=" + cantidadPinias + '}';
+        return "Tanda{" +
+                "pinias=" + pinias +
+                ", id=" + id +
+                ", tipoMaguey=" + tipoMaguey +
+                ", porcentajeAlcohol=" + porcentajeAlcohol +
+                ", tipoMezcal=" + tipoMezcal +
+                ", cantidadPinias=" + cantidadPinias +
+                ", id_Cortador=" + id_Cortador +
+                ", id_Horneador=" + id_Horneador +
+                ", id_Triturador=" + id_Triturador +
+                ", id_Fermentador=" + id_Fermentador +
+                ", id_Destilador=" + id_Destilador +
+                ", id_Enbotelladora=" + id_Enbotelladora +
+                ", id_Transportador=" + id_Transportador +
+                ", id_Cliente=" + id_Cliente +
+                ", color=" + color +
+                ", fechaInicio=" + fechaInicio +
+                ", fechaFinal=" + fechaFinal +
+                ", estado='" + estado + '\'' +
+                '}';
     }
+
+    //@Override
+    //public String toString() {
+      //  return "Tanda{" + "tipoMaguey=" + tipoMaguey + ", porcentajeAlcohol=" + porcentajeAlcohol + ", tipoMezcal=" + tipoMezcal + ", cantidadPinias=" + cantidadPinias + '}';
+    //}
 
     /**
      * Retorna el identificador del cortador que trabajó la tanda.
