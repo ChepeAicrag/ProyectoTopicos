@@ -72,16 +72,16 @@ create table Tanda(
  tipoMezcal serial references tipoMezcal(id_tipo),
  cantidadPinias serial,
  status varchar(20),
- id_cortador serial references Cortador(id_cortador),
- id_horno serial references Horno(id_horno),
- id_molino serial references Molino(id_molino),
- id_fermentador serial references Fermentador(id_fermentador),
- id_destilador serial references Destilador(id_destilador),
- id_enbotelladora serial references Enbotelladora(id_enbotelladora),
- id_cliente serial references Cliente(id_cliente),
+ id_cortador integer references Cortador(id_cortador) null,
+ id_horno integer references Horno(id_horno) null,
+ id_molino integer references Molino(id_molino) null,
+ id_fermentador integer references Fermentador(id_fermentador) null,
+ id_destilador integer references Destilador(id_destilador) null,
+ id_enbotelladora integer references Enbotelladora(id_enbotelladora) null,
+ id_cliente integer references Cliente(id_cliente) null,
  fecha_inicio timestamp with time zone,
  fecha_final timestamp with time zone,
- id_transportista serial references Transportista(id_transportista)
+ id_transportista int references Transportista(id_transportista) null
  );
 
  insert into mezcal.maguey (nombre, cantidadPinia) values 
@@ -114,7 +114,7 @@ insert into mezcal.enbotelladora (nombre, estado) values
 insert into mezcal.transportista (nombre, modelo_trailer) values
 	('Sergio','Kenworth W990'),('Melvin','Dina 800'),('Eli','Hyundai');
 	
-insert into mezcal.gradoalcohol (grado) values (55.0),(48.0),(37.0);			
+insert into mezcal.gradoalcohol (valor) values (55.0),(48.0),(37.0);			
 
 insert into mezcal.tipomezcal (nombre) values ('Añejo'),('Reposado'),('Maduro'),('Blanco');			
 				
