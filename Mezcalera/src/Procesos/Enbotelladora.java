@@ -66,11 +66,11 @@ public class Enbotelladora extends Equipo{
      * @throws InterruptedException Error al enbotellar.
      */
     private void enbotellar(Tanda tanda) throws InterruptedException {
-        ArrayList<Object> mezcalesEliminar = new ArrayList(), barriles = new ArrayList();
+        ArrayList<Producto> mezcalesEliminar = new ArrayList(), barriles = new ArrayList();
         int total = tanda.getCantidadPinias(), cont = 0;
         ajustarBarra(tanda.getColor());
         for (int i = 0; i < numAnejamiento(tanda); i++) {
-            for (Object mezcal : tanda.getPinias()) {
+            for (Producto mezcal : tanda.getPinias()) {
                 sleep(2000);
                 System.out.println(mezcal);
                 Mezcal m = (Mezcal) mezcal;

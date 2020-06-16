@@ -21,15 +21,30 @@ public class Pinia extends Producto{
         super(tipo);
     }
 
+    /**
+     * Cambiar el estado del producto.
+     *
+     * @param estado Estado a asignar.
+     */
     @Override
     public void cambiarEstado(char estado) {
         super.setEstado(estado);
     }
 
+    /**
+     * Retorna el año de cosecha de la piña.
+     *
+     * @return El año de cosecha.
+     */
     public Date getAnioCosecha() {
         return anioCosecha;
     }
 
+    /**
+     * Establece el año de cosecha a la piña.
+     *
+     * @param anioCosecha Fecha a establecer.
+     */
     public void setAnioCosecha(Date anioCosecha) {
         this.anioCosecha = anioCosecha;
     }

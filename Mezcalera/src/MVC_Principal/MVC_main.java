@@ -10,14 +10,12 @@ import Vista.Vista;
  * @author Sánchez Chávez Kevin Edilberto
  * @version 1.0 14/06/2020
  */
-
 public class MVC_main {
 
     /**
      * Método principal de la clase.
      * @param args Argumentos.
      */
-
     public static void main(String[] args) {
         Vista v = new Vista();
         ManejoDatos m = new ManejoDatos();

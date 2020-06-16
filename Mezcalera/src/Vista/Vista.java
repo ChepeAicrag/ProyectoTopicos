@@ -96,7 +96,7 @@ public class Vista extends JFrame{
      *
      * @param opcion Arrays con información a colocar.
      */
-    public void llenarOpciones(ArrayList<String>... opcion){//mezcales, ArrayList<String> porcentajes,ArrayList<String> tipos){
+    public void llenarOpciones(ArrayList<String>... opcion){
         vProducir.llenarOpciones(opcion[0], opcion[1],opcion[2]);
         vTraslado.llenarClientes(opcion[3]);
     }

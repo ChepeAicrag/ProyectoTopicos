@@ -79,18 +79,10 @@ public class VistaProducir extends JPanel{
         etqTipo.setForeground(Color.WHITE);
         tipo = new JComboBox<>();
         btnRegistrar = new JButton();
-        //producir.setBackground(Color.decode("#eca0b6"));
-            //btn.setForeground(Color.WHITE);
-            //btn.setFont(new Font("Sylfaen", Font.BOLD, 13));
-            //btn.setBorder(BorderFactory.createEtchedBorder(Color.decode("#ffc8bd"), Color.decode("#f3d1f4")));
         btnRegistrar.setFont(new Font("Sylfaen", Font.BOLD, 17));
         btnRegistrar.setText("Registrar");
         btnRegistrar.setHorizontalAlignment(SwingConstants.CENTER);
         btnRegistrar.setActionCommand("registrar");
-        //producir.setIcon(new ImageIcon(new ImageIcon(getClass().getResource("/Imagenes/btnRegistrar.png"))
-        //        .getImage().getScaledInstance(110,60, Image.SCALE_DEFAULT)));
-        //producir.setSize(100, 30);
-        //producir.setPreferredSize(new Dimension(100, 30));
         add(eleccion);
         add(etqAlcohol);
         add(alcohol);

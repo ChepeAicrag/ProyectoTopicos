@@ -76,6 +76,7 @@ public abstract class Producto {
 
     /**
      * Cambiar el estado del producto.
+     *
      * @param estado Estado a asignar.
      */
     public abstract void cambiarEstado(char estado);

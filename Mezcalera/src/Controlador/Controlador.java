@@ -38,13 +38,13 @@ public class Controlador implements ActionListener{
           TANDAS_TRANSPORTAR = new BufferTandas(),
           TANDAS_ACTUALIZAR  = new BufferTandas();
 
-    // Variables de instancia - Equipo
-    private ArrayList<Cortador> cortes              = new ArrayList<>();
-    private ArrayList<Horno> hornos                 = new ArrayList<>();
-    private ArrayList<Molino> molinos               = new ArrayList<>();
-    private ArrayList<Fermentador> fermentadores    = new ArrayList<>();
-    private ArrayList<Destilador> destiladores      = new ArrayList<>();
-    private ArrayList<Enbotelladora> enbotelladores = new  ArrayList<>();
+    // Variables de instancia - Equipos
+    private ArrayList<Equipo> cortes                = new ArrayList<>(),
+                              hornos                = new ArrayList<>(),
+                              molinos               = new ArrayList<>(),
+                              fermentadores         = new ArrayList<>(),
+                              destiladores          = new ArrayList<>(),
+                              enbotelladores        = new  ArrayList<>();
     private ArrayList<Transportista> transportistas = new ArrayList<>();
 
     // Variable de instancia - Ejecutador de los Hilos.
@@ -159,7 +159,7 @@ public class Controlador implements ActionListener{
                     if(!tandasProduciendo.contains(t.getId())){
                         tandasProduciendo.add(t.getId());
                         m.updatePinias(tandaProducir);
-                        bft.put(tandaProducir); // Lo colocamos en la tanda
+                        bft.put(tandaProducir);
                         tandaProducir.setEstado("Produciendo");
                         m.updateEstadoTanda(tandaProducir);
                         cargarDatosTandas();
@@ -294,7 +294,7 @@ public class Controlador implements ActionListener{
             fermentadores.get(i).setTandasActualizar(TANDAS_ACTUALIZAR);
             destiladores.get(i).setTandasActualizar(TANDAS_ACTUALIZAR);
             enbotelladores.get(i).setTandasActualizar(TANDAS_ACTUALIZAR);
-            enbotelladores.get(i).setTandasTransportar(tandasTransportando); // Para saber si hay tandas por transportar
+            ((Enbotelladora)enbotelladores.get(i)).setTandasTransportar(tandasTransportando);
             transportistas.get(i).setTandasActualizar(TANDAS_ACTUALIZAR);
             transportistas.get(i).setTandasTransportadas(tandasTransportando);
         }
@@ -304,9 +304,14 @@ public class Controlador implements ActionListener{
      * Clase que te permite hacer la actualización de las tablas cada que cambien de estado la tanda dada.
      */
     class MiHilo extends Thread{
-    
+
+        // Variable de instancia - Tandas a actualizar.
         private BufferTandas tandas_actualizar;
-        
+
+        /**
+         * Constructor para objetos de MiHilo.
+         * @param tandas_actualizar
+         */
         public MiHilo(BufferTandas tandas_actualizar){
             this.tandas_actualizar = tandas_actualizar;
         }
@@ -330,11 +335,11 @@ public class Controlador implements ActionListener{
     }
 
     /**
-     * Clase que nos permitirá ajustar el tamaño de las ventanas.
-     * al instante.
+     * Clase que nos permitirá ajustar el tamaño de las ventanas al instante.
      */
     class HiloVista extends  Thread{
 
+        // Variable de instancia - Determina si estás en la vista o no.
         private boolean aquiYa = false;
 
         public void run(){

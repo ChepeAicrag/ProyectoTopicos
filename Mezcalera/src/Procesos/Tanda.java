@@ -15,7 +15,7 @@ import java.util.Random;
 public class Tanda {
 
     // Variable de instancia - Array de piñas.
-    private ArrayList<Object> pinias;
+    private ArrayList<Producto> pinias;
 
     // Variable de instancia - Identificadores de cada equipo.
     private int  id, tipoMaguey, porcentajeAlcohol, tipoMezcal, cantidadPinias,
@@ -149,7 +149,7 @@ public class Tanda {
      *
      * @return Array de pinias.
      */
-    public ArrayList<Object> getPinias() {
+    public ArrayList<Producto> getPinias() {
         return pinias;
     }
 

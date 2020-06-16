@@ -65,13 +65,13 @@ public class Destilador extends Equipo {
      * @throws InterruptedException Error al destilar.
      */
     private void destilar(Tanda tanda) throws InterruptedException{
-        ArrayList<Object> piniasEliminar = new ArrayList();
-        ArrayList<Object> mezcales = new ArrayList();
+        ArrayList<Producto> piniasEliminar = new ArrayList();
+        ArrayList<Producto> mezcales = new ArrayList();
         int total = tanda.getCantidadPinias(),
                 cont = 0;
         ajustarBarra(tanda.getColor());
         for(int  i = 0; i < numDestilados(tanda);i++){
-            for (Object pinia : tanda.getPinias()) {
+            for (Producto pinia : tanda.getPinias()) {
                 sleep(2000);
                 System.out.println(pinia);
                 if(i == 0){

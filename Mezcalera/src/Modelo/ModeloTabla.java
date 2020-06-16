@@ -3,6 +3,12 @@ package Modelo;
 import javax.swing.table.AbstractTableModel;
 import java.util.List;
 
+/**
+ * Clase controladora, aquí se encuentra la parte lógica del proyecto.
+ * @author García García José Ángel
+ * @author Sánchez Chávez Kevin Edilberto
+ * @version 1.0 14/06/2020
+ */
 public class ModeloTabla extends AbstractTableModel {
 
     // Variable de instancia - Lista contenedora de los datos.
