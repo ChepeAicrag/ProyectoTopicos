@@ -5,6 +5,7 @@ import java.awt.Image;
 import java.awt.Color;
 import java.util.ArrayList;
 import javax.swing.*;
+import javax.swing.border.MatteBorder;
 
 /**
  * Clase para vista de traslador de la tanda.

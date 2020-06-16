@@ -1,13 +1,13 @@
 package Vista;
 
 import Controlador.Controlador;
-import Modelo.ModeloTablaTandas;
+import Modelo.ModeloTabla;
+
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Image;
 import javax.swing.*;
-import javax.swing.plaf.basic.BasicTableHeaderUI;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.JTableHeader;
 
@@ -20,7 +20,7 @@ import javax.swing.table.JTableHeader;
 public class VistaRegistro extends JPanel{
 
     // Variable de instancia - Modelo para la tabla.
-    public ModeloTablaTandas mtt;
+    public ModeloTabla mtt;
 
     // Variable de instancia - Tabla para el registro.
     public JTable tabla;
@@ -41,7 +41,7 @@ public class VistaRegistro extends JPanel{
     private JTableHeader hTab ;
 
     // Variable de instancia - Imagen de fondo.
-    private Image imagenFondo = new ImageIcon(getClass().getResource("/Imagenes/prod.jpg")).getImage();
+    private Image imagenFondo = new ImageIcon(getClass().getResource("/Imagenes/fondo_2.jpg")).getImage();
 
     /**
      * Constructor para objetos de VistaRegistro.
@@ -61,21 +61,21 @@ public class VistaRegistro extends JPanel{
         setLayout(s);
         titulo = new JLabel("REGISTRO DE TANDAS DISPONIBLES");
         titulo.setAlignmentX(SwingUtilities.CENTER);
-        titulo.setFont(new Font("Arial", Font.BOLD, 20));
-        titulo.setForeground(Color.blue);
+        titulo.setFont(new Font("Arial Black", Font.BOLD, 20));
+        titulo.setForeground(Color.RED);
         add(titulo);
         s.putConstraint(SpringLayout.NORTH, titulo, 32, SpringLayout.NORTH, this);
         s.putConstraint(SpringLayout.WEST, titulo,300, SpringLayout.WEST, this);
         //s.putConstraint(SpringLayout.EAST, titulo, -300, SpringLayout.EAST, this);
-        mtt = new ModeloTablaTandas();
+        String encabezados[] = new String[]{"IdTanda", "Tipo Maguey", "% Alcohol", "Tipo Mezcal", "N° Piñas", "Estatus"};
+        Class tipos[] = new Class[]{String.class, String.class, String.class, String.class, String.class, String.class};
+        mtt = new ModeloTabla(encabezados, tipos);
         tabla = new JTable(mtt);
         dtcr = new DefaultTableCellRenderer();
         dtcr.setHorizontalAlignment(SwingConstants.CENTER);
         tabla.setDefaultRenderer(String.class, dtcr);
         tabla.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         tabla.setAlignmentX(SwingConstants.CENTER);
-        
-        //tabla.setBorder(BorderFactory.createEmptyBorder());
         hTab = tabla.getTableHeader();
         hTab.setAlignmentX(JTableHeader.CENTER_ALIGNMENT);
         hTab.setResizingAllowed(false);
@@ -84,7 +84,7 @@ public class VistaRegistro extends JPanel{
         hTab.setBackground(Color.BLACK);
         hTab.setForeground(Color.WHITE);
         add(hTab);
-        s.putConstraint(SpringLayout.NORTH, hTab, 22, SpringLayout.SOUTH, titulo);
+        s.putConstraint(SpringLayout.NORTH, hTab, 122, SpringLayout.SOUTH, titulo);
         s.putConstraint(SpringLayout.WEST, hTab, 100, SpringLayout.WEST, this);
         s.putConstraint(SpringLayout.EAST, hTab, -110, SpringLayout.EAST, this);
         add(tabla);

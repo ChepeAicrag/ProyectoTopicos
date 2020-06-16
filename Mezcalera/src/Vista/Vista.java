@@ -33,7 +33,6 @@ public class Vista extends JFrame{
         try {
             UIManager.setLookAndFeel("com.jtattoo.plaf.hifi.HiFiInternalFrameUI");
         } catch (Exception e) {}
-        //setSize(1020, 725);
         setSize(780,670);
         setVisible(true);
         setResizable(false);

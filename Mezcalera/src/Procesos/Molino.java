@@ -8,6 +8,9 @@ package Procesos;
  */
 public class Molino extends Equipo{
 
+    // Variable de instancia - Número de ruedas que tiene el molino
+    private int cantidadRueda;
+
     /**
      * Constructor para objetos de Molino.
      * @param id Id que tendrá el equipo destilador.
@@ -62,11 +65,29 @@ public class Molino extends Equipo{
         for (Object pinia : tanda.getPinias()) {
             sleep(2000); 
             System.out.println(pinia);
-            ((Pinia)(pinia)).setEstatus('T');
+            ((Pinia)(pinia)).cambiarEstado('T');
             System.out.println(pinia);
             cont++;
             actualizarBarra(cont * 100 / total);
         }
         producir(tanda);
+    }
+
+    /**
+     * Retorna la cantidad de ruedas que tiene el molino.
+     *
+     * @return Cantidad de ruedas.
+     */
+    public int getCantidadRueda() {
+        return cantidadRueda;
+    }
+
+    /**
+     * Eestablece la cantidad de ruedas que tendrá el molino.
+     *
+     * @param cantidadRueda Cantidad a establecer.
+     */
+    public void setCantidadRueda(int cantidadRueda) {
+        this.cantidadRueda = cantidadRueda;
     }
 }

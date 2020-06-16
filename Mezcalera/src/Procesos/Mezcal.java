@@ -6,62 +6,46 @@ package Procesos;
  * @author Sánchez Chávez Kevin Edilberto
  * @version 1.0 14/06/2020
  */
-public class Mezcal {
+public class Mezcal extends Producto{
 
-    // Variable de instancia - Estatus del mezcal.
-    private char estatus = 'D';
-
-    // Variable de clase - Id a asignar al mezcal.
-    private static int _id = 0;
-
-    // Variables de instancia - Tipo e Id de barril.
-    private int id, tipo;
+    // Variable de instancia - Sabor del mezcal.
+    private String sabor;
 
     /**
      * Constructor para objetos de Mezcal.
      *
-     * @param tipo Tipo de Mezcal.
+     * @param tipo Tipo de maguey.
      */
-    public Mezcal(int tipo) {
-        this.tipo = tipo;
-        _id++;
-        id = _id;
+    public Mezcal(int tipo){
+        super(tipo);
     }
 
     /**
-     * Retorna el tipo de mezcal.
+     * Cambia el estado del mezcal.
      *
-     * @return Tipo de mezcal.
+     * @param estado Estado a establecer.
      */
-    public int getTipo() {
-        return tipo;
+    @Override
+    public void cambiarEstado(char estado) {
+        setEstado(estado);
     }
 
     /**
-     * Establece el tipo de mezcal.
+     * Retorna el sabor del mezcal.
      *
-     * @param tipo Tipo a establecer.
+     * @return Sabor del mezcal.
      */
-    public void setTipo(int tipo) {
-        this.tipo = tipo;
+    public String getSabor() {
+        return sabor;
     }
 
     /**
-     * Retorna el estado actual del mezcal.
+     * Establecer el sabor al mezcal.
      *
-     * @return El estado del mezcal.
+     * @param sabor Sabora a establecer.
      */
-    public char getEstatus() {
-        return estatus;
-    }
-
-    /**
-     * Establece el estado del mezcal.
-     *
-     * @param estatus Estado a establecer.
-     */
-    public void setEstatus(char estatus) {
-        this.estatus = estatus;
+    public void setSabor(String sabor) {
+        this.sabor = sabor;
     }
 
     /**
@@ -71,6 +55,8 @@ public class Mezcal {
      */
     @Override
     public String toString() {
-        return "Mezcal{" + "id=" + id + ", tipo=" + tipo + ", estatus=" + estatus + '}';
+        return super.toString() + "Mezcal{" +
+                "sabor='" + sabor + '\'' +
+                '}';
     }
 }

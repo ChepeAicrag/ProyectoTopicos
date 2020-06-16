@@ -8,6 +8,9 @@ package Procesos;
  */
 public class Fermentador extends Equipo{
 
+    // Variable de instancia - Tipo de tina en la que se fermenta.
+    private String tipoTina;
+
     /**
      * Constructor para objetos de Fermentador.
      * @param id Id que tendrá el equipo Fermentador.
@@ -61,11 +64,29 @@ public class Fermentador extends Equipo{
         for (Object pinia : tanda.getPinias()) {
             sleep(2000);
             System.out.println(pinia);
-            ((Pinia)(pinia)).setEstatus('F');
+            ((Pinia)(pinia)).cambiarEstado('F');
             System.out.println(pinia);
             cont++;
             actualizarBarra(cont * 100 / total);
         }
         producir(tanda);
+    }
+
+    /**
+     * Retorna el tipo de tina utilizada para fermentar.
+     *
+     * @return Tipo de tina.
+     */
+    public String getTipoTina() {
+        return tipoTina;
+    }
+
+    /**
+     * Establece el tipo de tina en la que se fermentará la tanda.
+     *
+     * @param tipoTina Tipo a establecer.
+     */
+    public void setTipoTina(String tipoTina) {
+        this.tipoTina = tipoTina;
     }
 }

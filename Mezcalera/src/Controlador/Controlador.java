@@ -25,33 +25,33 @@ public class Controlador implements ActionListener{
     private Vista v;
 
     // Variable de instancia - Modelo del proyecto.
-    public ManejoDatos m;
+    private ManejoDatos m;
 
     // Variables de instancia - Buffers de Tandas
-    BufferTandas bft = new BufferTandas(),
-                 bpc = new BufferTandas(),
-                 bph = new BufferTandas(),
-                 bpm = new BufferTandas(),
-                 bpf = new BufferTandas(),
-                 bmd = new BufferTandas(),
-                 bb  = new BufferTandas(),
-                TANDAS_TRANSPORTAR = new BufferTandas(),
-                TANDAS_ACTUALIZAR  = new BufferTandas();
+    private BufferTandas bft = new BufferTandas(),
+                         bpc = new BufferTandas(),
+                         bph = new BufferTandas(),
+                         bpm = new BufferTandas(),
+                         bpf = new BufferTandas(),
+                         bmd = new BufferTandas(),
+                         bb  = new BufferTandas(),
+          TANDAS_TRANSPORTAR = new BufferTandas(),
+          TANDAS_ACTUALIZAR  = new BufferTandas();
 
     // Variables de instancia - Equipo
-    ArrayList<Cortador> cortes              = new ArrayList<>();
-    ArrayList<Horno> hornos                 = new ArrayList<>();
-    ArrayList<Molino> molinos               = new ArrayList<>();
-    ArrayList<Fermentador> fermentadores    = new ArrayList<>();
-    ArrayList<Destilador> destiladores      = new ArrayList<>();
-    ArrayList<Enbotelladora> enbotelladores = new  ArrayList<>();
-    ArrayList<Transportista> transportistas = new ArrayList<>();
+    private ArrayList<Cortador> cortes              = new ArrayList<>();
+    private ArrayList<Horno> hornos                 = new ArrayList<>();
+    private ArrayList<Molino> molinos               = new ArrayList<>();
+    private ArrayList<Fermentador> fermentadores    = new ArrayList<>();
+    private ArrayList<Destilador> destiladores      = new ArrayList<>();
+    private ArrayList<Enbotelladora> enbotelladores = new  ArrayList<>();
+    private ArrayList<Transportista> transportistas = new ArrayList<>();
 
     // Variable de instancia - Ejecutador de los Hilos.
     private ExecutorService ejecutador      = Executors.newCachedThreadPool();
 
     // Variable de instancia - Array de los ID de Tandas en proceso.
-    ArrayList<Integer>   tandasProduciendo  = new ArrayList<Integer>(),
+    private ArrayList<Integer>   tandasProduciendo  = new ArrayList<Integer>(),
                        tandasTransportando  = new ArrayList<Integer>();
 
     // Variables para las acciones de los botones.

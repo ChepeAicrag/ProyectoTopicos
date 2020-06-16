@@ -43,7 +43,7 @@ public class VistaProduccion extends JPanel{
     public void colocar(){
         BarraProceso barra1, barra2, barra3;
         ImageIcon imgCorte = new ImageIcon(getClass().getResource("/Imagenes/Cosecha.png")),
-                  imgHorno = new ImageIcon(getClass().getResource("/Imagenes/Horneada.jpg")),
+                  imgHorno = new ImageIcon(getClass().getResource("/Imagenes/Horneada.png")),
                   imgMolino = new ImageIcon(getClass().getResource("/Imagenes/Molienda.png")),
                   imgFermentador = new ImageIcon(getClass().getResource("/Imagenes/Fermentacion.png")),
                   imgDestilador = new ImageIcon(getClass().getResource("/Imagenes/Destilacion.png")),
@@ -84,7 +84,6 @@ public class VistaProduccion extends JPanel{
         barras.add(barra1);
         barras.add(barra2);
         barras.add(barra3);
-        System.out.println("x:" + getHeight() + "y:" + getWidth());
     }
 
     /**

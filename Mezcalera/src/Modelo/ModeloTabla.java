@@ -1,29 +1,23 @@
 package Modelo;
 
-import java.util.List;
 import javax.swing.table.AbstractTableModel;
+import java.util.List;
 
-/**
- * Clase Modelo para la tabla informe.
- * @author García García José Ángel
- * @author Sánchez Chávez Kevin Edilberto
- * @version 1.0 14/06/2020
- */
-public class ModeloTablaInforme extends AbstractTableModel{
+public class ModeloTabla extends AbstractTableModel {
 
-    // Variable de clase - Lista contenedora de los datos.
+    // Variable de instancia - Lista contenedora de los datos.
     private List<Object[]> dato;
 
     // Variable de instancia - Encabezados de la tabla.
-    private String encabezado[] = new String[]{
-            "Id", "Tipo Maguey", "% Alcohol", "Tipo Mezcal", "N° Piñas", "Cortado", "Horneado", "Molido", "Fermentado"
-            , "Destilado", "Enbotellado", "Transportador", "Consumidor", "Fecha Inicio", "Fecha Final"};
+    private String encabezado[];
 
     // Variable de instancia - Arreglo de tipo de clase de encabezados.
-    private Class tipos[] = new Class[]{
-            String.class,String.class,String.class,String.class,String.class,String.class,
-            String.class,String.class,String.class,String.class,String.class,String.class,
-            String.class,String.class,String.class};
+    private Class tipos[];
+
+    public ModeloTabla( String encabezado[], Class tipos[]){
+        this.encabezado = encabezado;
+        this.tipos = tipos;
+    }
 
     /**
      * Establece los datos a mostrar en la tabla.
@@ -53,7 +47,7 @@ public class ModeloTablaInforme extends AbstractTableModel{
     @Override
     public int getRowCount() {
         try{
-        return dato.size();
+            return dato.size();
         }catch(Exception e){
             return 0;
         }

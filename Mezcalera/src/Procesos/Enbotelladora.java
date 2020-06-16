@@ -76,7 +76,7 @@ public class Enbotelladora extends Equipo{
                 Mezcal m = (Mezcal) mezcal;
                 if (i == 0) {
                     Barril barril = new Barril(m.getTipo());
-                    barril.setEstatus('E');
+                    barril.cambiarEstado('E');
                     barriles.add(barril);
                     mezcalesEliminar.add(mezcal);
                     System.out.println(barril);

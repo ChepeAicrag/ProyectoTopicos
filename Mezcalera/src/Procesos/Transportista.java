@@ -97,16 +97,16 @@ public class Transportista extends Thread {
                 entregaRecta(v.trailer1, limite);
                 break;
             case 2:
-                Trailer1_ClienteN(80);
+                Trailer1_ClienteN(90);
                 break;
             case 3:
-                Trailer1_ClienteN(180);
+                Trailer1_ClienteN(200);
                 break;
             case 4:
-                Trailer1_ClienteN(280);
+                Trailer1_ClienteN(320);
                 break;
             case 5:
-                Trailer1_ClienteN(390);
+                Trailer1_ClienteN(400);
                 break;
         }
         v.trailer1.setLocation(p);
@@ -130,10 +130,10 @@ public class Transportista extends Thread {
                 entregaRecta(v.trailer2, limite);
                 break;
             case 4:
-                Trailer2_ClienteAbajo(v.trailer2.getLocation().y + 100);
+                Trailer2_ClienteAbajo(v.trailer2.getLocation().y + 130);
                 break;
             case 5:
-                Trailer2_ClienteAbajo(v.trailer2.getLocation().y + 210);
+                Trailer2_ClienteAbajo(v.trailer2.getLocation().y + 220);
                 break;
         }
         v.trailer2.setLocation(p);
@@ -148,16 +148,16 @@ public class Transportista extends Thread {
         Point p = v.trailer3.getLocation();
         switch (cliente) {
             case 1:
-                Trailer3_ClienteN(v.trailer3.getLocation().y - 390);
+                Trailer3_ClienteN(v.trailer3.getLocation().y - 380);
                 break;
             case 2:
-                Trailer3_ClienteN(v.trailer3.getLocation().y - 290);
+                Trailer3_ClienteN(v.trailer3.getLocation().y - 280);
                 break;
             case 3:
-                Trailer3_ClienteN(v.trailer3.getLocation().y - 190);
+                Trailer3_ClienteN(v.trailer3.getLocation().y - 170);
                 break;
             case 4:
-                Trailer3_ClienteN(v.trailer3.getLocation().y - 80);
+                Trailer3_ClienteN(v.trailer3.getLocation().y - 60);
                 break;
             case 5:
                 entregaRecta(v.trailer3, limite);

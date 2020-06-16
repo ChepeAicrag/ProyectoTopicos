@@ -1,5 +1,7 @@
 package Procesos;
 
+import java.util.Random;
+
 /**
  * Clase para el equipo Horno.
  * @author García García José Ángel
@@ -7,6 +9,9 @@ package Procesos;
  * @version 1.0 14/06/2020
  */
 public class Horno extends Equipo{
+
+    // Variable de instancia - Cantidad de leña disponible para el horno. Independienteme de la BD.
+    private int cantidadLenia;
 
     /**
      * Constructor para objetos de Horno.
@@ -47,6 +52,7 @@ public class Horno extends Equipo{
         getBufferTandasColocar().put(tanda); // Las produce
         getEtqBarra().setDatoBarra("---");
         setAvailable(true);
+        cantidadLenia -= new Random().nextInt(500);
     }
 
     /**
@@ -55,17 +61,38 @@ public class Horno extends Equipo{
      * @throws InterruptedException Error al hornear.
      */
     private synchronized void hornear(Tanda tanda) throws InterruptedException{
-        int total = tanda.getCantidadPinias(),
-                cont = 0;
+        if(cantidadLenia <= 0){
+            Thread.sleep(3000);
+            cantidadLenia += 10000;
+        }
+        int total = tanda.getCantidadPinias(), cont = 0;
         ajustarBarra(tanda.getColor());
         for (Object pinia : tanda.getPinias()) {
             sleep(2000);
             System.out.println(pinia);
-            ((Pinia)(pinia)).setEstatus('H');
+            ((Pinia)(pinia)).cambiarEstado('H');
             cont++;
             System.out.println(pinia);
             actualizarBarra(cont * 100 / total);
         }
         producir(tanda);
+    }
+
+    /**
+     * Retorna la cantidad de leña actual.
+     *
+     * @return Cantidad de leña.
+     */
+    public int getCantidadLenia() {
+        return cantidadLenia;
+    }
+
+    /**
+     * Establece la cantidad de leña disponible para el horno.
+     *
+     * @param cantidadLenia Cantidad a establecer.
+     */
+    public void setCantidadLenia(int cantidadLenia) {
+        this.cantidadLenia = cantidadLenia;
     }
 }

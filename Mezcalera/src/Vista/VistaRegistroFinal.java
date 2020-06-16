@@ -1,7 +1,7 @@
 package Vista;
 
 import Controlador.Controlador;
-import Modelo.ModeloTablaInforme;
+import Modelo.ModeloTabla;
 
 import java.awt.*;
 import javax.swing.BorderFactory;
@@ -26,7 +26,7 @@ import javax.swing.table.JTableHeader;
 public class VistaRegistroFinal extends JPanel{
 
     // Variable de instancia - Modelo para la tabla.
-    public ModeloTablaInforme mti;
+    public ModeloTabla mti;
 
     // Variable de instancia - Tabla para el informe.
     public JTable tabla;
@@ -70,10 +70,17 @@ public class VistaRegistroFinal extends JPanel{
         setLayout(s);
         titulo = new JLabel("REGISTRO DE LAS TANDAS PRODUCIDAS");
         titulo.setAlignmentX(SwingUtilities.CENTER);
-        titulo.setFont(new Font("Arial", Font.BOLD, 20));
+        titulo.setFont(new Font("Arial Black", Font.BOLD, 20));
         titulo.setForeground(Color.blue);
         //s.putConstraint(SpringLayout.EAST, titulo, -470, SpringLayout.EAST, this);
-        mti = new ModeloTablaInforme();
+        String encabezados[] = new String[]{
+                "Id", "Tipo Maguey", "% Alcohol", "Tipo Mezcal", "N° Piñas", "Cortado", "Horneado", "Molido", "Fermentado"
+                , "Destilado", "Enbotellado", "Transportador", "Consumidor", "Fecha Inicio", "Fecha Final"};
+        Class tipos[] = new Class[]{
+                String.class,String.class,String.class,String.class,String.class,String.class,
+                String.class,String.class,String.class,String.class,String.class,String.class,
+                String.class,String.class,String.class};
+        mti = new ModeloTabla(encabezados, tipos);
         tabla = new JTable(mti);
         dtcr = new DefaultTableCellRenderer();
         dtcr.setHorizontalAlignment(SwingConstants.CENTER);
@@ -105,9 +112,6 @@ public class VistaRegistroFinal extends JPanel{
         hTab.setBorder(BorderFactory.createLineBorder(Color.yellow, 1));
         hTab.setBackground(Color.BLACK);
         hTab.setForeground(Color.WHITE);
-        //s.putConstraint(SpringLayout.NORTH, hTab, 20, SpringLayout.SOUTH, titulo);
-        //s.putConstraint(SpringLayout.WEST, hTab, 300, SpringLayout.WEST, this);
-        //s.putConstraint(SpringLayout.EAST, hTab, -310, SpringLayout.EAST, this);
         scroll = new JScrollPane();
         scroll.setViewportView(tabla);
         scroll.setBackground(Color.BLACK);
@@ -117,8 +121,6 @@ public class VistaRegistroFinal extends JPanel{
         btnSalir = new JButton("SALIR");
         btnSalir.setActionCommand("salir");
         add(titulo);
-        //add(hTab);
-        //add(tabla);
         add(scroll);
         add(btnSalir);
         iniciarVistas();

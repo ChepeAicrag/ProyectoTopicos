@@ -10,6 +10,9 @@ import java.sql.Timestamp;
  */
 public class Cortador extends Equipo{
 
+    // Variable de instancia - Cantidad de cuchillas que tiene el cortador
+    private int cantidadCuchilla;
+
     /**
      * Constructor para objetos de Cortador.
      *
@@ -65,7 +68,7 @@ public class Cortador extends Equipo{
         for (Object pinia : tanda.getPinias()) {
             sleep(2000);
             System.out.println(pinia);
-            ((Pinia)(pinia)).setEstatus('C');
+            ((Pinia)(pinia)).cambiarEstado('C');
             System.out.println(pinia);
             cont++;
             actualizarBarra(cont * 100 / total);
@@ -73,4 +76,21 @@ public class Cortador extends Equipo{
         producir(tanda);
     }
 
+    /**
+     * Retorna la cantidad de cuchillos que tiene el cotador.
+     *
+     * @return cantidad de cuchillas.
+     */
+    public int getCantidadCuchilla() {
+        return cantidadCuchilla;
+    }
+
+    /**
+     * Establece la cantidad de cuchillos que tendrá el cortador.
+     *
+     * @param cantidadCuchilla Cantidad de cuchillas.
+     */
+    public void setCantidadCuchilla(int cantidadCuchilla) {
+        this.cantidadCuchilla = cantidadCuchilla;
+    }
 }

@@ -1,5 +1,6 @@
 package Procesos;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 /**
@@ -8,7 +9,10 @@ import java.util.ArrayList;
  * @author Sánchez Chávez Kevin Edilberto
  * @version 1.0 14/06/2020
  */
-public class Destilador extends Equipo{
+public class Destilador extends Equipo {
+
+    // Variable de instancia - Tipo de tubo en el que se destila.
+    private String tipoTubo, sabor;
 
     /**
      * Constructor para objetos de Destilador.
@@ -50,6 +54,8 @@ public class Destilador extends Equipo{
         getBufferTandasColocar().put(tanda);
         getEtqBarra().setDatoBarra("---");
         setAvailable(true);
+        tanda.getPinias().stream().forEach(o -> ((Mezcal) o).setSabor(sabor));
+        tanda.getPinias().stream().forEach(x -> ((Mezcal)x).toString());
     }
 
     /**
@@ -71,7 +77,7 @@ public class Destilador extends Equipo{
                 if(i == 0){
                     Pinia p = (Pinia) pinia;
                     Mezcal mezcal = new Mezcal(p.getTipo());
-                    mezcal.setEstatus('D');
+                    mezcal.cambiarEstado('D');
                     mezcales.add(mezcal);
                     piniasEliminar.add(pinia);
                     System.out.println(mezcal);
@@ -96,10 +102,35 @@ public class Destilador extends Equipo{
      */
     private int numDestilados(Tanda t){
         int numDestilados = 1;
-        if (t.getPorcentajeAlcohol() == 48)
+        sabor = " ";
+        if (t.getPorcentajeAlcohol() == 48){
             numDestilados = 2;
-        else if (t.getPorcentajeAlcohol() == 37)
+            sabor = "Tuene";
+        }
+        else if (t.getPorcentajeAlcohol() == 37){
             numDestilados = 3;
+            sabor = "Fuerte";
+        }
+        if(numDestilados == 1)
+            sabor = "Muy Fuerte";
         return numDestilados;
+    }
+
+    /**
+     * Retorna el tipo de tubo utilizado para destilar.
+     *
+     * @return Tipo de tubo.
+     */
+    public String getTipoTubo() {
+        return tipoTubo;
+    }
+
+    /**
+     * Establece el tipo de tubo a utilizar para destilar.
+     *
+     * @param tipoTubo Tipo a establecer.
+     */
+    public void setTipoTubo(String tipoTubo) {
+        this.tipoTubo = tipoTubo;
     }
 }
