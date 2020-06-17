@@ -1,2 +1,2 @@
-# ProyectoTopicos
-Aquí se trabajará el proyecto final de Tópicos Avanzados de Programación (TAP).
+# ProyectoIntegrador
+Proyeco Integrador de la materia de Topicos Avanzados de Programación (TAP).
