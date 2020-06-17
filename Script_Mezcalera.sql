@@ -1,4 +1,7 @@
-﻿create schema Mezcal authorization postgres;
+﻿/* Ejecutar si tiene la BD creada con el nombre Mezcalera */
+/* Puede ejecutar el Mezcalera.sql si no tiene la BD mencionada anteriormente */
+
+create schema Mezcal authorization postgres;
 set search_path to Mezcal;
 
 create table Maguey(

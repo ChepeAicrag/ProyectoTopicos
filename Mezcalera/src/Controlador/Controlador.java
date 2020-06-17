@@ -310,7 +310,7 @@ public class Controlador implements ActionListener{
 
         /**
          * Constructor para objetos de MiHilo.
-         * @param tandas_actualizar
+         * @param tandas_actualizar Tanda a actualizar.
          */
         public MiHilo(BufferTandas tandas_actualizar){
             this.tandas_actualizar = tandas_actualizar;

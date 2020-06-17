@@ -1,6 +1,3 @@
-/*
- *  Interfaz para los productores
- */
 package Procesos;
 
 /**

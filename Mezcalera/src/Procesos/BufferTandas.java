@@ -23,6 +23,7 @@ public class BufferTandas {
 
     /**
      * Almacena una tanda a la cola.
+     *
      * @param tanda Tanda a almacenar.
      */
     public synchronized void put(Tanda tanda){
@@ -32,6 +33,7 @@ public class BufferTandas {
 
     /**
      * Remueve la primera tanda de la cola.
+     *
      * @return Tanda de la cola.
      */
     public synchronized Tanda remove(){

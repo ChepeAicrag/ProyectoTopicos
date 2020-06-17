@@ -34,6 +34,7 @@ public class Transportista extends Thread {
 
     /**
      * Constructor para objetos de Transportista.
+     *
      * @param id Identificador del trasnportista.
      * @param bufferBarriles Buffer del que se consume las tandas.
      * @param v Vista que actualizará.
@@ -168,6 +169,7 @@ public class Transportista extends Thread {
 
     /**
      * Realiza el movimiento avanzar en una recta.
+     *
      * @param t Trailer que ejecuta el movimiento.
      * @param maximo Distancia máxima a avanzar.
      */
@@ -187,6 +189,7 @@ public class Transportista extends Thread {
      * Simula un giro a la derecha.
      *
      * @param t Trailer que ejecuta la acción.
+     *
      * @param distanciaMaxima Distancia máxima para continuar despues del giro.
      */
     private synchronized void entregaGiroDerecha(Trailer t, int distanciaMaxima) {
@@ -202,7 +205,8 @@ public class Transportista extends Thread {
     }
 
     /**
-     * Entrega del trailer 1 a cualquier cliente
+     * Entrega del trailer 1 a cualquier cliente.
+     *
      * @param bajar Cantidad máxima para bajar.
      */
     private synchronized void Trailer1_ClienteN(int bajar) {
@@ -216,6 +220,7 @@ public class Transportista extends Thread {
      * Simula un giro a la izquierda.
      *
      * @param t Trailer que ejecuta la acción.
+     *
      * @param distanciaMaxima Distancia máxima a recorrer despues del giro.
      */
     private synchronized void entregaGiroIzquierda(Trailer t, int distanciaMaxima) {
@@ -244,6 +249,7 @@ public class Transportista extends Thread {
 
     /**
      * Simula la ruta del trailer 2 al cliente 4 o 5.
+     *
      * @param bajar Cantidad máxima a bajar.
      */
     private synchronized void Trailer2_ClienteAbajo(int bajar) {
